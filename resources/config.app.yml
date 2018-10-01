@@ -1,0 +1,18 @@
+ENV: development
+DEBUG: True
+
+runwith:
+  host: 0.0.0.0
+  port: 5000
+
+mysql:
+  host: localhost
+  port: 3306
+  user: objectx
+  password: objectx
+  database: kuandai
+
+redis:
+  host: localhost
+  port: 6379
+  max_connections: 32

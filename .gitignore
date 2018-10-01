@@ -1,0 +1,22 @@
+# ide
+.idea
+.vscode
+.DS_Store
+.project
+
+# python
+*.pyc
+.python-version
+.cache/
+__pycache__
+*.egg-info
+
+# test
+.coverage
+.pytest_cache/
+
+# virtual env
+.env
+
+# vim
+*.swp
