@@ -1,0 +1,68 @@
+{% extends "_master_.html" %}
+{% set title = '订单列表' %}
+{% block body %}
+    <div id="app" class="order-list" v-cloak>
+        <div class="weui-search-bar" v-on:click="searchmode">
+            <div class="weui-search-bar__entry">
+                <i class="weui-icon-search"></i> <span>搜索</span>
+            </div>
+        </div>
+        <div class="weui-panel weui-panel_access">
+            <div class="weui-panel__bd">
+                <a class="weui-media-box weui-media-box_appmsg order-item"
+                   v-for="o in orders"
+                   v-bind:href="o.id | orderurl">
+                    <div class="weui-media-box__hd">
+                        <img class="weui-media-box__thumb" src="" v-bind:src="o.headimgurl" alt="">
+                    </div>
+                    <div class="weui-media-box__bd">
+                        <h4 class="weui-media-box__title">
+                            <span>{{ o.bizname }}</span>
+                            <span class="fs-desc" v-bind:class="o.status | statuscss">{{ o.status | statusname }}</span>
+                        </h4>
+                        <p class="weui-media-box__desc">{{ o.address }}</p>
+                        <p class="weui-media-box__desc">{{ o.realname }} {{ o.mobile }}</p>
+                    </div>
+                </a>
+            </div>
+            <div class="weui-panel__ft" v-show="pagenum<pagecount" style="display: none;">
+                <a href="javascript:void(0);"
+                   class="weui-cell weui-cell_access weui-cell_link"
+                   v-on:click="nextpage();">
+                    <div class="weui-cell__bd">加载更多</div>
+                    <span class="weui-cell__ft"></span> </a>
+            </div>
+        </div>
+        <div class="weui-loadmore weui-loadmore_line" style="display: none" v-show="pagenum>=pagecount">
+            <span class="weui-loadmore__tips">没有更多了</span>
+        </div>
+        <div class="weui-mask" style="display:none;" v-show="searchmodeon"></div>
+        <div class="hidden-page" v-bind:class="{'hidden-page__on':searchmodeon}">
+            <div class="weui-cells__title">筛选订单</div>
+            <div class="weui-cells">
+                <div class="weui-cell weui-cell_access">
+                    <div class="weui-cell__bd">订单状态</div>
+                    <div class="weui-cell__ft">{{ filter.status | statusname }}</div>
+                    <actionsheet name="status" v-on:chooseaction="chooseaction">
+                        <actionsheet-item name="所有" action="number:0"></actionsheet-item>
+                        <actionsheet-item name="待处理" action="number:1"></actionsheet-item>
+                        <actionsheet-item name="处理中" action="number:2"></actionsheet-item>
+                        <actionsheet-item name="已完成" action="number:3"></actionsheet-item>
+                        <actionsheet-item name="已关闭" action="number:5"></actionsheet-item>
+                    </actionsheet>
+                </div>
+            </div>
+            <div class="weui-tabbar">
+                <div class="weui-tabbar__item">
+                    <button type="button" class="weui-btn weui-btn_primary" v-on:click="search">搜索</button>
+                </div>
+                <div class="weui-tabbar__item">
+                    <button type="button" class="weui-btn weui-btn_default" v-on:click="normalmode">返回</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="/static/scripts/pages/orderlist.js?v={$ version $}"></script>
+{% endblock %}

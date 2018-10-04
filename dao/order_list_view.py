@@ -25,7 +25,7 @@ class OrderListView:
         connection = dao.connect()
         cursor = connection.cursor()
 
-        cursor.execute("SELECT COUNT(1) FROM `order` %s" % where)
+        cursor.execute("SELECT COUNT(1) FROM `order` o %s" % where)
         ret['total'] = cursor.fetchone()[0]
         if ret['total'] == 0:
             ret['pagenum'] = 1
