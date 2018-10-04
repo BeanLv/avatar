@@ -17,39 +17,27 @@ class Connection(connections.Connection):
     """
 
     def __init__(self, **kwargs):
-        self._cursor = None
         self._trans = False
         kwargs.update(config['mysql'])
         super().__init__(**kwargs)
-
-    @property
-    def defaultcursor(self):
-        if self._cursor is None:
-            self._cursor = self.cursor()
-        return self._cursor
 
     def begin(self):
         self._trans = True
         super().begin()
 
     def commit(self):
-        if self._trans:
+        if not self._trans:
             super().commit()
 
     def committrans(self):
-        super().commit()
         self._trans = False
-
-    def close(self):
-        if self._cursor:
-            self._cursor.close()
-        super().close()
+        self.commit()
 
 
 @contextmanager
 def transaction():
     """启动一个事务，此范围内调用的所有commit会被忽略，直到结束的时候才真正的提交 """
-    connection = Connection()
+    connection = connect()
     try:
         connection.begin()
         yield
@@ -61,4 +49,4 @@ def transaction():
 
 def connect() -> Connection:
     return flask.g.get('connection') if 'connection' in flask.g else \
-        flask.g.setdefault('connection')
+        flask.g.setdefault('connection', Connection(**config['mysql']))

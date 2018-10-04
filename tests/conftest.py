@@ -23,3 +23,16 @@ def appfixture():
 def appclientfixture():
     """全集 appclient ,如果没有特殊情况，测试用例可以用这个 appclient 来发请求"""
     return app.test_client()
+
+
+@pytest.fixture(name='enter_request_context')
+def enter_test_request_context(app):
+    """
+    在依赖到 flask 请求上下文的测试用例中，可以使用该 fixture 进入上下文以访问上下文资源，
+    比如 flask.g， flask.current_app 和 flask.request 等。 尤其是 dao.connect 等
+    方法创建对象时是基于 request context 的，所有必须依赖上下文。
+    如果不想让整个 test method 都处于上下文，(比如需要测试上下文结束后的情况)，则可以手动
+    写 with app.test_request_context() 来控制上下文范围
+    """
+    with app.test_request_context():
+        yield

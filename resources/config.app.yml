@@ -8,9 +8,9 @@ runwith:
 mysql:
   host: localhost
   port: 3306
-  user: objectx
-  password: objectx
-  database: kuandai
+  user: !!os/env MYSQL_USER
+  password: !!os/env MYSQL_USER_PASSWORD
+  database: avatar
 
 redis:
   host: localhost

@@ -6,7 +6,7 @@ from unittest.mock import Mock
 def test_close_resource_after_request(app):
     with app.test_request_context():
         obj = Mock(close=Mock())
-        flask.g.dummpycloseable = obj
+        flask.g.setdefault('dummpycloseable', obj)
 
     obj.close.assert_called_once()
 
