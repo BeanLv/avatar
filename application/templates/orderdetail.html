@@ -1,0 +1,90 @@
+{% extends "_master_.html" %}
+{% set title = '订单详情' %}
+{% block body %}
+    <div id="app" class="order-detail" v-cloak style="display: none;" v-show="launched">
+        <div class="weui-panel weui-panel_access">
+            <div class="weui-panel__bd">
+                <div class="weui-media-box weui-media-box_appmsg">
+                    <div class="weui-media-box__hd">
+                        <img class="weui-media-box__thumb" src="" v-bind:src="headimgurl" alt="">
+                    </div>
+                    <div class="weui-media-box__bd">
+                        <h4 class="weui-media-box__title">
+                            <span class="order-item__biztype">{{ realname }}</span>
+                        </h4>
+                        <p class="weui-media-box__desc">昵称: {{ nickname }}</p>
+                        <p class="weui-media-box__desc">&nbsp;</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="weui-cells">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <p>手机号码</p>
+                </div>
+                <div class="weui-cell__ft">{{ mobile }}</div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <p style="min-width:4em;">地址</p>
+                </div>
+                <div class="weui-cell__ft">{{ address }}</div>
+            </div>
+        </div>
+        <div class="weui-cells">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <p>套餐</p>
+                </div>
+                <div class="weui-cell__ft">{{ bizname }}</div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <p>安装时间</p>
+                </div>
+                <div class="weui-cell__ft">{{ installtime | strfdate }}</div>
+            </div>
+            <div class="weui-cell weui-cell_access" v-on:click="showrecords=!showrecords;">
+                <div class="weui-cell__bd">
+                    <p>订单状态</p>
+                </div>
+                <div class="weui-cell__ft order-status" v-bind:class="showrecords?'toggle-up':'toggle-down'">
+                    <span v-bind:class="status | statuscss">{{ status | statusname }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="order-records" v-bind:class="{hide : !showrecords}">
+            <div class="weui-cells__title">操作记录</div>
+            <div class="weui-cells">
+                <div class="weui-cell" v-for="record in records">
+                    <div class="weui-cell__bd">
+                        <span>{{ record.opname }}</span>
+                        <span v-bind:class="record.operation | operationcss"> {{ record.operation | operationname }} </span>
+                        <span>了订单</span></div>
+                    <div class="weui-cell__ft">{{ record.created_at | strftime }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="weui-msg__opr-area">
+            <p class="weui-btn-area">
+                <a href="javascript:void(0);"
+                   class="weui-btn weui-btn_primary"
+                   v-if="status==1"
+                   v-on:click="operate('dealwith')">接单</a>
+                <a href="javascript:void(0);"
+                   class="weui-btn weui-btn_primary"
+                   v-if="status==2"
+                   v-on:click="operate('finish')">已完成</a>
+                <a href="javascript:void(0);"
+                   class="weui-btn weui-btn_default"
+                   v-if="status==1 || status==2"
+                   v-on:click="operate('close')">关闭订单</a>
+            </p>
+        </div>
+        <confirm ref="confirm"></confirm>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="/static/scripts/pages/orderdetail.js?v={$ version $}"></script>
+{% endblock %}
