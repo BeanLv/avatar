@@ -1,0 +1,18 @@
+{% extends "_master_.html" %}
+{% set title = '错误' %}
+{% block body %}
+    <div class="weui-msg">
+        <div class="weui-msg__icon-area"><i class="weui-icon-warn weui-icon_msg"></i></div>
+        <div class="weui-msg__text-area">
+            <h2 class="weui-msg__title">您无权查看这个页面</h2>
+            <p class="weui-msg__desc">1. 系统只对企业用户开放</p>
+            <p class="weui-msg__desc">2. 若在微信内访问，请先关注企业工作台</p>
+        </div>
+        <div class="weui-msg__opr-area">
+            <p class="weui-btn-area">
+                <a href="{$ config['inviteurl'] $}" class="weui-btn weui-btn_primary">申请加入</a>
+                <a href="/pages/workbench" class="weui-btn weui-btn_default">关注工作台</a>
+            </p>
+        </div>
+    </div>
+{% endblock %}
