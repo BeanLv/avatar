@@ -1,5 +1,5 @@
 {% extends "_master_.html" %}
-{% set title = '访问统计' %}
+{% set title = '订单统计' %}
 {% block body %}
     <div id="app" v-cloak>
         <div class="weui-grids statistics" style="display: none;" v-show="launched">
@@ -37,5 +37,5 @@
     </div>
 {% endblock %}
 {% block scripts %}
-    <script src="/static/scripts/pages/pageviewstatistic.js?v={$ version $}"></script>
+    <script src="/static/scripts/pages/orderstatistic.js?v={$ version $}"></script>
 {% endblock %}
