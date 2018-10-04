@@ -6,9 +6,11 @@ from dao.base_dao import BaseDAO
 
 
 class DAOofTest(BaseDAO):
-    columns = 'id, name'
-    table = 'dao'
-    pkid = 'id'
+    ID = 'id'
+    NAME = 'name'
+
+    columns = [ID, NAME]
+    table = 'daooftest'
 
     sql_create_table = "CREATE TABLE `daooftest` (" \
                        "`id` int(11) NOT NULL, " \
@@ -51,27 +53,27 @@ def records(pymsqlconnection):
 @pytest.mark.usefixtures('enter_request_context')
 class TestBaseDAO:
     def test_get_by_id(self, records):
-        record0 = DAOofTest.get_by_id(records[0]['id'])
-        record1 = DAOofTest.get_by_id(records[1]['id'])
-        record2 = DAOofTest.get_by_id(max(records[0]['id'], records[1]['id']) + 1)
+        record0 = DAOofTest.get_by_id(records[0][DAOofTest.ID])
+        record1 = DAOofTest.get_by_id(records[1][DAOofTest.ID])
+        record2 = DAOofTest.get_by_id(101010101)
 
         assert record0 == records[0]
         assert record1 == records[1]
         assert record2 is None
 
     def test_get_by_column(self, records):
-        record0 = DAOofTest.get_by_column('name', records[0]['name'])
-        record1 = DAOofTest.get_by_column('name', records[1]['name'])
-        record2 = DAOofTest.get_by_column('name', str(uuid.uuid1()))
+        record0 = DAOofTest.get_by_column(DAOofTest.NAME, records[0][DAOofTest.NAME])
+        record1 = DAOofTest.get_by_column(DAOofTest.NAME, records[1][DAOofTest.NAME])
+        record2 = DAOofTest.get_by_column(DAOofTest.NAME, str(uuid.uuid1()))
 
         assert record0 == records[0]
         assert record1 == records[1]
         assert record2 is None
 
     def test_get_list_by_column(self, records):
-        records1 = DAOofTest.get_many_by_column('name', records[2]['name'])
-        records2 = DAOofTest.get_many_by_column('name', records[3]['name'], orderby='id')
-        records3 = DAOofTest.get_many_by_column('name', str(uuid.uuid1()))
+        records1 = DAOofTest.get_many_by_column(DAOofTest.NAME, records[2][DAOofTest.NAME])
+        records2 = DAOofTest.get_many_by_column(DAOofTest.NAME, records[3][DAOofTest.NAME], orderby=DAOofTest.ID)
+        records3 = DAOofTest.get_many_by_column(DAOofTest.NAME, str(uuid.uuid1()))
 
-        assert sorted(records1, key=lambda x: x['id']) == list(records2)
+        assert sorted(records1, key=lambda x: x[DAOofTest.ID]) == list(records2)
         assert len(records3) == 0
