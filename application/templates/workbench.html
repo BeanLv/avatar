@@ -1,5 +1,5 @@
 {% extends "_master_.html" %}
-{% set title = '加入我们' %}
+{% set title = config['corp']['name'] + ' - 微工作台' %}
 {% block body %}
     <div class="weui-msg">
         <div class="weui-msg__icon-area" style="margin-bottom: 10px;">
@@ -11,14 +11,14 @@
         </div>
         <div class="weui-msg__text-area" style="margin-bottom: 20px;">
             <div class="weui-msg__title">{$ config['corp']['name'] $}</div>
-            <div class="weui-msg__desc">企业微信</div>
+            <div class="weui-msg__desc">微信工作台</div>
         </div>
         <div style="width: 40px;
                     margin-bottom: 20px;
                     display: inline-block;
                     border-top: 1px solid #DAE3EB;"></div>
         <div>
-            <img src="{$ config['corp']['qrcodes']['joinus'] $}"
+            <img src="{$ config['corp']['qrcodes']['workbench'] $}"
                  style="width: 185px;
                         height: 185px;
                         margin-bottom: 20px;
@@ -32,7 +32,7 @@
                     text-align: center;
                     font-size: 12px;
                     color: #616161;
-                    line-height: 28px;">扫二维码申请加入
+                    line-height: 28px;">长按二维码关注
         </div>
     </div>
 {% endblock %}

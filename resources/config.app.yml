@@ -14,7 +14,7 @@ corp:
   inviteurl: https://work.weixin.qq.com/join_form/bfovcBtsE9O1eTvODTotYg/hb_share_mng_mjoin
   qrcodes:
     joinus: https://work.weixin.qq.com/wework_admin/genqrcode?action=join&vcode=6dfa2f701b6c13d3b5793bce0d3a2d62&r=pc_qrcode_hb_share_mng_mjoin
-    wechat: https://p.qpic.cn/pic_wework/2137366422/4046eb4c3dafd25232843d05673a4c4900c0ef27c2d007a4/0
+    workbench: https://p.qpic.cn/pic_wework/2137366422/4046eb4c3dafd25232843d05673a4c4900c0ef27c2d007a4/0
 
 mysql:
   host: localhost
