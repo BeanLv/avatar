@@ -8,13 +8,25 @@ runwith:
 deployversion: 1
 
 corp:
-  id: ww7a9620bfb16c987e
-  name: '柳州宽带报装'
+  name: '柳州宽带报装服务中心'
   logo: https://p.qpic.cn/pic_wework/2137366422/6563ce69edfc9b37949c019b4566430182da3ad6b2147beb/0
-  inviteurl: https://work.weixin.qq.com/join_form/bfovcBtsE9O1eTvODTotYg/hb_share_mng_mjoin
+  inviteurl: https://work.weixin.qq.com/join_form/AMtldH4SxKalVAYbKpS6kA/hb_share_mng_mjoin
   qrcodes:
-    joinus: https://work.weixin.qq.com/wework_admin/genqrcode?action=join&vcode=6dfa2f701b6c13d3b5793bce0d3a2d62&r=pc_qrcode_hb_share_mng_mjoin
-    workbench: https://p.qpic.cn/pic_wework/2137366422/4046eb4c3dafd25232843d05673a4c4900c0ef27c2d007a4/0
+    joinus: https://work.weixin.qq.com/wework_admin/genqrcode?action=join&vcode=00cb65747e12c4a6a554061b2a94ba90&r=hb_share_mng_mjoin
+    workbench: https://p.qpic.cn/pic_wework/4281450869/9e9824923ad5f42b7bb38ab638868939391d0f20b8a43483/0
+
+wechat:
+  cropid: ww165e7ece64ebbd81
+  apptoken: https://qyapi.weixin.qq.com/cgi-bin/gettoken
+  login: https://open.weixin.qq.com/connect/oauth2/authorize
+  loginredirect: /wechat/login
+  userinfo: https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo
+  userdetail: https://qyapi.weixin.qq.com/cgi-bin/user/get
+
+
+service:
+  id: 1000002
+  secret: mbaBxnfl1HYnN-Gl-lRyeHGcVYx-IkgJgw9zrnySPYY
 
 mysql:
   host: localhost
