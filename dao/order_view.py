@@ -2,7 +2,7 @@ import dao
 from models import OrderStatus
 
 
-class OrderListView:
+class OrderView:
     properties = ['id', 'headimgurl', 'bizname', 'status', 'address', 'realname', 'mobile']
 
     sql_select = "SELECT " \
@@ -36,8 +36,8 @@ class OrderListView:
             pagenum = ret['pagenum'] = ret['pagecount']
 
         cursor.execute(cls.sql_select.format(WHERE=where,
-                                              LIMIT=pagesize,
-                                              OFFSET=(pagenum - 1) * pagesize))
+                                             LIMIT=pagesize,
+                                             OFFSET=(pagenum - 1) * pagesize))
 
         ret['orders'] = [dict(zip(cls.properties, o)) for o in cursor.fetchall()]
 
