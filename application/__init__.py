@@ -5,12 +5,16 @@ import logging
 import flask
 
 from config import config
-from application import blueprint
+
+from blueprints.pages import pages
+from blueprints.rests import rests
+from blueprints.operations import operations
 
 logger = logging.getLogger(__name__)
 
 app = flask.Flask(__name__)
 
+# 更新配置
 app.config.update(config)
 
 # 替换 jinja 模版引擎中的变量运算符，因为这回和 vue 中的绑定表达式冲突 {{ }}
@@ -20,9 +24,9 @@ jinja_options.update({'variable_start_string': '{$',
 app.jinja_options = jinja_options
 
 # 注册蓝图，其它模块通过对应的蓝图注册路由
-app.register_blueprint(blueprint.pages)
-app.register_blueprint(blueprint.rests)
-app.register_blueprint(blueprint.ops)
+app.register_blueprint(pages)
+app.register_blueprint(rests)
+app.register_blueprint(operations)
 
 
 # 请求结束后检查 flask.g 中的可 close 对象，将它们关闭

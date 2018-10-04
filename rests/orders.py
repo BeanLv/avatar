@@ -1,6 +1,6 @@
 import ujson
 
-from application.blueprint import rests
+from blueprints.rests import rests
 from exceptions import RuntimeException
 from models import OrderStatus
 from models.model_binder import SearchOrderModelBinder
