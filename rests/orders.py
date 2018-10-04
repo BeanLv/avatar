@@ -30,13 +30,13 @@ def orders(status: OrderStatus = None, pagenum: int = 1, pagesize: int = 20):
 @rests.route('/orders/<int:orderid>')
 def orderdetail(orderid: int):
     try:
-        order = OrderDAO.get_by_id(orderid)
+        order = OrderDAO.first_or_default(id=orderid)
 
         if order is None:
             return flask.make_response(('订单不存在', 404))
 
-        order['bizname'] = BizDAO.get_by_id(order['id'])['name']
-        order['records'] = OrderRecordDAO.get_many_by_column('orderid', orderid, orderby='created_at')
+        order['bizname'] = BizDAO.first_or_default(id=order['biz'])['name']
+        order['records'] = OrderRecordDAO.all('created_at', orderid=orderid)
 
         return ujson.dumps(order)
 

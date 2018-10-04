@@ -9,36 +9,41 @@ class BaseDAO:
     pkid = 'id'
 
     @classmethod
-    def get_by_id(cls, pkid) -> dict:
-        sql = 'SELECT {columns} FROM {table} WHERE id = %s'.format(columns=','.join(cls.columns),
-                                                                   table=cls.table)
+    def first_or_default(cls, **where):
+        sql_where, arguments = cls._where(**where)
+
+        sql = "SELECT {COLUMNS} FROM {TABLE} {WHERE}".format(COLUMNS=','.join(cls.columns),
+                                                             TABLE=cls.table,
+                                                             WHERE=sql_where)
+
         connection = dao.connect()
         cursor = connection.cursor(cursor=DictCursor)
-        cursor.execute(sql, (pkid,))
+        cursor.execute(sql, arguments) if arguments else cursor.execute(sql)
 
         return cursor.fetchone()
 
     @classmethod
-    def get_by_column(cls, column, val) -> dict:
-        sql = 'SELECT {columns} FROM {table} WHERE {column} = %s'.format(columns=','.join(cls.columns),
-                                                                         table=cls.table,
-                                                                         column=column)
-        connection = dao.connect()
-        cursor = connection.cursor(cursor=DictCursor)
-        cursor.execute(sql, (val,))
+    def all(cls, *orderby, **where):
+        sql_orderby = cls._orderby(*orderby)
+        sql_where, arguments = cls._where(**where)
 
-        return cursor.fetchone()
-
-    @classmethod
-    def get_many_by_column(cls, column, val, orderby=None) -> list:
-        sql_order = 'ORDER BY %s' if orderby else ''
-        sql = 'SELECT {columns} FROM {table} WHERE {column} = %s {orderby}'.format(columns=','.join(cls.columns),
-                                                                                   table=cls.table,
-                                                                                   column=column,
-                                                                                   orderby=sql_order)
+        sql = "SELECT {COLUMNS} FROM {TABLE} {WHERE} {ORDERBY}".format(COLUMNS=','.join(cls.columns),
+                                                                       TABLE=cls.table,
+                                                                       WHERE=sql_where,
+                                                                       ORDERBY=sql_orderby)
 
         connection = dao.connect()
         cursor = connection.cursor(cursor=DictCursor)
-        cursor.execute(sql, (val, orderby)) if orderby else cursor.execute(sql, (val,))
+        cursor.execute(sql, arguments) if arguments else cursor.execute(sql)
 
         return cursor.fetchall()
+
+    @classmethod
+    def _where(cls, **where):
+        sql_where = 'WHERE ' + ' AND '.join(['{}=%s'.format(n) for n in where.keys()]) if where else ''
+        arguments = tuple(where.values()) if where else ()
+        return sql_where, arguments
+
+    @classmethod
+    def _orderby(cls, *orderby):
+        return 'ORDER BY ' + ','.join(orderby) if orderby else ''
