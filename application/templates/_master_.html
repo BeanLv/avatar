@@ -1,0 +1,19 @@
+{% set version = config['deployversion'] %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <title>{$ title $}</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles/weui.min.css?v={$ version $}">
+    <link rel="stylesheet" type="text/css" href="/static/styles/site.css?v={$ version $}">
+</head>
+<body>
+{% block body %}{% endblock %}
+<script src="/static/scripts/zepto.min.js?v={$ version $}"></script>
+<script src="/static/scripts/axios.min.js?v={$ version $}"></script>
+<script src="/static/scripts/vue.js?v={$ version $}"></script>
+<script src="/static/scripts/vue-plugins.js?v={$ version $}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>
