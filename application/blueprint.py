@@ -1,7 +1,13 @@
 # -*- coding: UTF-8 -*-
 
+import logging
+
 import flask
 from jinja2 import TemplateNotFound
+
+from exceptions import RuntimeException, BusinessException
+
+logger = logging.getLogger(__name__)
 
 pages = flask.Blueprint('pages', __name__, url_prefix='/pages')
 rests = flask.Blueprint('rests', __name__, url_prefix='/rests')
@@ -15,6 +21,18 @@ def render_templage(page):
         return flask.render_template('%s.html' % page)
     except TemplateNotFound:
         flask.abort(404)
+
+
+@rests.errorhandler(RuntimeException)
+def handle_runtime_exception(ex):
+    logger.exception('接口错误')
+    return '接口错误', 500
+
+
+@rests.errorhandler(BusinessException)
+def handle_business_exception(ex):
+    logger.exception('业务处理异常')
+    return ex.msg, ex.errcode
 
 
 @ops.route('/healthcheck')
