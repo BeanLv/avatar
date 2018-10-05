@@ -1,3 +1,5 @@
+import itertools
+
 from pymysql.cursors import DictCursor
 
 import dao
@@ -37,6 +39,36 @@ class BaseDAO:
         cursor.execute(sql, arguments) if arguments else cursor.execute(sql)
 
         return cursor.fetchall()
+
+    @classmethod
+    def insert(cls, properties: dict):
+        sql = "INSERT INTO {TABLE} ({P}) VALUES ({V})".format(TABLE=cls.table,
+                                                              P=','.join(properties.keys()),
+                                                              V=','.join(itertools.repeat('%s', times=len(properties))))
+        arguments = tuple(properties.values())
+
+        connection = dao.connect()
+        cursor = connection.cursor()
+        cursor.execute(sql, arguments)
+        cursor.execute('SELECT LAST_INSERT_ID()')
+        operatorid = cursor.fetchone()
+        connection.commit()
+
+        return operatorid
+
+    @classmethod
+    def update(cls, properties: dict, **where):
+        sql_where, arguments = cls._where(**where)
+        arguments = tuple(properties.values()) + arguments
+
+        sql = "UPDATE {TABLE} SET {P} {WHERE}".format(TABLE=cls.table,
+                                                      P=','.join(['{}=%s'.format(n) for n in properties.keys()]),
+                                                      WHERE=sql_where)
+
+        connection = dao.connect()
+        cursor = connection.cursor()
+        cursor.execute(sql, arguments)
+        connection.commit()
 
     @classmethod
     def _where(cls, **where):

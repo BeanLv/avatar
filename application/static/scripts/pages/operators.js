@@ -6,6 +6,7 @@ new Vue({
             show: false,
             name: ''
         },
+        launched: false
     },
     methods: {
         startCreate: function () {
@@ -19,7 +20,7 @@ new Vue({
             this.createform.name = '';
         },
         confirmCreate: function () {
-            this.$post('/operators', {name: this.createform.name}).then(res => {
+            this.$post('/rests/operators', {name: this.createform.name}).then(res => {
                 this.operators.push(res.data);
                 this.createform.name = '';
                 this.$prompt.show('成功', '添加成功');
@@ -31,21 +32,22 @@ new Vue({
             this.cancelCreate();
         },
         swipeupdate: function (operator) {
-            this.$patch(`/operators/${operator.id}`, {name: operator.name}).then(() => {
+            this.$patch(`/rests/operators/${operator.id}`, {name: operator.name}).then(() => {
                 this.operators[operator['index']].name = operator.name;
+                this.$swipitem && this.$swipitem.blur();
                 this.$prompt.show('成功', '修改成功');
             });
         },
         swipedelete: function (operator) {
-            this.$delete(`/operators/${operator.id}`).then(() => {
+            this.$delete(`/rests/operators/${operator.id}`).then(() => {
                 this.operators.splice(operator.index, 1);
                 this.$prompt.show('成功', '删除成功');
             });
         },
     },
     filters: {
-        operatorbizsurl: function (opid) {
-            return `/pages/operatorbizs?opid=${opid}`;
+        operatorbizsurl: function (operatorid) {
+            return `/pages/operatorbizs?operatorid=${operatorid}`;
         }
     },
     computed: {
@@ -56,6 +58,7 @@ new Vue({
     created: function () {
         this.$get('/rests/operators').then(res => {
             this.operators = res.data;
+            this.launched = true;
         });
     }
 });

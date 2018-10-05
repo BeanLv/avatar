@@ -1,13 +1,14 @@
 {% extends "_master_.html" %}
 {% set title = '运营商管理' %}
 {% block body %}
-    <div id="app" v-cloak>
+    <div id="app" style="display: none;" v-show="launched">
         <div class="weui-cells__title">运营商</div>
         <div class="weui-cells">
             <weui-cell-swipe v-for="(o, index) in operators"
                              v-bind:href="o.id | operatorbizsurl"
                              v-bind:name="o.name"
                              v-bind:id="o.id"
+                             v-bind:key="o.id"
                              v-bind:index="index"
                              v-on:swipeupdate="swipeupdate"
                              v-on:swipedelete="swipedelete"></weui-cell-swipe>
@@ -24,13 +25,13 @@
                             class="weui-cell_form-btn bg-primary"
                             v-on:click="confirmCreate"
                             v-bind:disabled="disablecreate">确定
-                    </button><!--
-                  --><button type="button" class="weui-cell_form-btn bg-warn" v-on:click="cancelCreate">取消</button>
+                    </button>
+                    <button type="button" class="weui-cell_form-btn bg-warn" v-on:click="cancelCreate">取消</button>
                 </div>
             </div>
             <a class="weui-cell weui-cell_link" v-show="!createform.show" v-on:click="startCreate">添加运营商</a>
         </div>
-        <div class="weui-loadmore weui-loadmore_line" v-show="operators.length===0">
+        <div class="weui-loadmore weui-loadmore_line" v-show="launched && operators.length===0">
             <span class="weui-loadmore__tips bg-trans">暂无数据</span>
         </div>
     </div>

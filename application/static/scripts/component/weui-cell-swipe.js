@@ -72,7 +72,7 @@ Vue.component('weui-cell-swipe', {
             }, 5);
         },
         edit: function () {
-            this.newname = this.name;
+            this.newname = '';
             this.editing = true;
             this.$refs.input.focus();
         },
