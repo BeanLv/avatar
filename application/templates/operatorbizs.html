@@ -1,0 +1,25 @@
+{% extends "_master_.html" %}
+{% set title = '套餐管理' %}
+{% block body %}
+    <div id="app" style="display: none;" v-show="launched">
+        <div class="weui-cells__title">{{ operatorname }}</div>
+        <div class="weui-cells">
+            <a class="weui-cell weui-cell_access"
+               v-for="o in bizs"
+               v-bind:href="o | bizdetailurl">
+                <div class="weui-cell__bd">
+                    <p>{{ o.name }}</p>
+                </div>
+                <div class="weui-cell__ft"></div>
+            </a>
+            <a class="weui-cell weui-cell_access weui-cell_link"
+               v-bind:href="createbizurl">新增套餐</a>
+        </div>
+        <div class="weui-loadmore weui-loadmore_line" v-show="bizs.length===0">
+            <span class="weui-loadmore__tips bg-trans">暂无数据</span>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="/static/scripts/pages/operatorbizs.js?v={$ version $}"></script>
+{% endblock %}
