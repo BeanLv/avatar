@@ -43,6 +43,11 @@ button:disabled, input[type=button]:disabled { background-color: #c8c7cd; }
 .weui-cell_form-btn:focus { outline: none; }
 .weui-cell_swiped > .weui-cell__bd { z-index: 0; }
 .weui-cell_swipe-btn { padding: 0; width: 60px; text-align: center; font-size: 14px; color: #fff; outline: none; border: none; position: absolute; top: 0; bottom: 0; right: -60px; }
+.weui-cell_swipe { display: block; padding: 0; color: inherit; }
+.weui-cell_swipe > .weui-cell__bd { position: relative; background-color: #fff; }
+.weui-cell_swipe > .weui-cell__ft { transform: translateX(100%); }
+.weui-cell_swipe > .weui-cell__ft, .weui-cell-btn-area { position: absolute; right: 0; top: 0; bottom: 0; display: -webkit-box; display: -webkit-flex; display: flex; }
+.weui-cell-btn { display: -webkit-box; display: -webkit-flex; display: flex; align-items: center; padding: 0 1em; color: #fff; }
 /* order list */
 .order-list { position: relative; }
 .order-list .weui-panel { margin-top: 0; }

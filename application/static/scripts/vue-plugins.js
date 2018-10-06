@@ -1,3 +1,5 @@
+window.$eventbus = new Vue();
+
 Vue.prototype.$loading = (function () {
 
     const html = `<div>
@@ -288,6 +290,137 @@ const order = (function () {
             orderurl: function (orderid) {
                 return `/pages/order?orderid=${orderid}`;
             }
+        }
+    }
+})();
+
+const swipe = (function () {
+    const SWIPEOUT = 0;
+    const SWIPEIN = 1;
+    const SWIPING = 2;
+    const AUTOSWIPEOUT = 3;
+    const AUTOSWIPEIN = 4;
+    return {
+        install: function (Vue) {
+            Vue.component('swipe-cell', {
+                methods: {
+                    ontouchstart: function ($event) {
+                        if (this.s === SWIPEIN) {
+                            this.autoswipeout();
+                        } else if (this.s === SWIPEOUT) {
+                            this.s = SWIPING;
+                            this.setswipeoutcss();
+                            this.x = $event.targetTouches[0].screenX;
+                            this.o = $event.targetTouches[0].screenX;
+                            this.t = this.$width;
+                            window.$eventbus.$emit('swipestart', this);
+                        }
+                    },
+                    ontouchmove: function ($event) {
+                        if (this.s === SWIPING) {
+                            const x = $event.targetTouches[0].screenX;
+                            (x < this.x) ? this.t -= 1 : this.t += 1;
+                            this.t = Math.max(0, Math.min(this.$width, this.t));
+                            this.$swiper.css('transform', `translateX(${this.t}px)`);
+                            this.x = x;
+                        }
+                    },
+                    ontouchend: function () {
+                        if (this.s === SWIPING) {
+                            const swipeleftdistance = this.o - this.x;
+                            if (swipeleftdistance <= 50) {
+                                this.s = SWIPEOUT;
+                                this.setswipeoutcss();
+                            } else if (swipeleftdistance < 100) {
+                                this.autoswipeout();
+                            } else {
+                                this.autoswipein();
+                            }
+                        }
+                    },
+                    autoswipein: function () {
+                        this.s = AUTOSWIPEIN;
+                        this.setswipeincss(true);
+                        this.i = window.setTimeout(() => this.s = SWIPEIN, 300);
+                    },
+                    autoswipeout: function () {
+                        this.s = AUTOSWIPEOUT;
+                        this.setswipeoutcss(true);
+                        this.i = window.setTimeout(() => this.s = SWIPEOUT, 300);
+                    },
+                    onswipestart: function (swipecell) {
+                        if (this !== swipecell) {
+                            if (this.s === AUTOSWIPEIN) {
+                                this.i && window.clearTimeout(this.i);
+                                this.autoswipeout();
+                            } else if (this.s === SWIPEIN) {
+                                this.autoswipeout();
+                            }
+                        }
+                    },
+                    onswipeclear: function (transition) {
+                        if (this.s === SWIPEIN) {
+                            if (transition) {
+                                this.autoswipeout();
+                            } else {
+                                this.s = SWIPEOUT;
+                                this.setswipeoutcss();
+                            }
+                        } else if (this.s === AUTOSWIPEIN) {
+                            this.i && window.clearTimeout(this.i);
+                            if (transition) {
+                                this.autoswipeout();
+                            } else {
+                                this.s = SWIPEOUT;
+                                this.setswipeoutcss();
+                            }
+                        }
+                    },
+                    setswipeincss: function (transition) {
+                        if (transition) {
+                            this.$swiper.css({transform: 'translateX(0)', transition: 'transform, .3s'});
+                        } else {
+                            this.$swiper.css({transform: 'translateX(0)', transition: 'none'});
+                        }
+                    },
+                    setswipeoutcss: function (transition) {
+                        if (transition) {
+                            this.$swiper.css({transform: `translateX(${this.$width}px)`, transition: 'transform, .3s'});
+                        } else {
+                            this.$swiper.css({transform: `translateX(${this.$width}px)`, transition: 'none'});
+                        }
+                    }
+                },
+                mounted: function () {
+                    this.i = null;
+                    this.s = SWIPEOUT;
+                    const root = this.$refs['root'];
+                    this.trigger = root.querySelector('.weui-cell__swipe-bd');
+                    this.trigger.addEventListener('touchstart', this.ontouchstart);
+                    this.trigger.addEventListener('touchmove', this.ontouchmove);
+                    this.trigger.addEventListener('touchend', this.ontouchend);
+                    this.$swiper = $(root.children[1]);
+                    this.$swiper.css('transform', `translateX(${this.$width}px)`);
+                    this.$width = this.$swiper.width();
+                    window.$eventbus.$on('swipestart', this.onswipestart);
+                    window.$eventbus.$on('swipeclear', this.onswipeclear);
+                },
+                beforeDestroy() {
+                    this.trigger.removeEventListener('touchstart', this.ontouchstart);
+                    this.trigger.removeEventListener('touchmove', this.ontouchmove);
+                    this.trigger.removeEventListener('touchend', this.ontouchend);
+                    window.$eventbus.$off('swipestart', this.onswipestart);
+                    window.$eventbus.$off('swipeclear', this.onswipeclear);
+                },
+                template: `<div class="weui-cell weui-cell_swipe" ref="root">
+                               <div class="weui-cell__bd">
+                                   <slot name="bd"></slot>
+                               </div>
+                               <div class="weui-cell__ft">
+                                   <slot name="swipper"></slot>
+                               </div>
+                           </div>`
+            });
         }
     }
 })();

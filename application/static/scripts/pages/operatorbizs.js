@@ -1,3 +1,4 @@
+Vue.use(swipe);
 new Vue({
     el: '#app',
     data: {

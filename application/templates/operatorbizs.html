@@ -4,14 +4,23 @@
     <div id="app" style="display: none;" v-show="launched">
         <div class="weui-cells__title">{{ operatorname }}</div>
         <div class="weui-cells">
-            <a class="weui-cell weui-cell_access"
-               v-for="o in bizs"
-               v-bind:href="o | bizdetailurl">
-                <div class="weui-cell__bd">
-                    <p>{{ o.name }}</p>
+            <swipe-cell v-for="b in bizs" v-bind:key="b.id">
+                <div class="weui-cell weui-cell_access weui-cell__swipe-bd" slot="bd" v-show="!b.editing">
+                    <div class="weui-cell__bd">{{ b.name }}</div>
+                    <div class="weui-cell__ft"></div>
                 </div>
-                <div class="weui-cell__ft"></div>
-            </a>
+                <div class="weui-cell weui-cell_form" slot="bd" v-show="b.editing">
+                    <div class="weui-cell__bd">
+                        <input type="text" v-model="b.newname" placeholder="输入新名称" class="weui-input">
+                    </div>
+                    <div class="weui-cell-btn-area">
+                        <a class="weui-cell-btn bg-primary">保存</a>
+                        <a class="weui-cell-btn bg-warn">取消</a>
+                    </div>
+                </div>
+                <a class="weui-cell-btn bg-info_primary" slot="swipper">编辑</a>
+                <a class="weui-cell-btn bg-warn" slot="swipper">删除</a>
+            </swipe-cell>
             <a class="weui-cell weui-cell_access weui-cell_link"
                v-bind:href="createbizurl">新增套餐</a>
         </div>
