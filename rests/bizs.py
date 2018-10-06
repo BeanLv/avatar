@@ -1,27 +1,31 @@
-import ujson
+import re
 
 from blueprints.rests import rests
 from exceptions import RuntimeException
+from models.model_binder import RequestParameterBinder
 
 from dao.biz import BizDAO
-from dao.operator import OperatorDAO
 
 
-@rests.route('/operators/<int:operatorid>/bizs')
-def operatorbizs(operatorid):
+@rests.route('/bizs/<int:bizid>', methods=['DELETE'])
+def deletebiz(bizid):
     try:
-        operator = OperatorDAO.first_or_default(id=operatorid, disabled=0)
-        if operator is None:
-            return '供应商不存在', 404
-
-        bizs = BizDAO.all('updated_at', operator=operatorid, disabled=0)
-        for biz in bizs:
-            biz.pop('disabled')
-
-        return ujson.dumps({'operatorname': operator['name'],
-                            'bizs': bizs})
-
+        BizDAO.update({'disabled': 1}, id=bizid)
+        return '', 204
     except Exception as e:
-        raise RuntimeException('获取供应商套餐异常',
-                               extra={'operatorid': operatorid}) \
+        raise RuntimeException('删除套餐异常',
+                               extra={'bizid': bizid}) \
+            from e
+
+
+@rests.route('/bizs/<int:bizid>', methods=['PATCH'])
+@RequestParameterBinder(name='name', from_json=True, exp=re.compile(r"^\S{1,10}$"), msg='套餐名称为1到10个非空字符')
+def updatebiz(bizid, name: str = None):
+    try:
+        BizDAO.update({'name': name}, id=bizid)
+        return '', 204
+    except Exception as e:
+        raise RuntimeException('修改套餐名称异常',
+                               extra={'bizid': bizid,
+                                      'name': name}) \
             from e

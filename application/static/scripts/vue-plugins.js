@@ -137,6 +137,61 @@ Vue.prototype.$delete = function (url) {
     });
 };
 
+Vue.prototype.$confirm = (function () {
+
+    const html = `<div>
+                       <div class="weui-mask"></div>
+                       <div class="weui-dialog">
+                           <div class="weui-dialog__hd">
+                               <strong class="weui-dialog__title"></strong>
+                           </div>
+                           <div class="weui-dialog__bd"></div>
+                           <div class="weui-dialog__ft">
+                               <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default"></a>
+                               <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary"></a>
+                           </div>
+                       </div>
+                   </div>`;
+
+    function _confirm() {
+        this.$elm = null;
+        this.$ttl = null;
+        this.$msg = null;
+        this.$no = null;
+        this.$yes = null;
+        this.resolve = null;
+    }
+
+    _confirm.prototype.show = function (ttl, msg, no, yes) {
+        if (this.$elm === null) {
+            this.$elm = $(html);
+            this.$ttl = this.$elm.find('.weui-dialog__title');
+            this.$msg = this.$elm.find('.weui-dialog__bd');
+            this.$no = this.$elm.find('.weui-dialog__btn_default');
+            this.$yes = this.$elm.find('.weui-dialog__btn_primary');
+            this.$no.bind('click', () => {
+                this.resolve = null;
+                this.$elm.remove();
+            });
+            this.$yes.bind('click', () => {
+                this.resolve && this.resolve();
+                this.resolve = null;
+                this.$elm.remove();
+            });
+        }
+        this.$ttl.text(ttl || '提示');
+        this.$msg.text(msg || '确定这么做么');
+        this.$no.text(no || '取消');
+        this.$yes.text(yes || '确定');
+        return new Promise(resolve => {
+            this.resolve = resolve;
+            $(document.body).append(this.$elm);
+        });
+    };
+
+    return new _confirm();
+})();
+
 const strtime = {
     filters: {
         strfdate: function (timestampinseconds) {

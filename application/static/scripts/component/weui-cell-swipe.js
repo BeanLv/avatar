@@ -117,9 +117,9 @@ Vue.component('weui-cell-swipe', {
                            placeholder="输入新名称" ref="input">
                 </div>
                 <div class="weui-cell__ft">
-                    <button type="button" class="weui-cell_form-btn bg-primary" v-on:click="update"
+                    <button type="button" class="weui-cell-btn bg-primary" v-on:click="update"
                             v-bind:disabled="disableupdate">确定</button><!--
-                --><button type="button" class="weui-cell_form-btn bg-warn" v-on:click="cancel">取消</button>
+                --><button type="button" class="weui-cell-btn bg-warn" v-on:click="cancel">取消</button>
                 </div>
             </div>
             <a v-show="!editing" class="weui-cell weui-cell_access" v-bind:href.once="jumpto"
