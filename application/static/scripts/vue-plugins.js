@@ -357,7 +357,7 @@ const swipe = (function () {
     const AUTOSWIPEIN = 4;
     return {
         install: function (Vue) {
-            Vue.component('swipe-cell', {
+            Vue.component('swipe', {
                 methods: {
                     ontouchstart: function ($event) {
                         if (this.s === SWIPEIN) {
@@ -450,12 +450,12 @@ const swipe = (function () {
                     this.i = null;
                     this.s = SWIPEOUT;
                     const root = this.$refs['root'];
-                    this.trigger = root.querySelector('.weui-cell__swipe-bd');
+                    this.trigger = root.querySelector('.weui-cell__swipetrigger');
                     this.trigger.addEventListener('touchstart', this.ontouchstart);
                     this.trigger.addEventListener('touchmove', this.ontouchmove);
                     this.trigger.addEventListener('touchend', this.ontouchend);
-                    this.$swiper = $(root.children[1]);
-                    this.$swiper.css('transform', `translateX(${this.$width}px)`);
+                    this.$swiper = $(root.querySelector('.weui-cell__swiper'));
+                    this.$swiper.css('transform', `translateX(${this.$swiper.width()}px)`);
                     this.$width = this.$swiper.width();
                     window.$eventbus.$on('swipestart', this.onswipestart);
                     window.$eventbus.$on('swipeclear', this.onswipeclear);
@@ -467,14 +467,7 @@ const swipe = (function () {
                     window.$eventbus.$off('swipestart', this.onswipestart);
                     window.$eventbus.$off('swipeclear', this.onswipeclear);
                 },
-                template: `<div class="weui-cell weui-cell_swipe" ref="root">
-                               <div class="weui-cell__bd">
-                                   <slot name="bd"></slot>
-                               </div>
-                               <div class="weui-cell__ft">
-                                   <slot name="swipper"></slot>
-                               </div>
-                           </div>`
+                template: '<div ref="root"><slot></slot></div>'
             });
         }
     }
