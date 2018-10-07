@@ -12,7 +12,7 @@ from dao.biz import BizDAO
 @rests.route('/operators')
 def operators():
     try:
-        operators = OperatorDAO.all('updated_at', disabled=0)
+        operators = OperatorDAO.all('id', disabled=0)
 
         for operator in operators:
             operator.pop('disabled')
