@@ -1,6 +1,6 @@
 Vue.use(actionsheet);
 new Vue({
-    mixins: [order],
+    mixins: [mixins.order],
     el: '#app',
     data: {
         query: {owner: 0, status: 0},

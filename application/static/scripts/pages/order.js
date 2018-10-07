@@ -1,6 +1,6 @@
 new Vue({
     el: '#app',
-    mixins: [order, strtime],
+    mixins: [mixins.strtime, mixins.order],
     data: {
         id: 0,
         status: 0,
