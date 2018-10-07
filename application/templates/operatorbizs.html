@@ -4,30 +4,31 @@
     <div id="app" style="display: none;" v-show="launched">
         <div class="weui-cells__title">{{ operatorname }}</div>
         <div class="weui-cells">
-            <div class="weui-cell_list" v-for="(b,i) in bizs" v-bind:key="b.id">
-                <swipe class="weui-cell weui-cell_access weui-cell_swipe">
+            <div class="weui-cell_list" v-for="(b, i) in bizs" v-bind:key="b.id">
+                <swipe class="weui-cell weui-cell_access weui-cell_swipe" v-show="!b.editing"
+                       v-bind:href="b | bizdetailurl">
                     <div class="weui-cell__bd weui-cell__swipetrigger">{{ b.name }}</div>
                     <div class="weui-cell__ft"></div>
                     <div class="weui-cell__swiper">
-                        <a class="weui-cell-btn bg-info_primary" v-on:click="editbiz(b)">编辑</a>
-                        <a class="weui-cell-btn bg-warn" v-on:click="deletebiz(b, i)">删除</a>
+                        <button type="button" class="weui-cell-btn bg-info_primary" v-on:click="editbiz(b)">编辑</button>
+                        <button type="button" class="weui-cell-btn bg-warn" v-on:click="deletebiz(b, i)">删除</button>
                     </div>
                 </swipe>
-                <div class="weui-cell weui-cell_form">
+                <div class="weui-cell weui-cell_form" v-show="b.editing">
                     <div class="weui-cell__bd">
-                        <input type="text" class="weui-input" placeholder="输入新名称" v-model="b.newname">
+                        <input class="weui-input" type="text" v-model="b.newname" placeholder="输出新名称">
                     </div>
                     <div class="weui-cell__ft">
-                        <button type="button" class="weui-cell-btn bg-primary"
+                        <button type="button"
+                                class="weui-cell-btn bg-primary"
                                 v-on:click="updatebiz(b)"
-                                v-bind:disabled="b.newname | disableupdate">保存
+                                v-bind:disabled="b | disableupdatebiz">保存
                         </button>
-                        <a class="weui-cell-btn bg-warn">取消</a>
+                        <a class="weui-cell-btn bg-warn" v-on:click="canceleditbiz(b)">取消</a>
                     </div>
                 </div>
             </div>
-            <a class="weui-cell weui-cell_access weui-cell_link"
-               v-bind:href="createbizurl">新增套餐</a>
+            <a class="weui-cell weui-cell_access weui-cell_link" v-bind:href.once="createbizurl">新增套餐</a>
         </div>
         <div class="weui-loadmore weui-loadmore_line" v-show="bizs.length===0">
             <span class="weui-loadmore__tips bg-trans">暂无数据</span>

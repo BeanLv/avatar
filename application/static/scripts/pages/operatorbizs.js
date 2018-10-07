@@ -5,24 +5,25 @@ new Vue({
         operatorid: undefined,
         operatorname: undefined,
         bizs: [],
+        editingbiz: null,
         launched: false
     },
     methods: {
         editbiz: function (biz) {
-            this.editingbiz = biz;
             biz.editing = true;
             biz.newname = '';
-            window.$eventbus.$emit('swipeclear');
+            this.editingbiz = biz;
         },
-        canceledit: function (biz) {
-            this.editingbiz = null;
+        canceleditbiz: function (biz) {
             biz.editing = false;
             biz.newname = '';
+            this.editingbiz = null;
+            window.$eventbus.$emit('swipeclear', true);
         },
         updatebiz: function (biz) {
             this.$patch(`/rests/bizs/${biz['id']}`, {name: biz.newname}).then(() => {
                 biz.name = biz.newname;
-                this.$prompt('成功', '修改成功!');
+                this.$prompt.show('成功', '编辑成功');
             });
         },
         deletebiz: function (biz, index) {
@@ -38,13 +39,13 @@ new Vue({
         bizdetailurl: function (biz) {
             return `/pages/biz?bizid=${biz['id']}`;
         },
+        disableupdatebiz: function (biz) {
+            return !biz.newname || (biz.name === biz.newname) || !/^\S{1,10}$/.test(biz.newname);
+        }
     },
     computed: {
         createbizurl: function () {
             return '/pages/biz'
-        },
-        disableupdate: function (name) {
-            return !name || !/^\S{1,10}$/.test(name);
         }
     },
     created: function () {
@@ -55,10 +56,9 @@ new Vue({
             this.operatorname = res.data['operatorname'];
             res.data['bizs'].forEach(b => {
                 b.editing = false;
-                b.newname = ''
+                b.newname = '';
             });
             this.bizs = res.data['bizs'];
-            this.editingbiz = null;
             this.launched = true;
         });
     }
