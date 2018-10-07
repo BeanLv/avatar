@@ -274,49 +274,6 @@ const actionsheet = {
     }
 };
 
-const confirm = {
-    install: function () {
-        Vue.component('confirm', {
-            props: ['title', 'msg', 'confirmtext', 'canceltext'],
-            methods: {
-                show: function (title, msg, confirmtxt, canceltxt) {
-                    this.$refs['ttl'].innerText = title || this.title || '提示';
-                    this.$refs['msg'].innerText = msg || this.msg || '确定这么做么';
-                    this.$refs['confirmbtn'].innerText = confirmtxt || this.confirmtext || '确定';
-                    this.$refs['cancelbtn'].innerText = canceltxt || this.canceltext || '取消';
-                    this.$refs['container'].style.display = 'block';
-                    const $this = this;
-                    return new Promise(resolve => {
-                        $this.resolve = resolve;
-                    });
-                },
-                onconfirm: function () {
-                    this.$refs['container'].style.display = 'none';
-                    this.resolve && this.resolve();
-                    this.resolve = null;
-                },
-                oncancel: function () {
-                    this.$refs['container'].style.display = 'none';
-                    this.resolve = null;
-                }
-            },
-            template: `<div ref="container" style="display: none;">
-                           <div class="weui-mask"></div>
-                           <div class="weui-dialog">
-                               <div class="weui-dialog__hd">
-                                   <strong class="weui-dialog__title" ref="ttl"></strong>
-                               </div>
-                               <div class="weui-dialog__bd" ref="msg"></div>
-                               <div class="weui-dialog__ft">
-                                   <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default" v-on:click="oncancel" ref="cancelbtn"></a>
-                                   <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" v-on:click="onconfirm" ref="confirmbtn"></a>
-                               </div>
-                           </div>
-                       </div>`
-        });
-    }
-};
-
 const order = (function () {
 
     const ownernames = ['所有', '我自己'];

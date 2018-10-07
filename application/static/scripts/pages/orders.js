@@ -1,5 +1,4 @@
 Vue.use(actionsheet);
-Vue.use(confirm);
 new Vue({
     mixins: [order],
     el: '#app',

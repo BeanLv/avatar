@@ -1,4 +1,3 @@
-Vue.use(confirm);
 new Vue({
     el: '#app',
     mixins: [order, strtime],
@@ -19,8 +18,7 @@ new Vue({
     },
     methods: {
         operate: function (operation) {
-            this.$refs['confirm'].show()
-                .then(o => this.$post(`/rests/orders/${this.id}/operations`, {operation: operation}))
+            this.$confirm.show().then(o => this.$post(`/rests/orders/${this.id}/operations`, {operation: operation}))
                 .then(res => {
                     if (res.status === 201) {
                         this.status = res.data['status'];
