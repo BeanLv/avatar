@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  avatar:
+    container_name: avatar.sandbox.server
+    image: 5824600/avatar-server
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/avatar
+    environment:
+      - MYSQL_USER=avatar
