@@ -4,8 +4,7 @@ services:
   avatar:
     container_name: avatar.sandbox.server
     image: 5824600/avatar-server
-    ports:
-      - "5000:5000"
+    network_mode: host
     volumes:
       - .:/avatar
     environment:
