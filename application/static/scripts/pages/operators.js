@@ -90,6 +90,5 @@ new Vue({
     },
     beforeDestroy: function () {
         window.$eventbus.$off('swipestart', this.onswipestart);
-        console.debug('供应商列表页删除 vue');
     }
 });

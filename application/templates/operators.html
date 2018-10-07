@@ -5,7 +5,8 @@
         <div class="weui-cells__title">运营商</div>
         <div class="weui-cells">
             <div class="weui-cell_list" v-for="(o, i) in operators" v-bind:key="o.id">
-                <swipe class="weui-cell weui-cell_access weui-cell_swipe" v-show="!o.editing">
+                <swipe class="weui-cell weui-cell_access weui-cell_swipe" v-show="!o.editing"
+                       v-bind:href="o.id | operatorbizsurl">
                     <div class="weui-cell__bd weui-cell__swipetrigger">{{ o.name }}</div>
                     <div class="weui-cell__ft"></div>
                     <div class="weui-cell__swiper">

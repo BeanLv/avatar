@@ -259,6 +259,7 @@ const swipe = (function () {
     return {
         install: function (Vue) {
             Vue.component('swipe', {
+                props: ['href'],
                 methods: {
                     ontouchstart: function ($event) {
                         if (this.s === SWIPEIN) {
@@ -284,10 +285,10 @@ const swipe = (function () {
                     ontouchend: function () {
                         if (this.s === SWIPING) {
                             const swipeleftdistance = this.o - this.x;
-                            if (swipeleftdistance <= 50) {
+                            if (swipeleftdistance <= 10) {
                                 this.s = SWIPEOUT;
                                 this.setswipeoutcss();
-                            } else if (swipeleftdistance < 100) {
+                            } else if (swipeleftdistance < 30) {
                                 this.autoswipeout();
                             } else {
                                 this.autoswipein();
@@ -345,7 +346,13 @@ const swipe = (function () {
                         } else {
                             this.$swiper.css({transform: `translateX(${this.$width}px)`, transition: 'none'});
                         }
-                    }
+                    },
+                    beforejump: function ($event) {
+                        if (this.s !== SWIPEOUT) {
+                            $event.preventDefault();
+                            return false;
+                        }
+                    },
                 },
                 mounted: function () {
                     this.i = null;
@@ -368,7 +375,12 @@ const swipe = (function () {
                     window.$eventbus.$off('swipestart', this.onswipestart);
                     window.$eventbus.$off('swipeclear', this.onswipeclear);
                 },
-                template: '<div ref="root"><slot></slot></div>'
+                computed: {
+                    jumpurl: function () {
+                        return this.href || 'javascript:;';
+                    }
+                },
+                template: '<a ref="root" v-bind:href.once="jumpurl" v-on:click="beforejump"><slot></slot></a>'
             });
         }
     }
