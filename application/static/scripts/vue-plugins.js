@@ -95,48 +95,6 @@ Vue.prototype.$prompt = (function () {
     return new _prompt();
 })();
 
-Vue.prototype._$onresponseerr = function (e) {
-    if (e.response.status === 401) this.$prompt.show('登录超时', '请刷新页面重新登录', true);
-    else if (e.response.status === 403) this.$prompt.show('拒绝访问', '你没有权限这么做', true);
-    else this.$prompt.show('错误', '出错啦！请联系管理员', true);
-};
-
-Vue.prototype.$get = function (url, options) {
-    return new Promise(resolve => {
-        this.$loading.show();
-        axios.get(url, options).then(res => resolve(res))
-            .catch(e => this._$onresponseerr(e))
-            .then(() => this.$loading.close());
-    });
-};
-
-Vue.prototype.$post = function (url, json) {
-    return new Promise(resolve => {
-        this.$loading.show();
-        axios.post(url, json).then(res => resolve(res))
-            .catch(e => this._$onresponseerr(e))
-            .then(() => this.$loading.close());
-    });
-};
-
-Vue.prototype.$patch = function (url, json) {
-    return new Promise(resolve => {
-        this.$loading.show();
-        axios.patch(url, json).then(res => resolve(res))
-            .catch(e => this._$onresponseerr(e))
-            .then(() => this.$loading.close());
-    });
-};
-
-Vue.prototype.$delete = function (url) {
-    return new Promise(resolve => {
-        this.$loading.show();
-        axios.delete(url).then(res => resolve(res))
-            .catch(e => this._$onresponseerr(e))
-            .then(() => this.$loading.close());
-    });
-};
-
 Vue.prototype.$confirm = (function () {
 
     const html = `<div>
@@ -192,28 +150,46 @@ Vue.prototype.$confirm = (function () {
     return new _confirm();
 })();
 
-const strtime = {
-    filters: {
-        strfdate: function (timestampinseconds) {
-            const date = new Date(timestampinseconds * 1000);
-            const stryear = date.getFullYear().toString();
-            const strmonth = (date.getMonth() + 1).toString().padStart(2, '0');
-            const strday = date.getDate().toString().padStart(2, '0');
-            const strhour = date.getHours().toString().padStart(2, '0');
-            const strminutes = date.getMinutes().toString().padStart(2, '0');
-            return `${stryear}-${strmonth}-${strday} ${strhour}:${strminutes}`;
-        },
-        strftime: function (timestampinseconds) {
-            const date = new Date(timestampinseconds * 1000);
-            const stryear = date.getFullYear().toString();
-            const strmonth = (date.getMonth() + 1).toString().padStart(2, '0');
-            const strday = date.getDate().toString().padStart(2, '0');
-            const hour = date.getHours().toString().padStart(2, '0');
-            const minutes = date.getMinutes().toString().padStart(2, '0');
-            const seconds = date.getSeconds().toString().padStart(2, '0');
-            return `${stryear}/${strmonth}/${strday} ${hour}:${minutes}:${seconds}`;
-        }
-    }
+Vue.prototype._$onresponseerr = function (e) {
+    if (e.response.status === 401) this.$prompt.show('登录超时', '请刷新页面重新登录', true);
+    else if (e.response.status === 403) this.$prompt.show('拒绝访问', '你没有权限这么做', true);
+    else this.$prompt.show('错误', '出错啦！请联系管理员', true);
+};
+
+Vue.prototype.$get = function (url, options) {
+    return new Promise(resolve => {
+        this.$loading.show();
+        axios.get(url, options).then(res => resolve(res))
+            .catch(e => this._$onresponseerr(e))
+            .then(() => this.$loading.close());
+    });
+};
+
+Vue.prototype.$post = function (url, json) {
+    return new Promise(resolve => {
+        this.$loading.show();
+        axios.post(url, json).then(res => resolve(res))
+            .catch(e => this._$onresponseerr(e))
+            .then(() => this.$loading.close());
+    });
+};
+
+Vue.prototype.$patch = function (url, json) {
+    return new Promise(resolve => {
+        this.$loading.show();
+        axios.patch(url, json).then(res => resolve(res))
+            .catch(e => this._$onresponseerr(e))
+            .then(() => this.$loading.close());
+    });
+};
+
+Vue.prototype.$delete = function (url) {
+    return new Promise(resolve => {
+        this.$loading.show();
+        axios.delete(url).then(res => resolve(res))
+            .catch(e => this._$onresponseerr(e))
+            .then(() => this.$loading.close());
+    });
 };
 
 const actionsheet = {
@@ -273,38 +249,6 @@ const actionsheet = {
         });
     }
 };
-
-const order = (function () {
-
-    const ownernames = ['所有', '我自己'];
-    const statusnames = ['所有', '待处理', '处理中', '已完成', '已取消', '已关闭'];
-    const statuscsses = ['', 'fc-warning_primary', 'fc-info', 'fc-primary', 'fc-warning', 'fc-warning'];
-    const operationnames = ['', '创建', '受理', '完成', '取消', '关闭'];
-    const operationcsses = ['', 'fc-warning_primary', 'fc-info', 'fc-primary', 'fc-warning', 'fc-warning'];
-
-    return {
-        filters: {
-            ownername: function (owner) {
-                return ownernames[owner];
-            },
-            statusname: function (status) {
-                return statusnames[status];
-            },
-            statuscss: function (status) {
-                return statuscsses[status]
-            },
-            operationname: function (operation) {
-                return operationnames[operation]
-            },
-            operationcss: function (operation) {
-                return operationcsses[operation]
-            },
-            orderurl: function (orderid) {
-                return `/pages/order?orderid=${orderid}`;
-            }
-        }
-    }
-})();
 
 const swipe = (function () {
     const SWIPEOUT = 0;
@@ -426,6 +370,62 @@ const swipe = (function () {
                 },
                 template: '<div ref="root"><slot></slot></div>'
             });
+        }
+    }
+})();
+
+const strtime = {
+    filters: {
+        strfdate: function (timestampinseconds) {
+            const date = new Date(timestampinseconds * 1000);
+            const stryear = date.getFullYear().toString();
+            const strmonth = (date.getMonth() + 1).toString().padStart(2, '0');
+            const strday = date.getDate().toString().padStart(2, '0');
+            const strhour = date.getHours().toString().padStart(2, '0');
+            const strminutes = date.getMinutes().toString().padStart(2, '0');
+            return `${stryear}-${strmonth}-${strday} ${strhour}:${strminutes}`;
+        },
+        strftime: function (timestampinseconds) {
+            const date = new Date(timestampinseconds * 1000);
+            const stryear = date.getFullYear().toString();
+            const strmonth = (date.getMonth() + 1).toString().padStart(2, '0');
+            const strday = date.getDate().toString().padStart(2, '0');
+            const hour = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            const seconds = date.getSeconds().toString().padStart(2, '0');
+            return `${stryear}/${strmonth}/${strday} ${hour}:${minutes}:${seconds}`;
+        }
+    }
+};
+
+const order = (function () {
+
+    const ownernames = ['所有', '我自己'];
+    const statusnames = ['所有', '待处理', '处理中', '已完成', '已取消', '已关闭'];
+    const statuscsses = ['', 'fc-warning_primary', 'fc-info', 'fc-primary', 'fc-warning', 'fc-warning'];
+    const operationnames = ['', '创建', '受理', '完成', '取消', '关闭'];
+    const operationcsses = ['', 'fc-warning_primary', 'fc-info', 'fc-primary', 'fc-warning', 'fc-warning'];
+
+    return {
+        filters: {
+            ownername: function (owner) {
+                return ownernames[owner];
+            },
+            statusname: function (status) {
+                return statusnames[status];
+            },
+            statuscss: function (status) {
+                return statuscsses[status]
+            },
+            operationname: function (operation) {
+                return operationnames[operation]
+            },
+            operationcss: function (operation) {
+                return operationcsses[operation]
+            },
+            orderurl: function (orderid) {
+                return `/pages/order?orderid=${orderid}`;
+            }
         }
     }
 })();
