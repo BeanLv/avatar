@@ -1,3 +1,4 @@
+import re
 from functools import wraps
 
 import flask
@@ -72,6 +73,47 @@ class SearchOrderModelBinder:
             kwargs['status'] = status
             kwargs['pagenum'] = pagenum
             kwargs['pagesize'] = pagesize
+
+            return func(*args, **kwargs)
+
+        return wrapper
+
+
+class BizModelBinder:
+    """创建套餐参数绑定"""
+
+    name_re = re.compile('^\S{1,10}$')
+
+    def __call__(self, func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            request = flask.request
+
+            if not request.is_json:
+                return flask.make_response(('请求body 不是 application/json', 400))
+
+            body = request.json
+
+            name = body.get('name')
+            if not name or not isinstance(name, str) or self.name_re.match(name) is None:
+                return flask.make_response(('套餐名称不对', 400))
+
+            operator = body.get('operator')
+            if not isinstance(operator, int) or operator < 0:
+                return flask.make_response(('供应商不对', 400))
+
+            remark = body.get('remark')
+            if not isinstance(remark, str) or len(remark) > 100:
+                return flask.make_response(('备注必填且必须在100个字符内', 400))
+
+            properties = body.get('properties')
+            if not properties or not isinstance(properties, list):
+                return flask.make_response(('缺少属性list', 400))
+
+            kwargs['name'] = name
+            kwargs['operator'] = operator
+            kwargs['remark'] = remark
+            kwargs['properties'] = properties
 
             return func(*args, **kwargs)
 

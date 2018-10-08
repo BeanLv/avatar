@@ -5,27 +5,9 @@ new Vue({
         operatorid: undefined,
         operatorname: undefined,
         bizs: [],
-        editingbiz: null,
         launched: false
     },
     methods: {
-        editbiz: function (biz) {
-            biz.editing = true;
-            biz.newname = '';
-            this.editingbiz = biz;
-        },
-        canceleditbiz: function (biz) {
-            biz.editing = false;
-            biz.newname = '';
-            this.editingbiz = null;
-            window.$eventbus.$emit('swipeclear', true);
-        },
-        updatebiz: function (biz) {
-            this.$patch(`/rests/bizs/${biz['id']}`, {name: biz.newname}).then(() => {
-                biz.name = biz.newname;
-                this.$prompt.show('成功', '编辑成功');
-            });
-        },
         deletebiz: function (biz, index) {
             this.$confirm.show('提示', '确定要删除么?')
                 .then(() => this.$delete(`/rests/bizs/${biz['id']}`))
@@ -45,7 +27,7 @@ new Vue({
     },
     computed: {
         createbizurl: function () {
-            return '/pages/biz'
+            return '/pages/biz#create'
         }
     },
     created: function () {
@@ -54,10 +36,6 @@ new Vue({
         this.$get(`/rests/operators/${operatorid}/bizs`).then(res => {
             this.operatorid = operatorid;
             this.operatorname = res.data['operatorname'];
-            res.data['bizs'].forEach(b => {
-                b.editing = false;
-                b.newname = '';
-            });
             this.bizs = res.data['bizs'];
             this.launched = true;
         });

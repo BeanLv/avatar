@@ -70,8 +70,7 @@ def operatorbizs(operatorid):
             return '供应商不存在', 404
 
         bizs = BizDAO.all('updated_at', operator=operatorid, disabled=0)
-        for biz in bizs:
-            biz.pop('disabled')
+        bizs = [{'id': b['id'], 'name': b['name']} for b in bizs]
 
         return ujson.dumps({'operatorname': operator['name'],
                             'bizs': bizs})
