@@ -13,7 +13,7 @@ new Vue({
                 .then(() => this.$delete(`/rests/bizs/${biz['id']}`))
                 .then(() => {
                     this.bizs.splice(index, 1);
-                    this.$prompt.show('成功', '删除成功');
+                    this.$toast.show();
                 });
         }
     },

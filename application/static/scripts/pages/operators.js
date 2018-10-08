@@ -35,7 +35,7 @@ new Vue({
                 .then(this.$delete(`/rests/operators/${o['id']}`))
                 .then(() => {
                     this.operators.splice(i, 1);
-                    this.$prompt.show('成功', '删除成功');
+                    this.$toast.show();
                 });
         },
         opencreateform: function () {
