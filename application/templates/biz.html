@@ -32,18 +32,9 @@
         </div>
         <div class="weui-msg__opr-area">
             <p class="weui-btn-area" v-show="bizid">
-                <button type="button" class="weui-btn bg-info_primary" v-show="!editing"
-                        v-on:click="editbiz">编辑
-                </button>
-                <button type="button" class="weui-btn bg-primary" v-show="editing"
-                        v-bind:disabled="disablesubmit"
-                        v-on:click="updatebiz">保存
-                </button>
-            </p>
-            <p class="weui-btn-area" v-show="!bizid">
                 <button type="button" class="weui-btn bg-primary"
-                        v-bind:disabled="disablesubmit"
-                        v-on:click="createbiz">新增
+                        v-bind:disabled="disableupdate"
+                        v-on:click="updatebiz">保存
                 </button>
             </p>
         </div>

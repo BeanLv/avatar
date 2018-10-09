@@ -29,9 +29,9 @@ new Vue({
     },
     computed: {
         disablecreate: function () {
-            if (this.invalidname(this.name)) return true;
+            if (this.isinvalidname(this.name)) return true;
             for (let i = 0; i < this.properties.length; i++) {
-                if (this.invalidprop(this.properties[i].value)) {
+                if (this.isinvalidprop(this.properties[i].value)) {
                     return true;
                 }
             }

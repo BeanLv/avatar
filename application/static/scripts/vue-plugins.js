@@ -502,17 +502,9 @@ const mixins = {
         }
     })(),
     biz: (function () {
-        const namereg = new RegExp('^\\S{1,10}$');
-        const propreg = new RegExp('^\\S{1,10}$');
+        const namereg = /^\S{1,10}$/;
+        const propreg = /^\S{1,10}$/;
         return {
-            filters: {
-                invalidname: function (name) {
-                    return this.invalidname(name);
-                },
-                invalidprop: function (prop) {
-                    return this.invalidprop(prop);
-                }
-            },
             methods: {
                 getdefaultproperties: function () {
                     return [
@@ -524,14 +516,14 @@ const mixins = {
                         {name: '属性六', value: '', seq: 6}
                     ];
                 },
-                invalidname: function (name) {
-                    return !name || !namereg.test((name));
+                isinvalidname: function (name) {
+                    return !name || !namereg.test(name);
                 },
-                invalidprop: function (prop) {
-                    return !prop || !propreg.test((prop));
+                isinvalidprop: function (prop) {
+                    return !prop || !propreg.test(prop);
                 }
             }
-        }
+        };
     })()
 };
 
