@@ -1,7 +1,5 @@
 # -*- coding: UTF-8 -*-
 
-from itertools import groupby
-
 import ujson
 
 from blueprints.rests import rests
@@ -21,18 +19,24 @@ def bizs():
         bizs = BizDAO.get_bizs_of_operators([o['id'] for o in operators])
         properties = BizPropertyDAO.get_properties_of_bizs([b['id'] for b in bizs])
 
-        bizdict = dict(groupby(bizs, lambda b: b['operator']))
-        for operator in operators:
-            operator.pop('disabled')
-            operator['bizs'] = bizdict.get(operator['id'], [])
+        operatordict = {o['id']: o for o in operators}
+        bizdict = {b['id']: b for b in bizs}
 
-        propertydict = dict(groupby(properties, lambda p: p['biz']))
-        for biz in bizs:
-            biz.pop('disabled')
-            biz['properties'] = propertydict.get(biz['id'], [])
+        for o in operators:
+            o['bizs'] = []
+            o.pop('id')
+            o.pop('disabled')
 
-        for prop in properties:
-            prop.pop('id')
+        for b in bizs:
+            operatordict[b['operator']]['bizs'].append(b)
+            b['properties'] = []
+            b.pop('disabled')
+            b.pop('operator')
+
+        for p in properties:
+            bizdict[p['biz']]['properties'].append(p)
+            p.pop('id')
+            p.pop('biz')
 
         return ujson.dumps(operators)
 
