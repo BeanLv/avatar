@@ -22,6 +22,6 @@ class RedisClient(Redis):
         super().__init__(**kwargs)
 
 
-def client():
+def client() -> Redis:
     return flask.g.get('redisclient') if 'redisclient' in flask.g else \
         flask.g.setdefault('redisclient', RedisClient())

@@ -22,6 +22,10 @@ wechat:
   loginredirect: /wechat/login
   userinfo: https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo
   userdetail: https://qyapi.weixin.qq.com/cgi-bin/user/get
+  addressbook:
+    deptid: 1
+    secret: MtLWmZnP2fFVoLGqW3Wp-_I49ZXTytgB37nSj8Pzd5g
+    apiurl: https://qyapi.weixin.qq.com/cgi-bin/user/simplelist
 
 
 service:
