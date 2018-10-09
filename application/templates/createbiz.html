@@ -1,0 +1,45 @@
+{% extends "_master_.html" %}
+{% set title = '新增套餐' %}
+{% block body %}
+    <div id="app" style="display: none;" v-show="launched">
+        <div class="weui-cells__title">套餐名称</div>
+        <div class="weui-cells">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <input type="text" class="weui-input" v-model="name" placeholder="输入名称">
+                </div>
+                <div class="weui-cell__ft"><i class="weui-icon-warn"></i></div>
+            </div>
+        </div>
+        <div class="weui-cells__title">套餐属性</div>
+        <div class="weui-cells">
+            <div class="weui-cell" v-for="p in properties" v-bind:key="p.seq">
+                <div class="weui-cell__bd">
+                    <input type="text" class="weui-input" v-model="p.value" placeholder=""
+                           v-bind:placeholder="'输入' + p.name">
+                </div>
+                <div class="weui-cell__ft"><i class="weui-icon-warn"></i></div>
+            </div>
+        </div>
+        <div class="weui-cells__title">备注</div>
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <textarea class="weui-textarea" placeholder="输入备注" v-model="remark" maxlength="10"></textarea>
+                    <div class="weui-textarea-counter"><span>{{ remark.length }}</span>/100</div>
+                </div>
+            </div>
+        </div>
+        <div class="weui-msg__opr-area">
+            <p class="weui-btn-area">
+                <button type="button" class="weui-btn bg-primary"
+                        v-bind:disabled="disablecreate"
+                        v-on:click="createbiz">新增
+                </button>
+            </p>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="/static/scripts/pages/createbiz.js?v={$ version $}"></script>
+{% endblock %}

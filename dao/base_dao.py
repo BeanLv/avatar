@@ -51,7 +51,7 @@ class BaseDAO:
         cursor = connection.cursor()
         cursor.execute(sql, arguments)
         cursor.execute('SELECT LAST_INSERT_ID()')
-        createdid = cursor.fetchone()
+        createdid = cursor.fetchone()[0]
         connection.commit()
 
         return createdid
@@ -60,12 +60,14 @@ class BaseDAO:
     def batch_insert(cls, columns, rows):
         row_values = '(' + ','.join(itertools.repeat('%s', len(columns))) + ')'
         sql_values = ','.join(itertools.repeat(row_values, len(rows)))
-        sql = "INSERT INTO {TABLE} ({COLUMNS}) VALUES {VALUES})".format(TABLE=cls.table,
-                                                                        COLUMNS=','.join(columns),
-                                                                        VALUES=sql_values)
+        arguments = [v for row in rows for v in row]
+
+        sql = "INSERT INTO {TABLE} ({COLUMNS}) VALUES {VALUES}".format(TABLE=cls.table,
+                                                                       COLUMNS=','.join(columns),
+                                                                       VALUES=sql_values)
         connection = dao.connect()
         cursor = connection.cursor()
-        cursor.execute(sql)
+        cursor.execute(sql, arguments)
         connection.commit()
         cursor.close()
 
@@ -82,7 +84,7 @@ class BaseDAO:
                                                            DUPLIATES=dumpicates)
         connection = dao.connect()
         cursor = connection.cursor()
-        cursor.execute(sql)
+        cursor.execute(sql, [v for row in rows for v in row])
         connection.commit()
         cursor.close()
 

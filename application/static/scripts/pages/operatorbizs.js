@@ -14,7 +14,7 @@ new Vue({
                 .then(() => {
                     this.bizs.splice(index, 1);
                     this.$toast.show();
-                });
+                })
         }
     },
     filters: {
@@ -27,7 +27,7 @@ new Vue({
     },
     computed: {
         createbizurl: function () {
-            return '/pages/biz#create'
+            return `/pages/createbiz?operatorid=${this.operatorid}`;
         }
     },
     created: function () {

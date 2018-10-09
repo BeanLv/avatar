@@ -132,9 +132,10 @@ Vue.prototype.$confirm = (function () {
                 this.$elm.remove();
             });
             this.$yes.bind('click', () => {
-                this.resolve && this.resolve();
+                const resolve = this.resolve;
                 this.resolve = null;
                 this.$elm.remove();
+                resolve();
             });
         }
         this.$ttl.text(ttl || '提示');
@@ -148,6 +149,66 @@ Vue.prototype.$confirm = (function () {
     };
 
     return new _confirm();
+})();
+
+Vue.prototype.$choice = (function () {
+
+    const html = `<div>
+                       <div class="weui-mask"></div>
+                       <div class="weui-dialog">
+                           <div class="weui-dialog__hd">
+                               <strong class="weui-dialog__title"></strong>
+                           </div>
+                           <div class="weui-dialog__bd"></div>
+                           <div class="weui-dialog__ft">
+                               <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_default"></a>
+                               <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary"></a>
+                           </div>
+                       </div>
+                   </div>`;
+
+    function _choice() {
+        this.$elm = null;
+        this.$ttl = null;
+        this.$msg = null;
+        this.$no = null;
+        this.$yes = null;
+        this.resolve = null;
+        this.reject = null;
+    }
+
+    _choice.prototype.show = function (ttl, msg, no, yes) {
+        if (this.$elm === null) {
+            this.$elm = $(html);
+            this.$ttl = this.$elm.find('.weui-dialog__title');
+            this.$msg = this.$elm.find('.weui-dialog__bd');
+            this.$no = this.$elm.find('.weui-dialog__btn_default');
+            this.$yes = this.$elm.find('.weui-dialog__btn_primary');
+            this.$no.bind('click', () => {
+                const reject = this.reject;
+                this.resolve = this.reject = null;
+                this.$elm.remove();
+                reject();
+            });
+            this.$yes.bind('click', () => {
+                const resolve = this.resolve;
+                this.resolve = this.reject = null;
+                this.$elm.remove();
+                resolve();
+            });
+        }
+        this.$ttl.text(ttl || '提示');
+        this.$msg.text(msg || '确定这么做么');
+        this.$no.text(no || '取消');
+        this.$yes.text(yes || '确定');
+        return new Promise((resolve, reject) => {
+            this.resolve = resolve;
+            this.reject = reject;
+            $(document.body).append(this.$elm);
+        });
+    };
+
+    return new _choice();
 })();
 
 Vue.prototype._$onresponseerr = function (e) {
@@ -436,6 +497,38 @@ const mixins = {
                 },
                 orderurl: function (orderid) {
                     return `/pages/order?orderid=${orderid}`;
+                }
+            }
+        }
+    })(),
+    biz: (function () {
+        const namereg = new RegExp('^\\S{1,10}$');
+        const propreg = new RegExp('^\\S{1,10}$');
+        return {
+            filters: {
+                invalidname: function (name) {
+                    return this.invalidname(name);
+                },
+                invalidprop: function (prop) {
+                    return this.invalidprop(prop);
+                }
+            },
+            methods: {
+                getdefaultproperties: function () {
+                    return [
+                        {name: '属性一', value: '', seq: 1},
+                        {name: '属性二', value: '', seq: 2},
+                        {name: '属性三', value: '', seq: 3},
+                        {name: '属性四', value: '', seq: 4},
+                        {name: '属性五', value: '', seq: 5},
+                        {name: '属性六', value: '', seq: 6}
+                    ];
+                },
+                invalidname: function (name) {
+                    return !name || !namereg.test((name));
+                },
+                invalidprop: function (prop) {
+                    return !prop || !propreg.test((prop));
                 }
             }
         }

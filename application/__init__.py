@@ -40,3 +40,7 @@ def close_resource_after_request(err):
                 logger.exception('关闭资源异常: %s' % o.__class__.__name__)
             else:
                 logger.debug('关闭资源: %s' % o.__class__.__name__)
+
+@app.teardown_request
+def close_af(err):
+    pass

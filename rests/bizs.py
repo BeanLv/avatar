@@ -37,7 +37,7 @@ def createbiz(name: str = None, operator: int = None, remark: str = None, proper
             property_columns = ['biz', 'name', 'value', 'seq']
             property_rows = [[bizid, p['name'], p['value'], p['seq']] for p in properties]
             BizPropertyDAO.batch_insert(property_columns, property_rows)
-            return bizid, 201
+            return str(bizid), 201
 
     except Exception as e:
         raise RuntimeException('创建套餐异常',
