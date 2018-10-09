@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 import itertools
 
 from pymysql.cursors import DictCursor

@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 import flask
 
 from unittest.mock import Mock

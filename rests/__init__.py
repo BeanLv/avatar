@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 from . import orders
 from . import statistics
 from . import operators

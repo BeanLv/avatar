@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 import dao
 from models import OrderStatus
 

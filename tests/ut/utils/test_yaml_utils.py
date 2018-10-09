@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 from unittest.mock import patch
 
 from utils.yaml_utils import load
