@@ -11,7 +11,7 @@ from utils.dict_utils import deep_update_dict
 def _load_config_from_files(*files):
     config = dict()
     for file in files:
-        with open(file) as f:
+        with open(file, encoding='UTF-8') as f:
             deep_update_dict(config, load(f))
     return config
 

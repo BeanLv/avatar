@@ -1,5 +1,7 @@
 # -*- coding: UTF-8 -*-
 
+from itertools import groupby
+
 import ujson
 
 from blueprints.rests import rests
@@ -9,6 +11,33 @@ from models.model_binder import BizModelBinder
 from dao import transaction
 from dao.biz import BizDAO
 from dao.bizproperty import BizPropertyDAO
+from dao.operator import OperatorDAO
+
+
+@rests.route('/bizs', methods=['GET'])
+def bizs():
+    try:
+        operators = OperatorDAO.all('updated_at DESC', disabled=0)
+        bizs = BizDAO.get_bizs_of_operators([o['id'] for o in operators])
+        properties = BizPropertyDAO.get_properties_of_bizs([b['id'] for b in bizs])
+
+        bizdict = dict(groupby(bizs, lambda b: b['operator']))
+        for operator in operators:
+            operator.pop('disabled')
+            operator['bizs'] = bizdict.get(operator['id'], [])
+
+        propertydict = dict(groupby(properties, lambda p: p['biz']))
+        for biz in bizs:
+            biz.pop('disabled')
+            biz['properties'] = propertydict.get(biz['id'], [])
+
+        for prop in properties:
+            prop.pop('id')
+
+        return ujson.dumps(operators)
+
+    except Exception as e:
+        raise RuntimeException('获取套餐列表异常') from e
 
 
 @rests.route('/bizs/<int:bizid>', methods=['GET'])
@@ -53,7 +82,7 @@ def createbiz(name: str = None, operator: int = None, remark: str = None, proper
 def updatebiz(bizid, name: str = None, operator: int = None, remark: str = None, properties: list = list()):
     try:
         with transaction():
-            BizDAO.update({'name': name, operator: operator, remark: remark}, id=bizid)
+            BizDAO.update({'name': name, 'operator': operator, 'remark': remark}, id=bizid)
             property_columns = ['biz', 'name', 'value', 'seq']
             property_rows = [[bizid, p['name'], p['value'], p['seq']] for p in properties]
             duplicates = ['value', 'seq']

@@ -505,6 +505,14 @@ const mixins = {
         const namereg = /^\S{1,10}$/;
         const propreg = /^\S{1,10}$/;
         return {
+            filters: {
+                namecss: function(name) {
+                    return (name && namereg.test(name) ) ? '' : 'weui-icon-warn';
+                },
+                propcss: function(prop) {
+                    return (prop && propreg.test(prop) ) ? '' : 'weui-icon-warn';
+                }
+            },
             methods: {
                 getdefaultproperties: function () {
                     return [

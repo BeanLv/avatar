@@ -8,7 +8,7 @@
                 <div class="weui-cell__bd">
                     <input type="text" class="weui-input" v-model="name" placeholder="输入名称">
                 </div>
-                <div class="weui-cell__ft"><i class="weui-icon-warn" v-if="name | isinvalidname(name)"></i></div>
+                <div class="weui-cell__ft"><i v-bind:class="name | namecss"></i></div>
             </div>
         </div>
         <div class="weui-cells__title">套餐属性</div>
@@ -18,14 +18,14 @@
                     <input type="text" class="weui-input" v-model="p.value"
                            v-bind:placeholder="'输入' + p.name">
                 </div>
-                <div class="weui-cell__ft"><i class="weui-icon-warn" v-if="p.value | isinvalidprop(p.value)"></i></div>
+                <div class="weui-cell__ft"><i v-bind:class="p.value | propcss"></i></div>
             </div>
         </div>
         <div class="weui-cells__title">备注</div>
         <div class="weui-cells weui-cells_form">
             <div class="weui-cell">
                 <div class="weui-cell__bd">
-                    <textarea class="weui-textarea" placeholder="输入备注" v-model="remark" maxlength="10"></textarea>
+                    <textarea class="weui-textarea" placeholder="输入备注" v-model="remark" maxlength="100"></textarea>
                     <div class="weui-textarea-counter"><span>{{ remark.length }}</span>/100</div>
                 </div>
             </div>

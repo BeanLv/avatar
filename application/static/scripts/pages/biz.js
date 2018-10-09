@@ -25,7 +25,7 @@ new Vue({
                 name: this.name,
                 operator: this.operator,
                 properties: this.properties.map(p => {
-                    return {name: p.name, value: p.value};
+                    return {name: p.name, value: p.value, seq: p.seq};
                 }),
                 remark: this.remark
             }
@@ -33,9 +33,9 @@ new Vue({
     },
     computed: {
         disableupdate: function () {
-            if (this.invalidname(this.name)) return true;
+            if (this.isinvalidname(this.name)) return true;
             for (let i = 0; i < this.properties.length; i++) {
-                if (this.invalidprop(this.properties[i].value))
+                if (this.isinvalidprop(this.properties[i].value))
                     return true;
             }
             return false;
@@ -46,11 +46,12 @@ new Vue({
         if (!bizid) return;
         this.$get(`/rests/bizs/${bizid}`).then(res => {
             const biz = res.data;
+            this.operator = biz.operator;
             this.bizid = biz.id;
             this.name = biz.name;
             this.remark = biz.remark || '';
             this.properties = biz.properties;
-            if (biz.properties && biz.properties.length === 6) {
+            if (!biz.properties || biz.properties.length === 0 ) {
                 this.properties = this.getdefaultproperties();
             }
             this.launched = true;
