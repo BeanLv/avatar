@@ -38,11 +38,10 @@
         </div>
         <div class="weui-mask" style="display:none;" v-show="searchmodeon"></div>
         <div class="hidden-page" v-bind:class="{'hidden-page__on':searchmodeon}">
-            <div class="weui-cells__title">筛选订单</div>
+            <div class="weui-cells__title">订单状态</div>
             <div class="weui-cells">
                 <div class="weui-cell weui-cell_access">
-                    <div class="weui-cell__bd">订单状态</div>
-                    <div class="weui-cell__ft">{{ filter.status | statusname }}</div>
+                    <div class="weui-cell__bd">{{ filter.status | statusname }}</div>
                     <actionsheet name="status" v-on:chooseaction="chooseaction">
                         <actionsheet-item name="所有" action="number:0"></actionsheet-item>
                         <actionsheet-item name="待处理" action="number:1"></actionsheet-item>
@@ -52,14 +51,21 @@
                     </actionsheet>
                 </div>
             </div>
+            <div class="weui-cells__title">负责人</div>
+            <div class="weui-cells">
+                <div class="weui-cell weui-cell_access">
+                    <div class="weui-cell__bd" v-on:click="chooseuser">{{ filter.owner | ownername }}</div>
+                </div>
+            </div>
             <div class="weui-tabbar">
                 <div class="weui-tabbar__item">
-                    <button type="button" class="weui-btn weui-btn_primary" v-on:click="search">搜索</button>
+                    <button type="button" class="weui-btn bg-info" v-on:click="search">搜索</button>
                 </div>
                 <div class="weui-tabbar__item">
                     <button type="button" class="weui-btn weui-btn_default" v-on:click="normalmode">返回</button>
                 </div>
             </div>
+            <address-book ref="addressbook" allowall="true" title="选择负责人"></address-book>
         </div>
     </div>
 {% endblock %}

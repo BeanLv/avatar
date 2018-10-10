@@ -88,7 +88,7 @@ Vue.prototype.$prompt = (function () {
         this.$ttl.text(title);
         this.$msg.text(msg);
         this.$btn.text(oktxt || '确定');
-        this.$btn.removeClass('fc-primary').removeClass('fc-warning').addClass(iserr ? 'fc-warning' : 'fc-primary');
+        this.$btn.removeClass('fc-primary').removeClass('fc-warn').addClass(iserr ? 'fc-warn' : 'fc-primary');
         $(document.body).append(this.$elm);
     };
 
@@ -302,7 +302,7 @@ const actionsheet = {
                                <div class="weui-actionsheet__menu">
                                    <slot></slot> 
                                </div>
-                               <div class="weui-actionsheet__action fc-warning">
+                               <div class="weui-actionsheet__action fc-warn">
                                    <div class="weui-actionsheet__cell">取消</div>
                                </div>
                            </div>
@@ -447,6 +447,99 @@ const swipe = (function () {
     }
 })();
 
+const addressbook = (function () {
+    return {
+        install: function (Vue) {
+            Vue.component('address-book', {
+                props: ['allowall', 'title'],
+                data: function () {
+                    return {
+                        groups: [],
+                        opened: false,
+                        inited: false
+                    }
+                },
+                methods: {
+                    initgroups: function () {
+                        return new Promise(resolve => {
+                            if (this.inited) {
+                                resolve();
+                            } else {
+                                this.$get('/rests/users').then(res => {
+                                    let groupdict = {}, grouplist = [];
+                                    res.data.forEach(u => {
+                                        let firstletter = u['id'][0].toUpperCase();
+                                        let users = groupdict[firstletter];
+                                        if (!users) {
+                                            users = [];
+                                            groupdict[firstletter] = users;
+                                        }
+                                        users.push(u)
+                                    });
+                                    Object.keys(groupdict).forEach(g => {
+                                        groupdict[g].sort((a, b) => a['name'] < b['name'] ? -1 : 1);
+                                        grouplist.push({name: g, users: groupdict[g]});
+                                    });
+                                    grouplist.sort((a, b) => a['name'] < b['name'] ? -1 : 1);
+                                    this.groups = grouplist;
+                                    this.inited = true;
+                                    resolve();
+                                });
+                            }
+                        })
+                    },
+                    show: function () {
+                        return new Promise(resolve => {
+                            this.resolve = resolve;
+                            this.initgroups().then(() => this.opened = true);
+                        });
+                    },
+                    chooseuser: function (u) {
+                        this.opened = false;
+                        const r = this.resolve;
+                        this.resolve = null;
+                        r(u);
+                    },
+                    chooseall: function () {
+                        this.opened = false;
+                        const r = this.resolve;
+                        this.resolve = null;
+                        r(null);
+                    },
+                    cancel: function () {
+                        this.resolve = null;
+                        this.opened = false;
+                    }
+                },
+                template: `<div class="select-page address-book" v-bind:class="{'select-page__on':opened}">
+                               <div class="select-page__title bg-info">
+                                   <a class="select-page__title__btn" v-on:click="cancel">取消</a>
+                                   <div class="select-page__title__bd">{{ title }}</div>
+                               </div>
+                               <div class="weui-cells__title" v-if="allowall">全体</div>
+                               <div class="weui-cells" v-if="allowall">
+                                  <a href="javascript:;" class="weui-cell weui-cell_access" v-on:click="chooseall">
+                                      <div class="weui-cell__bd">所有人</div>
+                                  </a>
+                               </div>
+                               <div v-for="g in groups">
+                                   <div class="weui-cells__title">{{ g.name }}</div>
+                                   <div class="weui-cells">
+                                       <a href="javascript:;" class="weui-cell weui-cell_access" 
+                                          v-for="u in g.users" v-on:click="chooseuser(u)">
+                                           <div class="weui-cell__hd">
+                                               <img v-bind:src.once="u.headimgurl" alt="">
+                                           </div>
+                                           <div class="weui-cell__bd">{{ u.name }}</div>
+                                       </a>                                        
+                                   </div>
+                               </div>
+                           </div>`,
+            });
+        }
+    }
+})();
+
 const mixins = {
     strtime: {
         filters: {
@@ -472,17 +565,13 @@ const mixins = {
         }
     },
     order: (function () {
-        const ownernames = ['所有', '我自己'];
         const statusnames = ['所有', '待处理', '处理中', '已完成', '已取消', '已关闭'];
-        const statuscsses = ['', 'fc-warning_primary', 'fc-info', 'fc-primary', 'fc-warning', 'fc-warning'];
+        const statuscsses = ['', 'fc-warn_primary', 'fc-info', 'fc-primary', 'fc-warn', 'fc-warn'];
         const operationnames = ['', '创建', '受理', '完成', '取消', '关闭'];
-        const operationcsses = ['', 'fc-warning_primary', 'fc-info', 'fc-primary', 'fc-warning', 'fc-warning'];
+        const operationcsses = ['', 'fc-warn_primary', 'fc-info', 'fc-primary', 'fc-warn', 'fc-warn'];
 
         return {
             filters: {
-                ownername: function (owner) {
-                    return ownernames[owner];
-                },
                 statusname: function (status) {
                     return statusnames[status];
                 },
@@ -506,10 +595,10 @@ const mixins = {
         const propreg = /^\S{1,10}$/;
         return {
             filters: {
-                namecss: function(name) {
+                namecss: function (name) {
                     return (name && namereg.test(name) ) ? '' : 'weui-icon-warn';
                 },
-                propcss: function(prop) {
+                propcss: function (prop) {
                     return (prop && propreg.test(prop) ) ? '' : 'weui-icon-warn';
                 }
             },
