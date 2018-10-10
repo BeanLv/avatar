@@ -69,15 +69,15 @@
         <div class="weui-msg__opr-area">
             <p class="weui-btn-area">
                 <a href="javascript:void(0);"
-                   class="weui-btn weui-btn_primary"
+                   class="weui-btn bg-info"
                    v-if="status==1"
                    v-on:click="operate('dealwith')">接单</a>
                 <a href="javascript:void(0);"
-                   class="weui-btn weui-btn_primary"
+                   class="weui-btn bg-info"
                    v-if="status==2"
                    v-on:click="operate('finish')">已完成</a>
                 <a href="javascript:void(0);"
-                   class="weui-btn weui-btn_default"
+                   class="weui-btn bg-info"
                    v-if="status==1 || status==2"
                    v-on:click="operate('close')">关闭订单</a>
             </p>
