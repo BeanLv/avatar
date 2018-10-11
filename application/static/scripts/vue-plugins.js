@@ -468,7 +468,7 @@ const addressbook = (function () {
                                 this.$get('/rests/users').then(res => {
                                     let groupdict = {}, grouplist = [];
                                     res.data.forEach(u => {
-                                        let firstletter = u['id'][0].toUpperCase();
+                                        let firstletter = u['pinying'][0].toUpperCase();
                                         let users = groupdict[firstletter];
                                         if (!users) {
                                             users = [];
@@ -477,7 +477,7 @@ const addressbook = (function () {
                                         users.push(u)
                                     });
                                     Object.keys(groupdict).forEach(g => {
-                                        groupdict[g].sort((a, b) => a['name'] < b['name'] ? -1 : 1);
+                                        groupdict[g].sort((a, b) => a['pinying'] < b['pinying'] ? -1 : 1);
                                         grouplist.push({name: g, users: groupdict[g]});
                                     });
                                     grouplist.sort((a, b) => a['name'] < b['name'] ? -1 : 1);

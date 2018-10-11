@@ -10,6 +10,8 @@ from blueprints.pages import pages
 from blueprints.rests import rests
 from blueprints.operations import operations
 
+from wechat import users
+
 logger = logging.getLogger(__name__)
 
 app = flask.Flask(__name__)
@@ -41,6 +43,7 @@ def close_resource_after_request(err):
             else:
                 logger.debug('关闭资源: %s' % o.__class__.__name__)
 
-@app.teardown_request
-def close_af(err):
-    pass
+
+logger.info('创建用户信息缓存')
+users.setup_cache()
+logger.info('创建用户信息缓存成功')

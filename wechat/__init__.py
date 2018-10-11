@@ -6,20 +6,20 @@ from config import config
 from clients import redis
 from exceptions import RuntimeException
 
-APPTOKEN_CACHE_KEY = 'APPTOKEN_{APP}'
+from constant import CacheKey
 
 
 def get_app_token(name: str) -> str:
     try:
         client = redis.client()
-        cachekey = APPTOKEN_CACHE_KEY.format(APP=name)
+        cachekey = CacheKey.apptoken(appname=name)
         cacheval = client.get(cachekey)
 
         if cacheval:
             return cacheval.decode('UTF-8')
 
         corpid = config['wechat']['corpid']
-        secret = config['wechat'][name]
+        secret = config['wechat'][name]['secret']
 
         resp = requests.get(config['wechat']['apptoken'], params={'corpid': corpid,
                                                                   'corpsecret': secret})
@@ -47,5 +47,7 @@ def get_app_token(name: str) -> str:
 
         return token
 
+    except RuntimeException:
+        raise
     except Exception as e:
         raise RuntimeException('获取应用Token异常', extra={'name': name}) from e

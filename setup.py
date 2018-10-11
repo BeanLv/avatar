@@ -8,7 +8,8 @@ requires = [
     'ujson',
     'pymysql',
     'redis',
-    'requests'
+    'requests',
+    'pypinyin'
 ]
 
 dev_requires = [

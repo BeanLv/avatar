@@ -16,16 +16,19 @@ corp:
     workbench: https://p.qpic.cn/pic_wework/4281450869/9e9824923ad5f42b7bb38ab638868939391d0f20b8a43483/0
 
 wechat:
-  cropid: ww165e7ece64ebbd81
+  corpid: ww165e7ece64ebbd81
   apptoken: https://qyapi.weixin.qq.com/cgi-bin/gettoken
   login: https://open.weixin.qq.com/connect/oauth2/authorize
   loginredirect: /wechat/login
   userinfo: https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo
   userdetail: https://qyapi.weixin.qq.com/cgi-bin/user/get
+  backend:
+    agentId: 1000002
+    secret: mbaBxnfl1HYnN-Gl-lRyeHGcVYx-IkgJgw9zrnySPYY
   addressbook:
     deptid: 1
     secret: MtLWmZnP2fFVoLGqW3Wp-_I49ZXTytgB37nSj8Pzd5g
-    apiurl: https://qyapi.weixin.qq.com/cgi-bin/user/simplelist
+    apiurl: https://qyapi.weixin.qq.com/cgi-bin/user/list
 
 
 service:
