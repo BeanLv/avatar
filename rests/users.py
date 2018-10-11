@@ -3,16 +3,14 @@
 import ujson
 
 from blueprints.rests import rests
-from clients import redis
 from exceptions import RuntimeException
-from constant import CacheKey
+
+from services import users as userservice
 
 
 @rests.route('/users')
 def getuserlist():
     try:
-        client = redis.client()
-        userlist = [ujson.loads(o.decode('UTF-8')) for o in client.hvals(CacheKey.userdetail)]
-        return ujson.dumps(userlist)
+        return ujson.dumps(userservice.get_users_details())
     except Exception as e:
-        raise RuntimeException('获取用户列表异常') from e
+        raise RuntimeException('获取用户详情列表异常') from e

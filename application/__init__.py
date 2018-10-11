@@ -10,7 +10,7 @@ from blueprints.pages import pages
 from blueprints.rests import rests
 from blueprints.operations import operations
 
-from wechat import users
+import setupjobs
 
 logger = logging.getLogger(__name__)
 
@@ -30,6 +30,10 @@ app.register_blueprint(pages)
 app.register_blueprint(rests)
 app.register_blueprint(operations)
 
+# 注册 setupjob
+for job in setupjobs.setupjobs:
+    job()
+
 
 # 请求结束后检查 flask.g 中的可 close 对象，将它们关闭
 @app.teardown_appcontext
@@ -42,8 +46,3 @@ def close_resource_after_request(err):
                 logger.exception('关闭资源异常: %s' % o.__class__.__name__)
             else:
                 logger.debug('关闭资源: %s' % o.__class__.__name__)
-
-
-logger.info('创建用户信息缓存')
-users.setup_cache()
-logger.info('创建用户信息缓存成功')
