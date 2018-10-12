@@ -1,6 +1,6 @@
-Vue.use(hiddenpage);
 Vue.use(actionsheet);
 Vue.use(addressbook);
+Vue.use(hiddenpage);
 new Vue({
     mixins: [mixins.order],
     el: '#app',
