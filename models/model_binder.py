@@ -28,7 +28,8 @@ class RequestParameterBinder:
             if self.from_json:
                 if not flask.request.is_json:
                     return flask.make_response(('请求报文需要为JSON格式', 400))
-                value = flask.request.json.get(self.name)
+
+                value = flask.request.json.get(self.name) if flask.request.data else None
             else:
                 value = flask.request.args.get(self.name)
 

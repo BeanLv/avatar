@@ -20,7 +20,7 @@ new Vue({
                 owner: this.owner.id,
                 remark: this.remark
             }).then(res => {
-                window.location.href = `/qrcodes/preview?qrcodeid=${res.data}`
+                window.location.href = `/qrcodes/${res.data}`
             });
         }
     },

@@ -7,9 +7,13 @@ from exceptions import RuntimeException
 
 from dao.order_statistic_view import OrderStatisticView
 from dao.pageview_statistic_view import PageviewStatisticView
+from models.model_binder import RequestParameterBinder
+
+
 
 
 @rests.route('/statistics/pageview')
+@RequestParameterBinder(name='source', value_type=int, required=False)
 def get_pageview_statistic():
     try:
         return ujson.dumps(PageviewStatisticView.get_statistic())
