@@ -8,8 +8,7 @@ services:
     volumes:
       - .:/root/avatar/src
       - ${HOME}/avatar/qrcodes:/root/avatar/qrcodes
-      - ${HOME}/avatar/ssl:/root/avatar/ssl
-      - ${HOME}/avatar/config:/root/avatar/config
+      - ${HOME}/avatar/ssh:/root/avatar/ssh
     environment:
       - MYSQL_USER=avatar
-      - APPCONFIG=/root/avatar/config/app.sandbox.yml
+      - APPCONFIG=resources/config.app.sandbox.yml
