@@ -2,8 +2,8 @@ version: "3"
 
 services:
   avatar:
-    container_name: avatar.admin.sandbox
-    image: 5824600/avatar-admin
+    container_name: avatar.sandbox
+    image: 5824600/avatar
     network_mode: host
     volumes:
       - .:/root/avatar/src
