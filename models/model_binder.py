@@ -88,7 +88,6 @@ class OrderModelBinder:
     _properties = {
         'biz': {'type': int},
         'bizname': {'type': str},
-        'openid': {'type': str},
         'realname': {'type': str, 'exp': re.compile(r"^.{1,10}$"), 'msg': '请输入真实姓名'},
         'nickname': {'type': str},
         'headimgurl': {'type': str},
