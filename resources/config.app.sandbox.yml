@@ -5,6 +5,7 @@ server:
   apikey: oothooXeeY8nohmaht7rei8on1awoth9
 
 runwith:
+  port: 443
   ssl_context: !!python/tuple
     - !!os/expandvars ${HOME}/avatar/ssh/public.pem
     - !!os/expandvars ${HOME}/avatar/ssh/private.key
