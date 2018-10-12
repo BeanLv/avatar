@@ -1,3 +1,4 @@
+Vue.use(hiddenpage);
 Vue.use(actionsheet);
 Vue.use(addressbook);
 new Vue({
@@ -35,14 +36,11 @@ new Vue({
         },
         searchmode: function () {
             this.copyfilterfromquery();
-            this.searchmodeon = true;
-            $(document.body).css('height', `${window.innerHeight}px`);
-            $(document.body).addClass('oh');
+            this.$refs['hiddenpage'].show();
         },
         normalmode: function () {
             this.searchmodeon = false;
-            $(document.body).prop('style').removeProperty('height');
-            $(document.body).removeClass('oh');
+            this.$refs['hiddenpage'].close();
         },
         search: function () {
             this.searchmodeon = false;

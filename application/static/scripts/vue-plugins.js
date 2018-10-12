@@ -253,6 +253,40 @@ Vue.prototype.$delete = function (url) {
     });
 };
 
+const hiddenpage = (function () {
+    return {
+        install: function (Vue) {
+            Vue.component('hidden-page', {
+                methods: {
+                    show: function () {
+                        $(this.$refs['mask']).css('display', 'block');
+                        let $page = $(this.$refs['page']);
+                        $page.addClass('hidden-page__on');
+                        $('#app').css({
+                            'overflow': 'hidden',
+                            'height': `${$page.height()}px`
+                        });
+                    },
+                    close: function () {
+                        $(this.$refs['mask']).css('display', 'none');
+                        let $page = $(this.$refs['page']);
+                        $page.removeClass('hidden-page__on');
+                        let $app = $('#app');
+                        $app.prop('style').removeProperty('overflow');
+                        $app.prop('style').removeProperty('height');
+                    }
+                },
+                template: `<div>
+                               <div class="weui-mask" ref="mask" style="display: none;"></div>
+                               <div class="hidden-page" ref="page">
+                                   <slot></slot>
+                               </div>
+                            </div>`
+            });
+        }
+    }
+})();
+
 const actionsheet = {
     install: function () {
         Vue.component('actionsheet-item', {

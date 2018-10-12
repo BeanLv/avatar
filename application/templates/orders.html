@@ -36,8 +36,7 @@
         <div class="weui-loadmore weui-loadmore_line" style="display: none" v-show="pagenum>=pagecount">
             <span class="weui-loadmore__tips">没有更多了</span>
         </div>
-        <div class="weui-mask" style="display:none;" v-show="searchmodeon"></div>
-        <div class="hidden-page" v-bind:class="{'hidden-page__on':searchmodeon}">
+        <hidden-page ref="hiddenpage">
             <div class="weui-cells__title">订单状态</div>
             <div class="weui-cells">
                 <div class="weui-cell weui-cell_access">
@@ -66,7 +65,7 @@
                 </div>
             </div>
             <address-book ref="addressbook" allowall="true" title="选择负责人"></address-book>
-        </div>
+        </hidden-page>
     </div>
 {% endblock %}
 {% block scripts %}
