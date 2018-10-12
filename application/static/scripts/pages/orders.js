@@ -36,10 +36,13 @@ new Vue({
         searchmode: function () {
             this.copyfilterfromquery();
             this.searchmodeon = true;
+            let $window = $(window);
+            $(document.body).css('height', `${$window.height()}px`);
             $(document.body).addClass('oh');
         },
         normalmode: function () {
             this.searchmodeon = false;
+            $(document.body).prop('style').removeProperty('height');
             $(document.body).removeClass('oh');
         },
         search: function () {
