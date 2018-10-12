@@ -2,10 +2,14 @@ version: "3"
 
 services:
   avatar:
-    container_name: avatar.sandbox.server
-    image: 5824600/avatar-server
+    container_name: avatar.admin.sandbox
+    image: 5824600/avatar-admin
     network_mode: host
     volumes:
-      - .:/avatar
+      - .:/root/avatar/src
+      - ${HOME}/avatar/qrcodes:/root/avatar/qrcodes
+      - ${HOME}/avatar/ssl:/root/avatar/ssl
+      - ${HOME}/avatar/config:/root/avatar/config
     environment:
       - MYSQL_USER=avatar
+      - APPCONFIG=/root/avatar/config/app.sandbox.yml

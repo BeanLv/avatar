@@ -1,0 +1,4 @@
+runwith:
+  ssl_context: !!python/tuple
+    - !!os/expandvars ${HOME}/avatar/ssh/public.pem
+    - !!os/expandvars ${HOME}/avatar/ssh/private.key

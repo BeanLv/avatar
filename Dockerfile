@@ -1,6 +1,6 @@
 FROM python:3.6
 
-WORKDIR /avatar
+WORKDIR /root/avatar/src
 
 COPY . .
 
