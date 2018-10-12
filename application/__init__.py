@@ -8,6 +8,8 @@ from config import config
 
 from blueprints.pages import pages
 from blueprints.rests import rests
+from blueprints.qrcodes import qrcodes
+
 from blueprints.operations import operations
 
 import setupjobs
@@ -29,6 +31,7 @@ app.jinja_options = jinja_options
 app.register_blueprint(pages)
 app.register_blueprint(rests)
 app.register_blueprint(operations)
+app.register_blueprint(qrcodes)
 
 # 注册 setupjob
 for job in setupjobs.setupjobs:

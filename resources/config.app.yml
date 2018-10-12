@@ -30,6 +30,14 @@ wechat:
     secret: MtLWmZnP2fFVoLGqW3Wp-_I49ZXTytgB37nSj8Pzd5g
     apiurl: https://qyapi.weixin.qq.com/cgi-bin/user/list
 
+minprogram:
+  appid: wxc6e44203b5cf3eb3
+  secret: 1f2c8578d3be08ca9bb06a09f2ff1c70
+  tokenurl: https://api.weixin.qq.com/cgi-bin/token
+  homepage: pages/index/index
+  qrcode:
+    createurl: https://api.weixin.qq.com/wxa/getwxacodeunlimit
+    storage: !!os/expandvars ${HOME}/avatar/qrcodes
 
 service:
   id: 1000002

@@ -12,8 +12,13 @@ class YamlConstructor(Constructor):
     def construct_os_env(self, node):
         return os.environ.get(self.construct_scalar(node))
 
+    def construct_os_expandvars(self, node):
+        f = os.path.expandvars(self.construct_scalar(node))
+        return f
+
 
 YamlConstructor.add_constructor('tag:yaml.org,2002:os/env', YamlConstructor.construct_os_env)
+YamlConstructor.add_constructor('tag:yaml.org,2002:os/expandvars', YamlConstructor.construct_os_expandvars)
 
 
 class YamlLoader(Reader, Scanner, Parser, Composer, YamlConstructor, Resolver):

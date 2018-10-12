@@ -1,0 +1,14 @@
+{% extends '_static_.html' %}
+{% block body %}
+    <div class="weui-msg">
+        <div class="weui-msg__icon-area"><i class="weui-icon-warn weui-icon_msg"></i></div>
+        <div class="weui-msg__text-area">
+            <h2 class="weui-msg__title">系统错误</h2>
+        </div>
+        <div class="weui-msg__extra-area">
+            <div class="weui-footer">
+                <p class="weui-footer__text">{$ config['corp']['name'] $}</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

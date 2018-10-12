@@ -1,0 +1,43 @@
+{% extends "_master_.html" %}
+{% set title = '新增二维码' %}
+{% block body %}
+    <div id="app" style="display: none;" v-show.once="launched">
+        <div class="weui-cells__title">二维码名称</div>
+        <div class="weui-cells">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <input type="text" class="weui-input" v-model="name" placeholder="输入名称">
+                </div>
+                <div class="weui-cell__ft"><i v-bind:class="name | namecss"></i></div>
+            </div>
+        </div>
+        <div class="weui-cells__title">负责人</div>
+        <div class="weui-cells">
+            <a class="weui-cell" href="javascript:;" v-on:click="chooseowner">
+                <div class="weui-cell__bd" v-bind:class="owner | ownernamecss">{{ owner | ownername }}</div>
+                <div class="weui-cell__ft"><i v-bind:class="owner | ownercss"></i></div>
+            </a>
+        </div>
+        <div class="weui-cells__title">备注</div>
+        <div class="weui-cells weui-cells_form">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <textarea class="weui-textarea" placeholder="输入备注" v-model="remark" maxlength="100"></textarea>
+                    <div class="weui-textarea-counter"><span>{{ remark.length }}</span>/100</div>
+                </div>
+            </div>
+        </div>
+        <div class="weui-msg__opr-area">
+            <p class="weui-btn-area">
+                <button type="button" class="weui-btn bg-info"
+                        v-bind:disabled="disablecreate"
+                        v-on:click="createqrcode">新增
+                </button>
+            </p>
+        </div>
+        <address-book title="选择负责人" ref="addressbook"></address-book>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="/static/scripts/pages/createqrcode.js?v={$ version $}"></script>
+{% endblock %}

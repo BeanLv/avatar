@@ -1,0 +1,26 @@
+{% extends "_master_.html" %}
+{% set title = '二维码管理' %}
+{% block body %}
+    <div id="app" style="display: none;" v-show="launched">
+        <div class="weui-cells__title">二维码</div>
+        <div class="weui-cells">
+            <swipe class="weui-cell weui-cell_access weui-cell_swipe"
+                   v-for="(qrcode, i) in qrcodes" v-bind:key="qrcode.id"
+                   v-bind:href="qrcode | qrcodepreviewurl">
+                <div class="weui-cell__bd weui-cell__swipetrigger">{{ qrcode.name }}</div>
+                <div class="weui-cell__ft"></div>
+                <div class="weui-cell__swiper">
+                    <button class="weui-cell-btn bg-info">编辑</button>
+                    <button type="button" class="weui-cell-btn bg-warn" v-on:click="deleteqrcode(qrcode, i)">删除</button>
+                </div>
+            </swipe>
+            <a class="weui-cell weui-cell_access weui-cell_link" v-bind:href.once="createqrcodeurl">新增二维码</a>
+        </div>
+        <div class="weui-loadmore weui-loadmore_line" v-show="qrcodes.length===0">
+            <span class="weui-loadmore__tips bg-trans">暂无数据</span>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="/static/scripts/pages/qrcodes.js?v={$ version $}"></script>
+{% endblock %}

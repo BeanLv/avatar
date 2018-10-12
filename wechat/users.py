@@ -17,7 +17,7 @@ def get_users_details():
                                     'department_id': addressbook_config['deptid']})
 
         if resp.status_code != 200:
-            raise RuntimeException('调用API获取员工详情返回!200',
+            raise RuntimeException('发送请求获取员工详情返回!200',
                                    extra={'resp': resp.text})
 
         body = resp.json()

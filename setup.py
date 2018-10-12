@@ -9,7 +9,8 @@ requires = [
     'pymysql',
     'redis',
     'requests',
-    'pypinyin'
+    'pypinyin',
+    'pillow'
 ]
 
 dev_requires = [

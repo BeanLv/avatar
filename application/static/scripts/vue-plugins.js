@@ -621,6 +621,30 @@ const mixins = {
                 }
             }
         };
-    })()
+    })(),
+    qrcode: (function () {
+        const namereg = /^\S{1,10}$/;
+        return {
+            filters: {
+                ownername: function (owner) {
+                    return owner ? owner.name : '选择负责人';
+                },
+                ownernamecss: function (owner) {
+                    return owner ? 'fc-default' : 'fc-secondary';
+                },
+                ownercss: function (owner) {
+                    return owner ? '' : 'weui-icon-warn';
+                },
+                namecss: function (name) {
+                    return (name && namereg.test(name)) ? '' : 'weui-icon-warn';
+                }
+            },
+            methods: {
+                isinvalidname: function (name) {
+                    return !name || !namereg.test(name);
+                }
+            }
+        }
+    })(),
 };
 

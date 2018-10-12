@@ -17,6 +17,10 @@ def setup_users_details_cache():
 
         redis_client = redis.client()
 
+        if config.get('TESTING', False):
+            logger.info('测试环境，不建用户缓存')
+            return
+
         if config['ENV'] != 'production':
             if redis_client.exists(CacheKey.userdetails):
                 logger.info('开发环境，缓存已经存在，不建用户缓存')
@@ -39,4 +43,3 @@ def setup_users_details_cache():
 
     except Exception:
         logger.exception('加载用户缓存异常')
-

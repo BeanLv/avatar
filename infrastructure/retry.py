@@ -1,9 +1,10 @@
 # -*- coding: UTF-8 -*-
 
 from functools import wraps
+import time
 
 
-class RetryException:
+class RetryFailed:
     pass
 
 
@@ -19,16 +20,13 @@ class Retry:
     def __call__(self, func):
         @wraps(func)
         def wrapper(*args, **kwargs):
-            ret = None
-
             for i in range(0, self.times):
                 try:
-                    ret = func(*args, **kwargs)
+                    func(*args, **kwargs)
+                    time.sleep(self.rest)
                 except StopRetry:
                     break
             else:
-                raise Retry
-
-            return ret
+                raise RetryFailed
 
         return wrapper
