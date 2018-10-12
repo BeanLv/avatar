@@ -1,6 +1,12 @@
 ENV: development
 DEBUG: True
 
+server:
+  protocal: http
+  domain: localhost
+  port: 80
+  apikey: ''
+
 runwith:
   host: 0.0.0.0
   port: 5000
@@ -17,11 +23,13 @@ corp:
 
 wechat:
   corpid: ww165e7ece64ebbd81
-  apptoken: https://qyapi.weixin.qq.com/cgi-bin/gettoken
-  login: https://open.weixin.qq.com/connect/oauth2/authorize
-  loginredirect: /wechat/login
-  userinfo: https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo
+  tokenurl: https://qyapi.weixin.qq.com/cgi-bin/gettoken
+  loginurl: https://open.weixin.qq.com/connect/oauth2/authorize
+  userinfourl: https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo
   userdetail: https://qyapi.weixin.qq.com/cgi-bin/user/get
+  notifyurl: https://qyapi.weixin.qq.com/cgi-bin/message/send
+
+apps:
   backend:
     agentId: 1000002
     secret: mbaBxnfl1HYnN-Gl-lRyeHGcVYx-IkgJgw9zrnySPYY
@@ -29,10 +37,10 @@ wechat:
     deptid: 1
     secret: MtLWmZnP2fFVoLGqW3Wp-_I49ZXTytgB37nSj8Pzd5g
     apiurl: https://qyapi.weixin.qq.com/cgi-bin/user/list
+  order:
+    agentid: 1000003
+    secret: Qyb8Tz_8gYeSbmz6dp6XpGBONdTDEra3C1LLBkoUKz8
 
-service:
-  id: 1000002
-  secret: mbaBxnfl1HYnN-Gl-lRyeHGcVYx-IkgJgw9zrnySPYY
 
 minprogram:
   appid: wxc6e44203b5cf3eb3

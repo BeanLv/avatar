@@ -20,9 +20,9 @@ def get_app_token(name: str) -> str:
             return cacheval.decode('UTF-8')
 
         corpid = config['wechat']['corpid']
-        secret = config['wechat'][name]['secret']
+        secret = config['apps'][name]['secret']
 
-        resp = requests.get(config['wechat']['apptoken'], params={'corpid': corpid,
+        resp = requests.get(config['wechat']['tokenurl'], params={'corpid': corpid,
                                                                   'corpsecret': secret})
 
         if resp.status_code != 200:

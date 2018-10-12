@@ -10,7 +10,7 @@ from exceptions import RuntimeException
 
 def get_users_details():
     try:
-        addressbook_config = config['wechat']['addressbook']
+        addressbook_config = config['apps']['addressbook']
         token = wechat.get_app_token('backend')
         resp = requests.get(addressbook_config['apiurl'],
                             params={'access_token': token,

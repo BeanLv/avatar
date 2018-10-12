@@ -82,6 +82,55 @@ class SearchOrderModelBinder:
         return wrapper
 
 
+class OrderModelBinder:
+    """将订单属性绑定到处理方法的kwargs中，在绑定之前做校验"""
+
+    _properties = {
+        'biz': {'type': int},
+        'bizname': {'type': str},
+        'openid': {'type': str},
+        'realname': {'type': str, 'exp': re.compile(r"^.{1,10}$"), 'msg': '请输入真实姓名'},
+        'nickname': {'type': str},
+        'headimgurl': {'type': str},
+        'mobile': {'type': str, 'exp': re.compile(r"^\d{11}$"), 'msg': '请输入11位手机号码'},
+        'address': {'type': str, 'exp': re.compile(r"^.{1,100}$"), 'msg': '地址最多100个字符'},
+        'lon': {'type': float, 'required': False},
+        'lat': {'type': float, 'required': False},
+        'source': {'type': int, 'required': False},
+        'installtime': {'type': str, 'exp': re.compile(r"^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$"), 'msg': '安装时间为年-月-日 时:分'},
+        'remark': {'type': str, 'required': False, 'exp': re.compile(r"^.{1,140}$"), 'msg': '备注不能超过140个字符'}
+    }
+
+    def __call__(self, func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            if not flask.request.is_json:
+                return flask.make_response(('请提交JSON格式的报文', 400))
+
+            body = flask.request.json
+
+            for name, restrict in self._properties.items():
+                val = body.get(name)
+
+                if val is None and not restrict.get('required', True):
+                    continue
+
+                if val is None:
+                    return flask.make_response(('%s 必填' % name, 400))
+
+                if not isinstance(val, restrict.get('type')):
+                    return flask.make_response(('%s 只能是 %s 类型' % (name, restrict.get('type').__name__), 400))
+
+                if 'exp' in restrict and restrict['exp'].match(val) is None:
+                    return flask.make_response((restrict.get('msg'), 400))
+
+                kwargs[name] = val
+
+            return func(*args, **kwargs)
+
+        return wrapper
+
+
 class BizModelBinder:
     """创建套餐参数绑定"""
 

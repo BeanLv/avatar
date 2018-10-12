@@ -7,3 +7,12 @@ class OrderStatus(Enum):
     DONE = 3
     CANCELED = 4
     CLOSED = 5
+
+
+class OrderOperation(Enum):
+    CREATE = 1
+    DISPATCH = 2
+    DEALWITH = 3
+    FINISH = 4
+    CANCEL = 5
+    CLOSE = 6

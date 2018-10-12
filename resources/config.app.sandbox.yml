@@ -1,3 +1,9 @@
+server:
+  protocal: https
+  domain: www.lzkdbz.com
+  port: 5000
+  apikey: oothooXeeY8nohmaht7rei8on1awoth9
+
 runwith:
   ssl_context: !!python/tuple
     - !!os/expandvars ${HOME}/avatar/ssh/public.pem
