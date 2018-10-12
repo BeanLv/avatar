@@ -36,8 +36,7 @@ new Vue({
         searchmode: function () {
             this.copyfilterfromquery();
             this.searchmodeon = true;
-            let $window = $(window);
-            $(document.body).css('height', `${$window.height()}px`);
+            $(document.body).css('height', `${window.innerHeight}px`);
             $(document.body).addClass('oh');
         },
         normalmode: function () {
