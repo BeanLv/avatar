@@ -39,6 +39,10 @@ def searchorders(status: OrderStatus = None, pagenum: int = 1, pagesize: int = 2
 @rests.route('/orders', methods=['POST'])
 @OrderModelBinder()
 def createorder(**kwargs):
+    installtime = datetime.datetime.strptime(kwargs.get('installtime'), '%Y-%m-%d %H:%M')
+    installtime = datatime_utils.utctime(installtime)
+    installtime = installtime.strftime('%Y-%m-%d %H:%M')
+
     try:
         with transaction():
             # 添加记录
@@ -51,7 +55,7 @@ def createorder(**kwargs):
                                        'address': kwargs.get('address'),
                                        'lon': kwargs.get('lon'),
                                        'lat': kwargs.get('lat'),
-                                       'installtime': datatime_utils.utcstrtime(kwargs.get('installtime')),
+                                       'installtime': installtime,
                                        'source': kwargs.get('source')})
 
             OrderRecordDAO.insert({'orderid': orderid,
@@ -74,7 +78,8 @@ def createorder(**kwargs):
                                      mobile=kwargs.get('mobile'),
                                      address=kwargs.get('address'),
                                      bizname=kwargs.get('bizname'),
-                                     time=datetime.datetime.now().strftime('%Y年%m月%d日 %H:%M:%S'))
+                                     time=datatime_utils.localtime(datetime.datetime.utcnow()).strftime(
+                                         '%Y年%m月%d日 %H:%M:%S'))
 
             # 发送通知
             token = wechat.get_app_token('order')

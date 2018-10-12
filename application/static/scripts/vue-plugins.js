@@ -259,6 +259,7 @@ const hiddenpage = (function () {
             Vue.component('hidden-page', {
                 methods: {
                     show: function () {
+                        $(this.$refs['mask']).css('display', 'block');
                         let $page = $(this.$refs['page']);
                         $page.addClass('hidden-page__on');
                         $('#app').css({
@@ -267,6 +268,7 @@ const hiddenpage = (function () {
                         });
                     },
                     close: function () {
+                        $(this.$refs['mask']).css('display', 'none');
                         let $page = $(this.$refs['page']);
                         $page.removeClass('hidden-page__on');
                         let $app = $('#app');
@@ -274,8 +276,11 @@ const hiddenpage = (function () {
                         $app.prop('style').removeProperty('height');
                     }
                 },
-                template: `<div class="hidden-page" ref="page">
-                               <slot></slot>
+                template: `<div>
+                               <div class="weui-mask" style="display: none" ref="mask"></div>
+                               <div class="hidden-page" ref="page">
+                                   <slot></slot>
+                                </div>
                             </div>`
             });
         }

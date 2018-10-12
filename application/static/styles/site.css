@@ -19,7 +19,7 @@ button:disabled, input[type=button]:disabled { background-color: #c8c7cd; color:
 .bd-info { border: 1px solid #2f7dcd; }
 .bd-warn_primary { border: 1px solid #ffbe00; }
 /* components */
-.hidden-page { position: fixed; z-index: 1001; left: 0; right: 0; top: 0; bottom: 0; transform: translateX(100%); transition: transform .5s; overflow: hidden; }
+.hidden-page { position: fixed; z-index: 1001; left: 45px; right: 0; top: 0; bottom: 0; transform: translateX(100%); transition: transform .5s; overflow: hidden; }
 .hidden-page__on { transform: translateX(0px); }
 .hidden-page .weui-tabbar:before { content: none; }
 .hidden-page .weui-tabbar__item { padding: 0; }
