@@ -20,7 +20,11 @@ new Vue({
                 owner: this.owner.id,
                 remark: this.remark
             }).then(res => {
-                window.location.href = `/qrcodes/${res.data}`
+                if (res.status === 204) {
+                    this.$prompt('错误', res.data, true);
+                } else {
+                    window.location.href = `/qrcodes/${res.data}`;
+                }
             });
         }
     },

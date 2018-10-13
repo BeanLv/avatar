@@ -7,4 +7,5 @@ class CacheKey:
     def apptoken(cls, appname):
         return cls.APPTOKENFMT.format(APP=appname)
 
-    userdetails = 'USERDETAILs'
+    userdetails = 'USERDETAILS'
+    admin = 'ADMIN'

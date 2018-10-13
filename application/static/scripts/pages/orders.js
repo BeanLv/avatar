@@ -1,5 +1,6 @@
 Vue.use(actionsheet);
 Vue.use(addressbook);
+Vue.use(qrcodeselect);
 Vue.use(hiddenpage);
 new Vue({
     mixins: [mixins.order],
@@ -30,6 +31,9 @@ new Vue({
         },
         chooseuser: function () {
             this.$refs['addressbook'].show().then(handler => this.filter.handler = handler);
+        },
+        choosesource: function () {
+            this.$refs['qrcodeselect'].show().then(source => this.filter.source = source);
         },
         entersearchmode: function () {
             this.copyfilterfromquery();
@@ -71,6 +75,9 @@ new Vue({
         handlername: function (handler) {
             return handler ? handler.name : '所有人';
         },
+        sourcename: function (source) {
+            return source ? source.name : '所有';
+        }
     },
     mounted: function () {
         this.$get('/rests/orders').then(res => {

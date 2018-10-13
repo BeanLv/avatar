@@ -50,6 +50,12 @@
                     </actionsheet>
                 </div>
             </div>
+            <div class="weui-cells__title">二维码来源</div>
+            <div class="weui-cells">
+                <div class="weui-cell weui-cell_access">
+                    <div class="weui-cell__bd" v-on:click="choosesource">{{ filter.source | sourcename }}</div>
+                </div>
+            </div>
             <div class="weui-cells__title">负责人</div>
             <div class="weui-cells">
                 <div class="weui-cell weui-cell_access">
@@ -65,6 +71,7 @@
                 </div>
             </div>
             <address-book ref="addressbook" allowall="true" title="选择负责人"></address-book>
+            <qrcode-select ref="qrcodeselect" allowall="true" title="选择二维码来源"></qrcode-select>
         </hidden-page>
     </div>
 {% endblock %}

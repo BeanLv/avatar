@@ -3,7 +3,7 @@ window.$eventbus = new Vue();
 Vue.prototype.$loading = (function () {
 
     const html = `<div>
-                      <div class="weui-mask"></div>
+                      <div class="weui-mask" style="z-index: 5000"></div>
                       <div class="weui-toast">
                           <i class="weui-loading weui-icon_toast"></i>
                           <p class="weui-toast__content"></p>
@@ -569,6 +569,76 @@ const addressbook = (function () {
                                    </div>
                                </div>
                            </div>`,
+            });
+        }
+    }
+})();
+
+const qrcodeselect = (function () {
+    return {
+        install: function (Vue) {
+            Vue.component('qrcode-select', {
+                props: ['allowall', 'title'],
+                data: function () {
+                    return {
+                        qrcodes: undefined,
+                        opened: false,
+                    };
+                },
+                methods: {
+                    initqrcodes: function () {
+                        return new Promise(resolve => {
+                            if (this.qrcodes !== undefined) {
+                                resolve();
+                            } else {
+                                this.$get('/rests/qrcodes').then(res => {
+                                    this.qrcodes = res.data;
+                                    resolve();
+                                });
+                            }
+                        });
+                    },
+                    show: function () {
+                        return new Promise(resolve => {
+                            this.resolve = resolve;
+                            this.initqrcodes().then(() => this.opened = true);
+                        });
+                    },
+                    close: function () {
+                        this.resolve = null;
+                        this.opened = false;
+                    },
+                    chooseqrcode: function (qrcode) {
+                        this.opened = false;
+                        const resolve = this.resolve;
+                        this.resolve = null;
+                        resolve(qrcode);
+                    },
+                    chooseall: function () {
+                        this.opened = false;
+                        const resolve = this.resolve;
+                        this.resolve = null;
+                        resolve(null);
+                    }
+                },
+                template: `<div class="select-page" v-bind:class="{'select-page__on':opened}">
+                               <div class="select-page__title bg-info">
+                                   <a class="select-page__title__btn" v-on:click="close">取消</a>
+                                   <div class="select-page__title__bd">{{ title }}</div>
+                               </div>
+                               <div class="weui-cells__title" v-if="allowall">全部</div>
+                               <div class="weui-cells" v-if="allowall">
+                                   <a class="weui-cell weui-cell_access" v-on:click="chooseall">
+                                       <div class="weui-cell__bd">所有</div>
+                                   </a>
+                               </div>
+                               <div class="weui-cells__title">二维码</div>
+                               <div class="weui-cells">
+                                   <a class="weui-cell weui-cell_access" v-for="qrcode in qrcodes" v-on:click="chooseqrcode(qrcode)">
+                                       <div class="weui-cell__bd">{{ qrcode.name }}</div>
+                                   </a>
+                               </div>
+                           </div>`
             });
         }
     }

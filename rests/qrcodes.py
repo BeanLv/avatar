@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 
+import logging
 import uuid
 
 import ujson
@@ -8,16 +9,23 @@ from blueprints.rests import rests
 from exceptions import RuntimeException, BusinessException
 from dao import transaction
 from dao.qrcode import QrCodeDAO
-
 from models.model_binder import QrCodeModelBinder
 from services import users as userservice
 from services import qrcodes as qrcodeservice
+from utils import chinese_utils
+
+logger = logging.getLogger(__name__)
 
 
 @rests.route('/qrcodes')
 def get_qrcodelist():
     try:
-        qrcodelist = QrCodeDAO.all('id')
+        qrcodelist = QrCodeDAO.all('name')
+
+        for qrcode in qrcodelist:
+            qrcode['imagepath'] = qrcodeservice.get_qrcode_path(qrcode['imagename'])
+
+        qrcodelist = sorted(qrcodelist, key=lambda qrcode: chinese_utils.get_pinying(qrcode['name']))
 
         return ujson.dumps(qrcodelist)
 
@@ -34,6 +42,7 @@ def get_qrcode(qrcodeid):
             return '二维码不存在', 404
 
         qrcode['owner'] = userservice.get_user_detail(qrcode['owner'])
+        qrcode['imagepath'] = qrcodeservice.get_qrcode_path(qrcode['imagename'])
 
         return ujson.dumps(qrcode)
 
@@ -59,7 +68,9 @@ def create_qrcode(name: str = None, owner: str = None, remark: str = None):
             return str(qrcodeid), 201
 
     except BusinessException as e:
-        pass
+        logger.exception('创建二维码业务错误')
+        return e.msg, e.errcode
+
     except Exception as e:
         raise RuntimeException('创建二维码异常',
                                extra={'name': name,
