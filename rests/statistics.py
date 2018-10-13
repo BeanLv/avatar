@@ -1,22 +1,42 @@
 # -*- coding: UTF-8 -*-
 
+import datetime
 import ujson
 
 from blueprints.rests import rests
 from exceptions import RuntimeException
 
+from dao.pageview_dao import PageViewDAO
 from dao.order_statistic_view import OrderStatisticView
-from dao.pageview_statistic_view import PageviewStatisticView
 from models.model_binder import RequestParameterBinder
 
-
+from models.date_period import (TodayPeriod,
+                                ThisWeekPeriod,
+                                ThisMonthPeriod,
+                                ThisSeasonPeriod,
+                                HalfyearPeriod,
+                                ThisYearPeriod)
 
 
 @rests.route('/statistics/pageview')
-@RequestParameterBinder(name='source', value_type=int, required=False)
-def get_pageview_statistic():
+@RequestParameterBinder(name='source', required=False, constructor=int)
+def get_pageview_statistic(source: int = None):
     try:
-        return ujson.dumps(PageviewStatisticView.get_statistic())
+        today = datetime.datetime.utcnow().date()
+        periods = [TodayPeriod(today=today),
+                   ThisWeekPeriod(today=today),
+                   ThisMonthPeriod(today=today),
+                   ThisSeasonPeriod(today=today),
+                   HalfyearPeriod(today=today),
+                   ThisYearPeriod(today=today)]
+
+        statistic = {p.name: PageViewDAO.count(source=source,
+                                               startdate=p.startdate.strftime('%Y-%m-%d'),
+                                               enddate=p.enddate.strftime('%Y-%m-%d'))
+                     for p in periods}
+
+        return ujson.dumps(statistic)
+
     except Exception:
         raise RuntimeException('获取页面访问统计异常')
 

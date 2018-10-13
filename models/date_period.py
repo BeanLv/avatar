@@ -10,11 +10,11 @@ class DatePeriod:
         self._end_date = end_date
 
     @property
-    def start_date(self):
+    def startdate(self):
         return self._start_date
 
     @property
-    def end_date(self):
+    def enddate(self):
         return self._end_date
 
     @property
