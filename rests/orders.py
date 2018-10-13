@@ -25,9 +25,9 @@ from utils import datatime_utils
 @SearchOrderModelBinder()
 def searchorders(pagenum: int = 1, pagesize: int = 20, **kwargs):
     try:
-        return ujson.dumps(OrderView.searchlist(pagenum=pagenum,
-                                                pagesize=pagesize,
-                                                **kwargs))
+        return ujson.dumps(OrderView.search(pagenum=pagenum,
+                                            pagesize=pagesize,
+                                            **kwargs))
 
     except Exception as e:
         raise RuntimeException('搜索订单异常',

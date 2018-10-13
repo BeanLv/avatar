@@ -5,8 +5,8 @@ new Vue({
     mixins: [mixins.order],
     el: '#app',
     data: {
-        query: {owner: null, status: 0},
-        filter: {owner: null, status: 0},
+        query: {handler: null, source: null, status: 0},
+        filter: {handler: null, source: null, status: 0},
         orders: [],
         total: undefined,
         pagenum: 1,
@@ -15,9 +15,7 @@ new Vue({
     },
     methods: {
         nextpage: function () {
-            let params = {pagenum: this.pagenum + 1, pagesize: this.pagesize};
-            this.query.owner && (params.owner = this.query.owner.id);
-            this.query.status && (params.status = this.query.status);
+            let params = this.getqueryparams(this.pagenum + 1, this.pagesize, this.query);
             this.$get('/rests/orders', {params: params}).then(res => {
                 const data = res.data;
                 this.orders = this.orders.concat(data.orders);
@@ -31,7 +29,7 @@ new Vue({
             this.filter[name] = action.actionvalue;
         },
         chooseuser: function () {
-            this.$refs['addressbook'].show().then(owner => this.filter.owner = owner);
+            this.$refs['addressbook'].show().then(handler => this.filter.handler = handler);
         },
         entersearchmode: function () {
             this.copyfilterfromquery();
@@ -42,9 +40,7 @@ new Vue({
         },
         search: function () {
             this.$refs['hiddenpage'].close();
-            let params = {pagenum: 1, pagesize: this.pagesize};
-            this.filter.status && (params.status = this.filter.status);
-            this.filter.owner && (params.owner = this.filter.owner.id);
+            let params = this.getqueryparams(1, this.pagesize, this.filter);
             this.$get('/rests/orders', {params: params}).then(res => {
                 const data = res.data;
                 this.orders = data.orders;
@@ -57,16 +53,23 @@ new Vue({
         },
         copyfilterfromquery: function () {
             this.filter.status = this.query.status;
-            this.filter.owner = this.query.owner;
+            this.filter.handler = this.query.handler;
         },
         copyfiltertoquery: function () {
             this.query.status = this.filter.status;
-            this.query.owner = this.filter.owner;
+            this.query.handler = this.filter.handler;
+        },
+        getqueryparams: function (pagenum, pagesize, extra) {
+            let params = {pagenum: pagenum, pagesize: pagesize};
+            extra.handler && (params.handler = extra.handler.id);
+            extra.source && (params.source = extra.source.id);
+            extra.status && (params.status = extra.status);
+            return params;
         }
     },
     filters: {
-        ownername: function (owner) {
-            return owner ? owner.name : '所有人';
+        handlername: function (handler) {
+            return handler ? handler.name : '所有人';
         },
     },
     mounted: function () {

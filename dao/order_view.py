@@ -21,7 +21,7 @@ class OrderView:
                  "LIMIT {LIMIT} OFFSET {OFFSET}"
 
     @classmethod
-    def searchlist(cls, pagenum: int = 1, pagesize: int = 20, **kwargs) -> dict:
+    def search(cls, pagenum: int = 1, pagesize: int = 20, **kwargs) -> dict:
 
         ret = {'orders': [], 'total': 0, 'pagenum': pagenum, 'pagesize': pagesize, 'pagecount': 0}
 
@@ -32,10 +32,10 @@ class OrderView:
             filters.append('o.status=%s')
             arguments.append(status.value)
 
-        owner = kwargs.get('owner')
-        if owner and isinstance(owner, str):
-            filters.append('o.owner=%s')
-            arguments.append(owner)
+        handler = kwargs.get('handler')
+        if handler and isinstance(handler, str):
+            filters.append('o.handler=%s')
+            arguments.append(handler)
 
         source = kwargs.get('source')
         if isinstance(source, int):
@@ -47,7 +47,7 @@ class OrderView:
         connection = dao.connect()
         cursor = connection.cursor()
 
-        cursor.execute("SELECT COUNT(1) FROM `order` {WHERE}".format(WHERE=where), arguments)
+        cursor.execute("SELECT COUNT(1) FROM `order` o {WHERE}".format(WHERE=where), arguments)
 
         ret['total'] = cursor.fetchone()[0]
         if ret['total'] == 0:
@@ -59,9 +59,11 @@ class OrderView:
         if pagenum > ret['pagecount']:
             pagenum = ret['pagenum'] = ret['pagecount']
 
-        cursor.execute(cls.sql_select.format(WHERE=where,
-                                             LIMIT=pagesize,
-                                             OFFSET=(pagenum - 1) * pagesize))
+        sql = cls.sql_select.format(WHERE=where,
+                                    LIMIT=pagesize,
+                                    OFFSET=(pagenum - 1) * pagesize)
+
+        cursor.execute(sql, arguments)
 
         ret['orders'] = [dict(zip(cls.properties, o)) for o in cursor.fetchall()]
 
