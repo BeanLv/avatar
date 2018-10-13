@@ -23,16 +23,17 @@ from utils import datatime_utils
 
 @rests.route('/orders')
 @SearchOrderModelBinder()
-def searchorders(status: OrderStatus = None, pagenum: int = 1, pagesize: int = 20):
+def searchorders(pagenum: int = 1, pagesize: int = 20, **kwargs):
     try:
-        return ujson.dumps(OrderView.searchlist(status=status,
-                                                pagenum=pagenum,
-                                                pagesize=pagesize))
+        return ujson.dumps(OrderView.searchlist(pagenum=pagenum,
+                                                pagesize=pagesize,
+                                                **kwargs))
+
     except Exception as e:
         raise RuntimeException('搜索订单异常',
-                               extra={'status': status,
-                                      'pagenum': pagenum,
-                                      'pagesize': pagesize}) \
+                               extra={'pagenum': pagenum,
+                                      'pagesize': pagesize,
+                                      **kwargs}) \
             from e
 
 

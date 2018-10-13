@@ -65,6 +65,11 @@ class SearchOrderModelBinder:
             status = int(status) if status.isdigit() else 0
             status = OrderStatus(status) if OrderStatus.WAITING.value <= status <= OrderStatus.CLOSED.value else None
 
+            owner = request.args.get('owner')
+
+            source = request.args.get('source', '')
+            source = int(source) if source.isdigit() else None
+
             pagenum = request.args.get('pagenum', '1')
             pagenum = int(pagenum) if pagenum.isdigit() else 1
             pagenum = max(1, pagenum)
@@ -74,6 +79,8 @@ class SearchOrderModelBinder:
             pagesize = min(50, max(20, pagesize))
 
             kwargs['status'] = status
+            kwargs['owner'] = owner
+            kwargs['source'] = source
             kwargs['pagenum'] = pagenum
             kwargs['pagesize'] = pagesize
 

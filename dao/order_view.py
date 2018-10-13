@@ -21,16 +21,38 @@ class OrderView:
                  "LIMIT {LIMIT} OFFSET {OFFSET}"
 
     @classmethod
-    def searchlist(cls, status: OrderStatus = None, pagenum: int = 1, pagesize: int = 20) -> dict:
+    def searchlist(cls, pagenum: int = 1, pagesize: int = 20, **kwargs) -> dict:
+
         ret = {'orders': [], 'total': 0, 'pagenum': pagenum, 'pagesize': pagesize, 'pagecount': 0}
-        where = cls._where(status=status)
+
+        filters, arguments = [], []
+
+        status = kwargs.get('status')
+        if isinstance(status, OrderStatus):
+            filters.append('o.status=%s')
+            arguments.append(status.value)
+
+        owner = kwargs.get('owner')
+        if owner and isinstance(owner, str):
+            filters.append('o.owner=%s')
+            arguments.append(owner)
+
+        source = kwargs.get('source')
+        if isinstance(source, int):
+            filters.append('o.source=%s')
+            arguments.append(source)
+
+        where = ('WHERE ' + ' AND '.join(filters)) if filters else ''
+
         connection = dao.connect()
         cursor = connection.cursor()
 
-        cursor.execute("SELECT COUNT(1) FROM `order` o %s" % where)
+        cursor.execute("SELECT COUNT(1) FROM `order` {WHERE}".format(WHERE=where), arguments)
+
         ret['total'] = cursor.fetchone()[0]
         if ret['total'] == 0:
             ret['pagenum'] = 1
+            cursor.close()
             return ret
 
         ret['pagecount'] = (ret['total'] + pagesize - 1) // pagesize
@@ -46,7 +68,3 @@ class OrderView:
         cursor.close()
 
         return ret
-
-    @classmethod
-    def _where(cls, status: OrderStatus = None):
-        return 'WHERE o.status = %d' % status.value if status else ''

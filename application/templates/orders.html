@@ -2,7 +2,7 @@
 {% set title = '订单列表' %}
 {% block body %}
     <div id="app" class="order-list" v-cloak>
-        <div class="weui-search-bar" v-on:click="searchmode">
+        <div class="weui-search-bar" v-on:click="entersearchmode">
             <div class="weui-search-bar__entry">
                 <i class="weui-icon-search"></i> <span>搜索</span>
             </div>
@@ -61,7 +61,7 @@
                     <button type="button" class="weui-btn bg-info" v-on:click="search">搜索</button>
                 </div>
                 <div class="weui-tabbar__item">
-                    <button type="button" class="weui-btn weui-btn_default" v-on:click="normalmode">返回</button>
+                    <button type="button" class="weui-btn weui-btn_default" v-on:click="exitsearchmode">返回</button>
                 </div>
             </div>
             <address-book ref="addressbook" allowall="true" title="选择负责人"></address-book>

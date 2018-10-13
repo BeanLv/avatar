@@ -12,7 +12,6 @@ new Vue({
         pagenum: 1,
         pagesize: 20,
         pagecount: undefined,
-        searchmodeon: false
     },
     methods: {
         nextpage: function () {
@@ -34,16 +33,15 @@ new Vue({
         chooseuser: function () {
             this.$refs['addressbook'].show().then(owner => this.filter.owner = owner);
         },
-        searchmode: function () {
+        entersearchmode: function () {
             this.copyfilterfromquery();
             this.$refs['hiddenpage'].show();
         },
-        normalmode: function () {
-            this.searchmodeon = false;
+        exitsearchmode: function () {
             this.$refs['hiddenpage'].close();
         },
         search: function () {
-            this.searchmodeon = false;
+            this.$refs['hiddenpage'].close();
             let params = {pagenum: 1, pagesize: this.pagesize};
             this.filter.status && (params.status = this.filter.status);
             this.filter.owner && (params.owner = this.filter.owner.id);
