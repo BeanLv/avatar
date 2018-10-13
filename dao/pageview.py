@@ -29,7 +29,7 @@ class PageViewDAO(BaseDAO):
         return createdid
 
     @classmethod
-    def count(cls, **kwargs):
+    def sum(cls, **kwargs):
         filters, arguments = [], []
 
         for p in ['date', 'source']:

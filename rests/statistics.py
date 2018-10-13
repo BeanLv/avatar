@@ -30,9 +30,9 @@ def get_pageview_statistic(source: int = None):
                    HalfyearPeriod(today=today),
                    ThisYearPeriod(today=today)]
 
-        statistic = {p.name: PageViewDAO.count(source=source,
-                                               startdate=p.startdate.strftime('%Y-%m-%d'),
-                                               enddate=p.enddate.strftime('%Y-%m-%d'))
+        statistic = {p.name: PageViewDAO.sum(source=source,
+                                             startdate=p.startdate.strftime('%Y-%m-%d'),
+                                             enddate=p.enddate.strftime('%Y-%m-%d'))
                      for p in periods}
 
         return ujson.dumps(statistic)
