@@ -5,7 +5,7 @@ import datetime
 from blueprints.rests import rests
 from exceptions import RuntimeException
 
-from dao.pageview_dao import PageViewDAO
+from dao.pageview import PageViewDAO
 from models.model_binder import RequestParameterBinder
 
 
