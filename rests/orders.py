@@ -60,7 +60,7 @@ def createorder(**kwargs):
                                        'source': kwargs.get('source')})
 
             OrderRecordDAO.insert({'orderid': orderid,
-                                   'operation': OrderOperation.value,
+                                   'operation': OrderOperation.CREATE.value,
                                    'opname': kwargs.get('realname')})
 
             # 构造消息
