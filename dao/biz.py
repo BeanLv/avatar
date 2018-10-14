@@ -14,7 +14,7 @@ class BizDAO(BaseDAO):
     def get_bizs_of_operators(cls, operatorids):
         sql = 'SELECT {COLUMNS} ' \
               'FROM {TABLE} ' \
-              'WHERE disabled=0 AND operator IN ({IN}) ORDER BY operator'.format(COLUMNS=','.join(cls.columns),
+              'WHERE disabled=0 AND operator IN ({IN}) ORDER BY id'.format(COLUMNS=','.join(cls.columns),
                                                                                  TABLE=cls.table,
                                                                                  IN=','.join(
                                                                                      [str(b) for b in operatorids]))

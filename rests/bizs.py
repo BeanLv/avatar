@@ -9,39 +9,6 @@ from models.model_binder import BizModelBinder
 from dao import transaction
 from dao.biz import BizDAO
 from dao.bizproperty import BizPropertyDAO
-from dao.operator import OperatorDAO
-
-
-@rests.route('/bizs', methods=['GET'])
-def bizs():
-    try:
-        operators = OperatorDAO.all('updated_at DESC', disabled=0)
-        bizs = BizDAO.get_bizs_of_operators([o['id'] for o in operators])
-        properties = BizPropertyDAO.get_properties_of_bizs([b['id'] for b in bizs])
-
-        operatordict = {o['id']: o for o in operators}
-        bizdict = {b['id']: b for b in bizs}
-
-        for o in operators:
-            o['bizs'] = []
-            o.pop('id')
-            o.pop('disabled')
-
-        for b in bizs:
-            operatordict[b['operator']]['bizs'].append(b)
-            b['properties'] = []
-            b.pop('disabled')
-            b.pop('operator')
-
-        for p in properties:
-            bizdict[p['biz']]['properties'].append(p)
-            p.pop('id')
-            p.pop('biz')
-
-        return ujson.dumps(operators)
-
-    except Exception as e:
-        raise RuntimeException('获取套餐列表异常') from e
 
 
 @rests.route('/bizs/<int:bizid>', methods=['GET'])

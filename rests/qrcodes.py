@@ -1,10 +1,12 @@
 # -*- coding: UTF-8 -*-
 
+import os
 import logging
 import uuid
 
 import ujson
 
+from config import config
 from blueprints.rests import rests
 from exceptions import RuntimeException, BusinessException
 from dao import transaction
@@ -21,10 +23,6 @@ logger = logging.getLogger(__name__)
 def get_qrcodelist():
     try:
         qrcodelist = QrCodeDAO.all('name')
-
-        for qrcode in qrcodelist:
-            qrcode['imagepath'] = qrcodeservice.get_qrcode_path(qrcode['imagename'])
-
         qrcodelist = sorted(qrcodelist, key=lambda qrcode: chinese_utils.get_pinying(qrcode['name']))
 
         return ujson.dumps(qrcodelist)
@@ -42,7 +40,8 @@ def get_qrcode(qrcodeid):
             return '二维码不存在', 404
 
         qrcode['owner'] = userservice.get_user_detail(qrcode['owner'])
-        qrcode['imagepath'] = qrcodeservice.get_qrcode_path(qrcode['imagename'])
+        qrcode['imagepath'] = os.path.join(config['public']['static'])
+        qrcode['imagepath'] = qrcodeservice.get_qrcode_url_path(qrcode['imagename'])
 
         return ujson.dumps(qrcode)
 

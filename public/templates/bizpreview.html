@@ -1,6 +1,7 @@
 {% extends '_static_.html' %}
 {% set title = '套餐详情' %}
 {% set bodycss = 'bg-page_secondary' %}
+{% set remark = ('折: ' + biz['remark']) if biz['remark'] else '' %}
 {% set p = biz['properties'] %}
 {% block body %}
     <div class="bizpreview__title">{$ biz['operatorname'] $}:&nbsp;&nbsp;{$ biz['name'] $}</div>
@@ -24,5 +25,5 @@
             </div>
         </div>
     </div>
-    <div class="bizpreview__desc">{$ biz.get('remark', '') $}</div>
+    <div class="bizpreview__desc">{$ remark $}</div>
 {% endblock %}

@@ -6,10 +6,9 @@ import flask
 
 from config import config
 
+import public
 from blueprints.pages import pages
 from blueprints.rests import rests
-from blueprints.qrcodes import qrcodes
-from blueprints.public import publicpage
 
 from blueprints.operations import operations
 
@@ -29,11 +28,12 @@ jinja_options.update({'variable_start_string': '{$',
 app.jinja_options = jinja_options
 
 # 注册蓝图
+app.register_blueprint(operations)
 app.register_blueprint(pages)
 app.register_blueprint(rests)
-app.register_blueprint(operations)
-app.register_blueprint(qrcodes)
-app.register_blueprint(publicpage)
+app.register_blueprint(public.pages)
+app.register_blueprint(public.rests)
+app.register_blueprint(public.static)
 
 # 注册 setupjob
 for job in setupjobs.setupjobs:

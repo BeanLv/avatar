@@ -1,10 +1,10 @@
 {% extends '_static_.html' %}
-{% set title = '404' %}
+{% set title = '500' %}
 {% block body %}
     <div class="weui-msg">
         <div class="weui-msg__icon-area"><i class="weui-icon-warn weui-icon_msg"></i></div>
         <div class="weui-msg__text-area">
-            <h2 class="weui-msg__title">页面不存在</h2>
+            <h2 class="weui-msg__title">{$ message or '系统错误' $}</h2>
         </div>
     </div>
 {% endblock %}

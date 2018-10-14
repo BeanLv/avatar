@@ -50,10 +50,10 @@ minprogram:
   homepage: pages/index/index
   qrcode:
     createurl: https://api.weixin.qq.com/wxa/getwxacodeunlimit
-    storage: !!os/expandvars ${HOME}/avatar/public/qrcode
 
 public:
-  staticfolder: !!os/expandvars ${HOME}/avatar/public
+  staticfolderurl: /public/static
+  staticfolder: !!os/expandvars ${HOME}/avatar/static/
 
 mysql:
   host: localhost

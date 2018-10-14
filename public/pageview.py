@@ -1,12 +1,12 @@
 # -*- coding: UTF-8 -*-
 
+
 import datetime
 
-from blueprints.rests import rests
-from exceptions import RuntimeException
-
-from dao.pageview import PageViewDAO
+from public import rests
 from models.model_binder import RequestParameterBinder
+from exceptions import RuntimeException
+from dao.pageview import PageViewDAO
 
 
 @rests.route('/pageview', methods=['POST'])
