@@ -9,6 +9,7 @@ from config import config
 import public
 from blueprints.pages import pages
 from blueprints.rests import rests
+from blueprints.wechat import blueprint as wechatblueprint
 
 from blueprints.operations import operations
 
@@ -34,6 +35,7 @@ app.register_blueprint(rests)
 app.register_blueprint(public.pages)
 app.register_blueprint(public.rests)
 app.register_blueprint(public.static)
+app.register_blueprint(wechatblueprint)
 
 # 注册 setupjob
 for job in setupjobs.setupjobs:

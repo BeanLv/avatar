@@ -1,10 +1,11 @@
 ENV: development
 DEBUG: True
+SECRET_KEY: lzkdbz
 
 server:
   protocal: http
-  domain: localhost
-  port: 80
+  domain: www.lzkdbz.com
+  port: 5000
   apikey: ''
 
 runwith:
@@ -25,10 +26,12 @@ corp:
 wechat:
   corpid: ww165e7ece64ebbd81
   tokenurl: https://qyapi.weixin.qq.com/cgi-bin/gettoken
-  loginurl: https://open.weixin.qq.com/connect/oauth2/authorize
   userinfourl: https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo
   userdetail: https://qyapi.weixin.qq.com/cgi-bin/user/get
   notifyurl: https://qyapi.weixin.qq.com/cgi-bin/message/send
+  loginurl: https://open.weixin.qq.com/connect/oauth2/authorize
+  blueprintname: wechat
+  loginredirect: /login
 
 apps:
   backend:

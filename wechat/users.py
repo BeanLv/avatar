@@ -27,3 +27,30 @@ def get_users_details():
                                       'errmsg': body['errmsg']})
 
     return list(filter(lambda u: u['status'] == 1, body['userlist']))
+
+
+def get_userid_from_code(code: str) -> str:
+    wechat_config = config['wechat']
+    access_token = wechat.get_app_token('backend')
+
+    url = wechat_config['userinfourl']
+    params = {'access_token': access_token, 'code': code}
+
+    resp = requests.get(url=url, params=params)
+
+    if resp.status_code != 200:
+        raise RuntimeException('发送请求获取用户信息返回!200',
+                               extra={'token': access_token,
+                                      'code': code,
+                                      'resp': resp.text})
+
+    body = resp.json()
+
+    if body.get('errcode', 0) != 0:
+        raise RuntimeException('调用API获取用户信息返回错误',
+                               extra={'token': access_token,
+                                      'code': code,
+                                      'errcode': body.get('errcode'),
+                                      'errmsg': body.get('errmsg')})
+
+    return body.get('UserId')

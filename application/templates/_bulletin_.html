@@ -1,0 +1,35 @@
+{% extends '_static_.html' %}
+{% block body %}
+    <div class="weui-msg">
+        <div class="weui-msg__icon-area" style="margin-bottom: 10px;">
+            <div class="weui-icon-primary weui-icon_msg">
+                <img src="{$ config['corp']['logo'] $}" style="width: 100px; max-height: 100%;">
+            </div>
+        </div>
+        <div class="weui-msg__text-area" style="margin-bottom: 20px;">
+            <div class="weui-msg__title" style="margin-bottom: 15px;">{$ config['corp']['name'] $}</div>
+            <div class="weui-msg__desc">{$ name $}</div>
+        </div>
+        <div style="width: 40px;
+                    margin-bottom: 20px;
+                    display: inline-block;
+                    border-top: 1px solid #DAE3EB;"></div>
+        <div>
+            <img src="{$ image $}"
+                 style="width: 185px;
+                        height: 185px;
+                        margin-bottom: 20px;
+                        vertical-align: top;">
+        </div>
+        <div style="display: inline-block;
+                    background: #DBECFF;
+                    border-radius: 100px;
+                    height: 28px;
+                    width: 160px;
+                    text-align: center;
+                    font-size: 12px;
+                    color: #616161;
+                    line-height: 28px;">{$ desc $}
+        </div>
+    </div>
+{% endblock %}
