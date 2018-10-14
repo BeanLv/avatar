@@ -1,10 +1,10 @@
 {% extends "_master_.html" %}
 {% set title = '订单列表' %}
 {% block body %}
-    <div id="app" class="order-list" v-cloak>
+    <div id="app" class="order-list" style="display: none;" v-show="launched">
         <div class="weui-search-bar" v-on:click="entersearchmode">
             <div class="weui-search-bar__entry">
-                <i class="weui-icon-search"></i> <span>搜索</span>
+                <i class="iconfont icon-filt"></i> <span>筛选</span>
             </div>
         </div>
         <div class="weui-panel weui-panel_access">
@@ -76,5 +76,5 @@
     </div>
 {% endblock %}
 {% block scripts %}
-    <script src="/static/scripts/pages/orders.js?v={$ version $}"></script>
+    <script src="/static/scripts/pages/orderlist.js?v={$ version $}"></script>
 {% endblock %}

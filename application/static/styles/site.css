@@ -40,6 +40,7 @@ button:disabled, input[type=button]:disabled { background-color: #c8c7cd; color:
 .weui-search-bar__entry { -webkit-box-flex: 1; -webkit-flex: 1; flex: 1; border-radius: 3px; text-align: center; color: #9b9b9b; background: #fff }
 .weui-search-bar__entry .weui-icon-search { margin-right: 5px; }
 .weui-search-bar__entry span { font-size: 13px; vertical-align: middle; }
+.weui-search-bar__entry .icon-filt { font-size: 12px; }
 .weui-panel, .weui-cells, .weui-panel:first-child, .weui-cells:first-child { margin-top: 10px; }
 .weui-panel:before, .weui-panel:after, .weui-cells:before, .weui-cells:after { border-color: #d5d5d5; }
 .weui-loadmore .weui-loadmore__tips { background-color: #efeff4; }

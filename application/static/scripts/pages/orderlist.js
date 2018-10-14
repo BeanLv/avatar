@@ -13,6 +13,7 @@ new Vue({
         pagenum: 1,
         pagesize: 20,
         pagecount: undefined,
+        launched: false
     },
     methods: {
         nextpage: function () {
@@ -87,6 +88,7 @@ new Vue({
             this.pagesize = data.pagesize;
             this.pagecount = data.pagecount;
             this.total = data.total;
+            this.launched = true;
         });
     }
 });
