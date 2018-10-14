@@ -9,7 +9,7 @@ from exceptions import RuntimeException
 from dao.pageview import PageViewDAO
 
 
-@rests.route('/pageview', methods=['POST'])
+@rests.route('/pageviews', methods=['POST'])
 @RequestParameterBinder(name='source', required=False, value_type=int, from_json=True)
 def create_pageview_record(source: int = None):
     try:
