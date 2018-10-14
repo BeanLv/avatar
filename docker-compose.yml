@@ -7,7 +7,7 @@ services:
     network_mode: host
     volumes:
       - .:/root/avatar/src
-      - ${HOME}/avatar/qrcodes:/root/avatar/qrcodes
+      - ${HOME}/avatar/static:/root/avatar/static
       - ${HOME}/avatar/ssh:/root/avatar/ssh
     environment:
       - MYSQL_USER=avatar
