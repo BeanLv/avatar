@@ -22,6 +22,7 @@ static = Blueprint('public', __name__,
                    static_url_path='/static',
                    url_prefix='/public')
 
+
 # 默认的 page 路由
 @pages.route('<page>')
 def render_page(page):
@@ -54,5 +55,6 @@ if rest_api_key:
 
 # 导入路由
 from . import bizs
-from . import qrcodes
 from . import orders
+from . import pageview
+from . import qrcodes
