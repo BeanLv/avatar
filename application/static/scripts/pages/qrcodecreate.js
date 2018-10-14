@@ -23,7 +23,7 @@ new Vue({
                 if (res.status === 204) {
                     this.$prompt('错误', res.data, true);
                 } else {
-                    window.location.href = `/qrcodes/${res.data}`;
+                    window.location.href = `/public/pages/qrcodes/${res.data}`;
                 }
             });
         }

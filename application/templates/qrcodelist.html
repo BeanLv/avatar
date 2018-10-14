@@ -6,7 +6,7 @@
         <div class="weui-cells">
             <swipe class="weui-cell weui-cell_access weui-cell_swipe"
                    v-for="(qrcode, i) in qrcodes" v-bind:key="qrcode.id"
-                   v-bind:href="qrcode | qrcodepreviewurl">
+                   v-bind:href="qrcode | previewqrcodeurl">
                 <div class="weui-cell__bd weui-cell__swipetrigger">{{ qrcode.name }}</div>
                 <div class="weui-cell__ft"></div>
                 <div class="weui-cell__swiper">
@@ -22,5 +22,5 @@
     </div>
 {% endblock %}
 {% block scripts %}
-    <script src="/static/scripts/pages/qrcodes.js?v={$ version $}"></script>
+    <script src="/static/scripts/pages/qrcodelist.js?v={$ version $}"></script>
 {% endblock %}

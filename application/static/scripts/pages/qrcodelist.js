@@ -16,13 +16,13 @@ new Vue({
         }
     },
     filters: {
-        qrcodepreviewurl: function (qrcode) {
-            return `/qrcodes/${qrcode.id}`
+        previewqrcodeurl: function (qrcode) {
+            return `/public/pages/qrcodes/${qrcode.id}`
         }
     },
     computed: {
         createqrcodeurl: function () {
-            return `/pages/createqrcode`;
+            return `/pages/qrcodecreate`;
         }
     },
     created: function () {
