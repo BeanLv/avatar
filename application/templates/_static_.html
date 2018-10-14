@@ -8,7 +8,11 @@
     <link rel="stylesheet" type="text/css" href="/static/styles/weui.min.css?v={$ version $}">
     <link rel="stylesheet" type="text/css" href="/static/styles/site.css?v={$ version $}">
 </head>
-<body>
+<body class="{$ bodycss or 'bg-page_primary' $}">
 {% block body %}{% endblock %}
+<div class="weui-footer weui-footer_fixed-bottom">
+    <p class="weui-footer__text">Copyright &copy; 2018 {$ config['corp']['name'] $}</p>
+    <p class="weui-footer__text">{$ config['corp']['icp'] $}</p>
+</div>
 </body>
 </html>

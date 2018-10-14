@@ -1,0 +1,28 @@
+{% extends '_static_.html' %}
+{% set title = '套餐详情' %}
+{% set bodycss = 'bg-page_secondary' %}
+{% set p = biz['properties'] %}
+{% block body %}
+    <div class="bizpreview__title">{$ biz['operatorname'] $}:&nbsp;&nbsp;{$ biz['name'] $}</div>
+    <div class="bizpreview weui-flex">
+        <div class="weui-flex__item">
+            <div class="weui-flex__item weui-flex">
+                <div class="weui-flex__item bizpreview__cell">{$ p['i1']['value'] $}</div>
+                <div class="weui-flex__item bizpreview__cell">{$ p['i2']['value'] $}</div>
+            </div>
+            <div class="weui-flex__item weui-flex">
+                <div class="weui-flex__item bizpreview__cell">{$ p['i3']['value'] $}</div>
+                <div class="weui-flex__item bizpreview__cell">{$ p['i4']['value'] $}</div>
+                <div class="weui-flex__item bizpreview__cell">{$ p['i5']['value'] $}</div>
+            </div>
+        </div>
+        <div class="bizpreview__cost">
+            <div class="bizpreview__cost__hd">仅需</div>
+            <div class="bizpreview__cost__bd">
+                <span style="font-size: 20px;">{$ p['cost']['value'] $}</span>
+                <span style="font-size: 16px;">&nbsp;元/月</span>
+            </div>
+        </div>
+    </div>
+    <div class="bizpreview__desc">{$ biz.get('remark', '') $}</div>
+{% endblock %}

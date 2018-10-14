@@ -15,6 +15,7 @@ deployversion: 1
 
 corp:
   name: '柳州宽带报装服务中心'
+  icp: '桂ICP备18009184号-1'
   logo: https://p.qpic.cn/pic_wework/2137366422/6563ce69edfc9b37949c019b4566430182da3ad6b2147beb/0
   inviteurl: https://work.weixin.qq.com/join_form/AMtldH4SxKalVAYbKpS6kA/hb_share_mng_mjoin
   qrcodes:
@@ -49,7 +50,10 @@ minprogram:
   homepage: pages/index/index
   qrcode:
     createurl: https://api.weixin.qq.com/wxa/getwxacodeunlimit
-    storage: !!os/expandvars ${HOME}/avatar/qrcodes
+    storage: !!os/expandvars ${HOME}/avatar/public/qrcode
+
+public:
+  staticfolder: !!os/expandvars ${HOME}/avatar/public
 
 mysql:
   host: localhost

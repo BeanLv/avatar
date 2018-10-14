@@ -7,7 +7,7 @@ from pymysql.cursors import DictCursor
 
 
 class BizPropertyDAO(BaseDAO):
-    columns = ['id', 'biz', 'name', 'value', 'seq']
+    columns = ['id', 'biz', 'name', 'value', 'tag']
     table = 'biz_property'
 
     @classmethod

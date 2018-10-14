@@ -1,7 +1,9 @@
 [v-cloak], .hide { display: none; }
 .oh { overflow: hidden; }
-body, .bg-body, .hidden-page, .select-page { background-color: #efeff4; }
+.bg-page_primary, .hidden-page, .select-page { background-color: #efeff4; }
+.bg-page_secondary { background-color: #fff; }
 /* background color */
+.bg-default { background-color: #fff; }
 .bg-primary { background-color: #1aad19; }
 .bg-info { background-color: #2f7dcd; }
 .bg-warn { background-color: #e64340; }
@@ -19,6 +21,7 @@ button:disabled, input[type=button]:disabled { background-color: #c8c7cd; color:
 .bd-info { border: 1px solid #2f7dcd; }
 .bd-warn_primary { border: 1px solid #ffbe00; }
 /* components */
+.page__bd { padding: 0 15px; }
 .hidden-page { position: fixed; z-index: 1001; left: 45px; right: 0; top: 0; bottom: 0; transform: translateX(100%); transition: transform .5s; overflow: hidden; }
 .hidden-page__on { transform: translateX(0px); }
 .hidden-page .weui-tabbar:before { content: none; }
@@ -72,3 +75,14 @@ button.weui-cell-btn:focus { outline: none; }
 .statistics__hd { width: 30px; height: 30px; line-height: 30px; margin: 0 auto; text-align: center; border-radius: 30px; }
 .statistics__desc { font-size: 10px; color: #999; line-height: 1.5rem; }
 .statistics__bd { font-size: 17px; }
+/* bizpreview */
+.bizpreview__title { margin-top: 1em; margin-bottom: .7em; padding-left: 15px; padding-right: 15px; color: #2f7dcd; font-size: 17px; }
+.bizpreview { margin: 10px 15px; font-size: 13px; background: #fff; text-align: center; }
+.bizpreview__cost { position: relative; background-color: #2f7dcd; width: 28%; color: #fff; }
+.bizpreview__cost__hd { position: absolute; top: 20px; left: 10px; }
+.bizpreview__cost__bd { position: absolute; top: 50%; left: 0; right: 0; transform: translateY(-60%); }
+.bizpreview__cell { font-size: 12px; padding: 20px 10px; }
+.bizpreview, .bizpreview__cost, .bizpreview__cell { border: solid #2f7dcd; }
+.bizpreview { border-width: 1px 0 0 1px; }
+.bizpreview__cost, .bizpreview__cell { border-width: 0 1px 1px 0; }
+.bizpreview__desc { margin: 15px; font-size: 12px; color: #999; }

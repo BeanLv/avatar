@@ -9,6 +9,7 @@ from config import config
 from blueprints.pages import pages
 from blueprints.rests import rests
 from blueprints.qrcodes import qrcodes
+from blueprints.public import publicpage
 
 from blueprints.operations import operations
 
@@ -32,6 +33,7 @@ app.register_blueprint(pages)
 app.register_blueprint(rests)
 app.register_blueprint(operations)
 app.register_blueprint(qrcodes)
+app.register_blueprint(publicpage)
 
 # 注册 setupjob
 for job in setupjobs.setupjobs:
