@@ -19,7 +19,7 @@ def getbiz(bizid):
         if not biz:
             return '套餐不存在', 404
 
-        biz['properties'] = BizPropertyDAO.all('seq', biz=bizid)
+        biz['properties'] = BizPropertyDAO.all('id', biz=bizid)
         return ujson.dumps(biz)
 
     except Exception as e:
@@ -34,8 +34,8 @@ def createbiz(name: str = None, operator: int = None, remark: str = None, proper
     try:
         with transaction():
             bizid = BizDAO.insert({'operator': operator, 'name': name, 'remark': remark})
-            property_columns = ['biz', 'name', 'value', 'seq']
-            property_rows = [[bizid, p['name'], p['value'], p['seq']] for p in properties]
+            property_columns = ['biz', 'name', 'value']
+            property_rows = [[bizid, p['name'], p['value']] for p in properties]
             BizPropertyDAO.batch_insert(property_columns, property_rows)
             return str(bizid), 201
 
@@ -54,9 +54,9 @@ def updatebiz(bizid, name: str = None, operator: int = None, remark: str = None,
     try:
         with transaction():
             BizDAO.update({'name': name, 'operator': operator, 'remark': remark}, id=bizid)
-            property_columns = ['biz', 'name', 'value', 'seq']
-            property_rows = [[bizid, p['name'], p['value'], p['seq']] for p in properties]
-            duplicates = ['value', 'seq']
+            property_columns = ['biz', 'name', 'value']
+            property_rows = [[bizid, p['name'], p['value']] for p in properties]
+            duplicates = ['value']
             BizPropertyDAO.batch_insert_or_update(property_columns, property_rows, duplicates)
             return '', 204
 

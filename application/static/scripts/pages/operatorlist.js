@@ -63,8 +63,8 @@ new Vue({
         }
     },
     filters: {
-        operatorbizsurl: function (operatorid) {
-            return `/pages/operatorbizs?operatorid=${operatorid}`;
+        bizlisturl: function (operatorid) {
+            return `/pages/bizlist?operatorid=${operatorid}`;
         },
         disableupdateoperator: function (o) {
             return !o.newname || (o.name === o.newname) || !/^\S{1,10}$/.test(o.newname);

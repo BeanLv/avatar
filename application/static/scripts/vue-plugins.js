@@ -696,7 +696,7 @@ const mixins = {
     })(),
     biz: (function () {
         const namereg = /^\S{1,10}$/;
-        const propreg = /^\S{1,10}$/;
+        const propreg = /^[\S\n]{1,20}$/;
         return {
             filters: {
                 namecss: function (name) {
@@ -709,12 +709,12 @@ const mixins = {
             methods: {
                 getdefaultproperties: function () {
                     return [
-                        {name: '属性一', value: '', seq: 1},
-                        {name: '属性二', value: '', seq: 2},
-                        {name: '属性三', value: '', seq: 3},
-                        {name: '属性四', value: '', seq: 4},
-                        {name: '属性五', value: '', seq: 5},
-                        {name: '属性六', value: '', seq: 6}
+                        {name: 'cost', value: ''},
+                        {name: 'i1', value: ''},
+                        {name: 'i2', value: ''},
+                        {name: 'i3', value: ''},
+                        {name: 'i4', value: ''},
+                        {name: 'i5', value: ''}
                     ];
                 },
                 isinvalidname: function (name) {

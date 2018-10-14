@@ -18,8 +18,8 @@ new Vue({
         }
     },
     filters: {
-        bizdetailurl: function (biz) {
-            return `/pages/biz?bizid=${biz['id']}`;
+        updatebizurl: function (biz) {
+            return `/pages/bizupdate?bizid=${biz['id']}`;
         },
         disableupdatebiz: function (biz) {
             return !biz.newname || (biz.name === biz.newname) || !/^\S{1,10}$/.test(biz.newname);
@@ -27,7 +27,7 @@ new Vue({
     },
     computed: {
         createbizurl: function () {
-            return `/pages/createbiz?operatorid=${this.operatorid}`;
+            return `/pages/bizcreate?operatorid=${this.operatorid}`;
         }
     },
     created: function () {
