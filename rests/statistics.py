@@ -10,6 +10,7 @@ from dao.order import OrderDAO
 from dao.pageview import PageViewDAO
 from models.model_binder import RequestParameterBinder
 
+from models import OrderStatus
 from models.date_period import (TodayPeriod,
                                 ThisWeekPeriod,
                                 ThisMonthPeriod,
@@ -61,6 +62,11 @@ def get_order_statistic(handler: str = None, source: int = None):
                                             startdate=p.startdate.strftime('%Y-%m-%d'),
                                             enddate=p.enddate.strftime('%Y-%m-%d'))
                      for p in periods}
+
+        for status in [OrderStatus.WAITING, OrderStatus.WORKING, OrderStatus.DONE]:
+            statistic[status.name.lower()] = OrderDAO.count(handler=handler,
+                                                            source=source,
+                                                            status=status.value)
 
         return ujson.dumps(statistic)
 

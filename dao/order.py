@@ -13,7 +13,7 @@ class OrderDAO(BaseDAO):
     def count(cls, **kwargs):
         filters, arguments = [], []
 
-        for p in ['handler', 'source']:
+        for p in ['handler', 'source', 'status']:
             v = kwargs.get(p)
             if v:
                 filters.append('{}=%s'.format(p))

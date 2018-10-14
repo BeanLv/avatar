@@ -10,6 +10,9 @@ new Vue({
         thisseason: 0,
         halfyear: 0,
         thisyear: 0,
+        waiting: 0,
+        working: 0,
+        done: 0,
         filter: {source: null, handler: null},
         query: {surce: null, handler: null},
         launched: false
@@ -27,6 +30,9 @@ new Vue({
                     this.thisseason = res.data['thisseason'];
                     this.halfyear = res.data['halfyear'];
                     this.thisyear = res.data['thisyear'];
+                    this.waiting = res.data['waiting'];
+                    this.working = res.data['working'];
+                    this.done = res.data['done'];
                     resolve();
                 });
             });

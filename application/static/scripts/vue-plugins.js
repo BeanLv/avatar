@@ -696,7 +696,6 @@ const mixins = {
     })(),
     biz: (function () {
         const namereg = /^\S{1,10}$/;
-        const propreg = /^[\S\n]{1,20}$/;
         return {
             filters: {
                 namecss: function (name) {
@@ -721,7 +720,7 @@ const mixins = {
                     return !name || !namereg.test(name);
                 },
                 isinvalidprop: function (prop) {
-                    return !prop || !propreg.test(prop);
+                    return !prop || prop.length > 20;
                 }
             }
         };

@@ -75,6 +75,7 @@ button.weui-cell-btn:focus { outline: none; }
 .statistics__hd { width: 30px; height: 30px; line-height: 30px; margin: 0 auto; text-align: center; border-radius: 30px; }
 .statistics__desc { font-size: 10px; color: #999; line-height: 1.5rem; }
 .statistics__bd { font-size: 17px; }
+.statistics .iconfont { font-size: 32px; }
 /* bizpreview */
 .bizpreview__title { margin-top: 1em; margin-bottom: .7em; padding-left: 15px; padding-right: 15px; color: #2f7dcd; font-size: 17px; }
 .bizpreview { margin: 10px 15px; font-size: 13px; background: #fff; text-align: center; }
