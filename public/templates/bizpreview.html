@@ -7,7 +7,7 @@
 {% block body %}
     <div class="bizpreview__title weui-flex">
         <div class="bizpreview__title__bd weui-flex__item">{$ biz['operatorname'] $}:&nbsp;{$ biz['name'] $}</div>
-        <div class="bizpreview__title__ft">{$ biz.get('remark', '') $}</div>
+        <div class="bizpreview__title__ft">{$ biz.get('remark') or '' $}</div>
     </div>
     <div class="bizpreview weui-flex">
         <div class="weui-flex__item">
@@ -29,5 +29,5 @@
             </div>
         </div>
     </div>
-    <div class="bizpreview__desc">详情拨打片区负责人电话: <a href="tel:{$ m $}">{$ m $} {$ n $}经理</a></div>
+    <div class="bizpreview__desc">详情拨打电话: <a href="tel:{$ m $}">{$ m $} {$ n $}经理</a></div>
 {% endblock %}
