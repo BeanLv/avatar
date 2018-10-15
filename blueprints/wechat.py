@@ -25,9 +25,9 @@ def login():
         userid = wechatusers.get_userid_from_code(code)
 
         if not userid:
-            return flask.redirect('/public/pages/unauthorized')
+            return flask.render_template('unauthorized.html')
 
-        authservice.set_userid(userid=userid, expires_in=30 * 24 * 60 * 60)
+        authservice.set_userid(userid=userid)
 
         return flask.redirect(flask.request.args.get('source'))
 

@@ -6,7 +6,6 @@ import flask
 
 from config import config
 
-import public
 from blueprints.pages import pages
 from blueprints.rests import rests
 from blueprints.wechat import blueprint as wechatblueprint
@@ -39,6 +38,19 @@ app.register_blueprint(publicpages)
 app.register_blueprint(publicrests)
 app.register_blueprint(publicstatic)
 app.register_blueprint(wechatblueprint)
+
+
+# 蓝图不支持 404，只能在 app 上处理
+@app.errorhandler(404)
+def not_found(*args):
+    return flask.render_template('404.html'), 404
+
+
+# 蓝图支持 500，但还是在 app 上统一处理
+@app.errorhandler(500)
+def internal_error(*args):
+    return flask.render_template('500.html'), 500
+
 
 # 注册 setupjob
 for job in setupjobs.setupjobs:

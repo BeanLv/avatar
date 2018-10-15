@@ -8,7 +8,7 @@ from clients import redis
 from constant import CacheKey
 
 
-def set_userid(userid: str, expires_in: int):
+def set_userid(userid: str, expires_in: int = 30 * 24 * 60 * 60):
     """ 设置登录用户的ID """
     flask.session['userid'] = userid
     redis.client().setex(CacheKey.userid(userid=userid), userid, expires_in)
