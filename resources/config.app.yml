@@ -1,6 +1,7 @@
 ENV: development
 DEBUG: True
 SECRET_KEY: lzkdbz
+SEND_FILE_MAX_AGE_DEFAULT: 10
 
 server:
   protocal: http
