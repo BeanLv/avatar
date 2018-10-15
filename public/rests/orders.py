@@ -50,7 +50,6 @@ def createorder(**kwargs):
             urltemplate = '{protocal}://{domain}:{port}/pages/order?orderid={orderid}'
             url = urltemplate.format(protocal=serverconfig['protocal'],
                                      domain=serverconfig['domain'],
-                                     port=serverconfig['port'],
                                      orderid=orderid)
 
             msgtemplate = "<div class='gray'>{time}</div><br><br>" \
