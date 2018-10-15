@@ -89,7 +89,7 @@ button.weui-cell-btn:focus { outline: none; }
 .bizpreview__cost { position: relative; background-color: #2f7dcd; width: 28%; color: #fff; }
 .bizpreview__cost__hd { position: absolute; top: 20px; left: 10px; }
 .bizpreview__cost__bd { position: absolute; top: 50%; left: 0; right: 0; transform: translateY(-60%); }
-.bizpreview__cell { font-size: 12px; padding: 20px 10px; }
+.bizpreview__cell { font-size: 12px; padding: 20px 10px; display: flex; align-items: center; justify-content: center; -webkit-box-flex: 1; -webkit-flex: 1; flex: 1; }
 .bizpreview, .bizpreview__cost, .bizpreview__cell { border: solid #2f7dcd; }
 .bizpreview { border-width: 1px 0 0 1px; }
 .bizpreview__cost, .bizpreview__cell { border-width: 0 1px 1px 0; }
