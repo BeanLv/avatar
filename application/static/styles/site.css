@@ -39,7 +39,7 @@ button:disabled, input[type=button]:disabled { background-color: #c8c7cd; color:
 .portrait .weui-msg__title { font-size: 22px; color: #33373d; }
 .portrait .weui-msg__text-area__separate { width: 50px; margin: 15px 0; display: inline-block; border-top: 1px solid #ccc; }
 .portrait .weui-msg__desc { font-size: 16px; }
-.portrait img { width: 185px; height: 185px; margin-bottom: 25px; vertical-align: top; }
+.portrait img { width: 185px; margin-bottom: 25px; vertical-align: top; }
 /* weui */
 .weui-search-bar__entry { -webkit-box-flex: 1; -webkit-flex: 1; flex: 1; border-radius: 3px; text-align: center; color: #9b9b9b; background: #fff }
 .weui-search-bar__entry .weui-icon-search { margin-right: 5px; }

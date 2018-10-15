@@ -11,7 +11,7 @@ runwith:
   host: 0.0.0.0
   port: 5000
 
-deployversion: iep4goNe
+deployversion: Shekie3a
 
 corp:
   name: '柳州宽带报装服务中心'
@@ -54,7 +54,7 @@ minprogram:
   tokenurl: https://api.weixin.qq.com/cgi-bin/token
   homepage: pages/index/index
   qrcode:
-    createurl: https://api.weixin.qq.com/wxa/getwxacodeunlimit
+    createurl: https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode
 
 public:
   staticfolderurl: /public/static

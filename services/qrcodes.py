@@ -19,3 +19,11 @@ def generate_qrcode(qrcodeid: int, imagename: str):
     imagepath = get_qrcode_storage_path(imagename)
     with open(imagepath, 'wb') as f:
         f.write(binaries)
+
+
+if __name__ == '__main__':
+    import sys
+
+    qrcodeid = int(sys.argv[1])
+    imagename = '%s.jpg' % qrcodeid
+    generate_qrcode(qrcodeid=int(sys.argv[1]), imagename=imagename)

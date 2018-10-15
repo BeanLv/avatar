@@ -15,8 +15,10 @@ def generate_qrcode(qrcodeid: int):
     createurl = '{endpoint}?access_token={token}'.format(endpoint=qrcode_config['createurl'],
                                                          token=wechat.get_minprogram_token())
 
-    resp = requests.post(createurl, json={'scene': str(qrcodeid),
-                                          'is_hyaline': True})
+    path = '{home}?source={source}'.format(home=minprogram_config['homepage'],
+                                           source=qrcodeid)
+
+    resp = requests.post(createurl, json={'path': path})
 
     if resp.status_code != 200:
         raise RuntimeException('发送请求生产二维码返回!200',
