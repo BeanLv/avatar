@@ -47,7 +47,7 @@ def createorder(**kwargs):
             # 构造消息
             serverconfig = config['server']
 
-            urltemplate = '{protocal}://{domain}:{port}/pages/order?orderid={orderid}'
+            urltemplate = '{protocal}://{domain}/pages/order?orderid={orderid}'
             url = urltemplate.format(protocal=serverconfig['protocal'],
                                      domain=serverconfig['domain'],
                                      orderid=orderid)
