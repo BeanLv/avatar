@@ -21,7 +21,6 @@ def qrcode_preview(qrcodeid):
             return flask.render_template('404.html', message='二维码不存在'), 404
 
         return flask.render_template('qrcodepreview.html',
-                                     name=qrcode['name'],
                                      imagepath=qrcodeservice.get_qrcode_url_path(qrcode['imagename']))
 
     except Exception:
