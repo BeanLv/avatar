@@ -3,7 +3,7 @@
 
 import datetime
 
-from public import rests
+from blueprints.public.rests import rests
 from models.model_binder import RequestParameterBinder
 from exceptions import RuntimeException
 from dao.pageview import PageViewDAO

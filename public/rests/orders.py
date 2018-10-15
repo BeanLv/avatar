@@ -5,8 +5,8 @@ import datetime
 import requests
 
 import wechat
-from public import rests
 from config import config
+from blueprints.public.rests import rests
 from models import OrderStatus, OrderOperation
 from models.model_binder import OrderModelBinder
 from exceptions import RuntimeException

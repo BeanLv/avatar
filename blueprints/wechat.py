@@ -13,7 +13,8 @@ logger = logging.getLogger(__name__)
 
 wechat_config = config['wechat']
 
-blueprint = Blueprint(wechat_config['blueprintname'], __name__,
+blueprint = Blueprint(name=wechat_config['blueprintname'],
+                      import_name=__name__,
                       url_prefix='/' + wechat_config['blueprintname'])
 
 

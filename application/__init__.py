@@ -10,6 +10,9 @@ import public
 from blueprints.pages import pages
 from blueprints.rests import rests
 from blueprints.wechat import blueprint as wechatblueprint
+from blueprints.public.pages import pages as publicpages
+from blueprints.public.rests import rests as publicrests
+from blueprints.public.static import static as publicstatic
 
 from blueprints.operations import operations
 
@@ -32,9 +35,9 @@ app.jinja_options = jinja_options
 app.register_blueprint(operations)
 app.register_blueprint(pages)
 app.register_blueprint(rests)
-app.register_blueprint(public.pages)
-app.register_blueprint(public.rests)
-app.register_blueprint(public.static)
+app.register_blueprint(publicpages)
+app.register_blueprint(publicrests)
+app.register_blueprint(publicstatic)
 app.register_blueprint(wechatblueprint)
 
 # 注册 setupjob

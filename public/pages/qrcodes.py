@@ -4,9 +4,10 @@ import logging
 
 import flask
 
-from public import pages
 from dao.qrcode import QrCodeDAO
 from services import qrcodes as qrcodeservice
+
+from blueprints.public.pages import pages
 
 logger = logging.getLogger(__name__)
 
