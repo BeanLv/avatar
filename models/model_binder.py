@@ -66,7 +66,7 @@ class SearchOrderModelBinder:
             status = OrderStatus(status) if OrderStatus.WAITING.value <= status <= OrderStatus.CLOSED.value else None
 
             handler = request.args.get('handler')
-            handler = handler if handler and isinstance(handler,str) else None
+            handler = handler if handler and isinstance(handler, str) else None
 
             source = request.args.get('source', '')
             source = int(source) if source.isdigit() else None
@@ -96,6 +96,7 @@ class OrderModelBinder:
     _properties = {
         'biz': {'type': int},
         'bizname': {'type': str},
+        'operatorname': {'type': str},
         'realname': {'type': str, 'exp': re.compile(r"^.{1,10}$"), 'msg': '请输入真实姓名'},
         'nickname': {'type': str},
         'headimgurl': {'type': str},

@@ -32,10 +32,9 @@ def get_login_url(source: str = None):
     server_config = config['server']
     wechat_config = config['wechat']
 
-    redirect_uri_fmt = '{protocal}://{domain}:{port}/{wechatblueprint}{route}?source={source}'
+    redirect_uri_fmt = '{protocal}://{domain}/{wechatblueprint}{route}?source={source}'
     redirect_uri = redirect_uri_fmt.format(protocal=server_config['protocal'],
                                            domain=server_config['domain'],
-                                           port=server_config['port'],
                                            wechatblueprint=wechat_config['blueprintname'],
                                            route=wechat_config['loginredirect'],
                                            source=source)

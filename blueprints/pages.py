@@ -34,7 +34,6 @@ def before_render_page():
             loginurl = authservice.get_login_url(source)
             return flask.redirect(loginurl)
 
-        return None
     except Exception:
         logger.exception('访问页面前，检查用户登录异常. %s', flask.request.url)
         return flask.render_template('500.html'), 500

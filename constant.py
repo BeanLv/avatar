@@ -3,6 +3,7 @@
 class CacheKey:
     APPTOKENFMT = 'APPTOKEN_{APP}'
     USERIDFMT = 'USER_{USERID}'
+    TAGEDUSERSFMT = 'TAGEDUSERS_{TAGNAME}'
 
     @classmethod
     def apptoken(cls, appname):
@@ -12,5 +13,10 @@ class CacheKey:
     def userid(cls, userid: str):
         return cls.USERIDFMT.format(USERID=userid)
 
+    @classmethod
+    def tagedusers(cls, tagname:str):
+        return cls.TAGEDUSERSFMT.format(TAGNAME=tagname)
+
+    setupjobs = 'SETUPJOBS'
     userdetails = 'USERDETAILS'
-    admin = 'ADMIN'
+    leaderids = 'LEADERIDS'

@@ -4,8 +4,7 @@ SECRET_KEY: lzkdbz
 
 server:
   protocal: http
-  domain: www.lzkdbz.com
-  port: 5000
+  domain: www.lzkdbz.com:5000
   apikey: ''
 
 runwith:
@@ -21,6 +20,7 @@ corp:
   inviteurl: https://work.weixin.qq.com/join_form/AMtldH4SxKalVAYbKpS6kA/hb_share_mng_mjoin
   workbench: https://p.qpic.cn/pic_wework/4281450869/9e9824923ad5f42b7bb38ab638868939391d0f20b8a43483/0
 
+
 wechat:
   corpid: ww165e7ece64ebbd81
   tokenurl: https://qyapi.weixin.qq.com/cgi-bin/gettoken
@@ -28,6 +28,7 @@ wechat:
   userdetail: https://qyapi.weixin.qq.com/cgi-bin/user/get
   notifyurl: https://qyapi.weixin.qq.com/cgi-bin/message/send
   loginurl: https://open.weixin.qq.com/connect/oauth2/authorize
+  tagurl: https://qyapi.weixin.qq.com/cgi-bin/tag/get
   blueprintname: wechat
   loginredirect: /login
 

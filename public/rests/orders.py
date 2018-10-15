@@ -7,13 +7,15 @@ import requests
 import wechat
 from config import config
 from blueprints.public.rests import rests
-from models import OrderStatus, OrderOperation
+from models import OrderStatus, OrderOperation, UserTag
 from models.model_binder import OrderModelBinder
 from exceptions import RuntimeException
 from utils import datatime_utils
 from dao import transaction
 from dao.order import OrderDAO
 from dao.order_record import OrderRecordDAO
+from dao.qrcode import QrCodeDAO
+from services import users as userservice
 
 
 @rests.route('/orders', methods=['POST'])
@@ -51,22 +53,32 @@ def createorder(**kwargs):
                                      port=serverconfig['port'],
                                      orderid=orderid)
 
-            msgtemplate = "<div class='gray'>{time}</div><br>" \
-                          "<div class='normal'>{bizname}</div><br>" \
+            msgtemplate = "<div class='gray'>{time}</div><br><br>" \
+                          "<div class='normal'>{operatorname} {bizname}</div><br>" \
                           "<div class='highlight'>{realname} {mobile} {address}</div>"
             msg = msgtemplate.format(realname=kwargs.get('realname'),
                                      mobile=kwargs.get('mobile'),
                                      address=kwargs.get('address'),
+                                     operatorname=kwargs.get('operatorname'),
                                      bizname=kwargs.get('bizname'),
                                      time=datatime_utils.localtime(datetime.datetime.utcnow()).strftime(
                                          '%Y年%m月%d日 %H:%M:%S'))
+
+            # 获取发送通知的对象
+            notifyusersids = set(userservice.get_taged_usersids(tagname=UserTag.ORDERNOTIFY.name))
+            if 'source' in kwargs:
+                qrcode = QrCodeDAO.first_or_default(id=kwargs.get('source'))
+                if qrcode:
+                    notifyusersids.add(qrcode['owner'])
+
+            tousers = '|'.join(notifyusersids)
 
             # 发送通知
             token = wechat.get_app_token('order')
 
             resp = requests.post(config['wechat']['notifyurl'],
                                  params={'access_token': token},
-                                 json={'touser': '@all',
+                                 json={'touser': tousers,
                                        'msgtype': 'textcard',
                                        'agentid': config['apps']['order']['agentid'],
                                        'textcard': {

@@ -16,3 +16,7 @@ class OrderOperation(Enum):
     FINISH = 4
     CANCEL = 5
     CLOSE = 6
+
+
+class UserTag(Enum):
+    ORDERNOTIFY = 1

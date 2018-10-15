@@ -33,3 +33,12 @@ def set_users_details(usersdetails):
 
 def set_user_detail(userdetail):
     redis.client().hset(CacheKey.userdetails, userdetail['id'], ujson.dumps(userdetail))
+
+
+def set_taged_usersids(tagname: str, userids: list):
+    redis.client().sadd(CacheKey.tagedusers(tagname=tagname), *userids)
+
+
+def get_taged_usersids(tagname: str):
+    cachevals = redis.client().smembers(CacheKey.tagedusers(tagname=tagname))
+    return [v.decode('UTF-8') for v in cachevals] if cachevals else []

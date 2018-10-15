@@ -1,7 +1,6 @@
 server:
   protocal: https
   domain: www.lzkdbz.com
-  port: 443
   apikey: oothooXeeY8nohmaht7rei8on1awoth9
 
 runwith:
