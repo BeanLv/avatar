@@ -1,10 +1,14 @@
 {% extends '_static_.html' %}
 {% set title = '套餐详情' %}
 {% set bodycss = 'bg-page_secondary' %}
-{% set remark = ('折: ' + biz['remark']) if biz['remark'] else '' %}
 {% set p = biz['properties'] %}
+{% set n = config['corp']['manager']['name'][0] %}
+{% set m = config['corp']['manager']['mobile'] %}
 {% block body %}
-    <div class="bizpreview__title">{$ biz['operatorname'] $}:&nbsp;&nbsp;{$ biz['name'] $}</div>
+    <div class="bizpreview__title weui-flex">
+        <div class="bizpreview__title__bd weui-flex__item">{$ biz['operatorname'] $}:&nbsp;{$ biz['name'] $}</div>
+        <div class="bizpreview__title__ft">{$ biz.get('remark', '') $}</div>
+    </div>
     <div class="bizpreview weui-flex">
         <div class="weui-flex__item">
             <div class="weui-flex__item weui-flex">
@@ -25,5 +29,5 @@
             </div>
         </div>
     </div>
-    <div class="bizpreview__desc">{$ remark $}</div>
+    <div class="bizpreview__desc">详情拨打片区负责人电话: <a href="tel:{$ m $}">{$ m $} {$ n $}经理</a></div>
 {% endblock %}
