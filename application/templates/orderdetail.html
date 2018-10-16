@@ -67,23 +67,21 @@
             </div>
         </div>
         <div class="weui-msg__opr-area">
-            <p class="weui-btn-area">
-                <a href="javascript:void(0);"
-                   class="weui-btn bg-info"
-                   v-if="status==1"
-                   v-on:click="operate('dealwith')">接单</a>
-                <a href="javascript:void(0);"
-                   class="weui-btn bg-info"
-                   v-if="status==2"
-                   v-on:click="operate('finish')">已完成</a>
-                <a href="javascript:void(0);"
-                   class="weui-btn bg-info"
-                   v-if="status==1 || status==2"
-                   v-on:click="operate('close')">关闭订单</a>
-            </p>
+            <div class="weui-btn-area">
+                <div class="weui-btn bg-info">
+                    <span>操作</span>
+                    <actionsheet name="status" v-on:chooseaction="operateorder" class="fc-default">
+                        <actionsheet-item name="派发订单" action="number:1"></actionsheet-item>
+                        <actionsheet-item name="接单" action="number:2"></actionsheet-item>
+                        <actionsheet-item name="已完成" action="number:3"></actionsheet-item>
+                        <actionsheet-item name="已关闭" action="number:5"></actionsheet-item>
+                    </actionsheet>
+                </div>
+                <a href="javascript:window.history.back();" class="weui-btn bg-default fc-default">返回</a>
+            </div>
         </div>
     </div>
 {% endblock %}
 {% block scripts %}
-    <script src="/static/scripts/pages/order.js?v={$ version $}"></script>
+    <script src="/static/scripts/pages/orderdetail.js?v={$ version $}"></script>
 {% endblock %}

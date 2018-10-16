@@ -688,8 +688,8 @@ const mixins = {
                 operationcss: function (operation) {
                     return operationcsses[operation]
                 },
-                orderurl: function (orderid) {
-                    return `/pages/order?orderid=${orderid}`;
+                orderdetailurl: function (orderid) {
+                    return `/pages/orderdetail?orderid=${orderid}`;
                 }
             }
         }

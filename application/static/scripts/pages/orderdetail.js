@@ -1,3 +1,6 @@
+Vue.use(actionsheet);
+Vue.use(addressbook);
+Vue.use(hiddenpage);
 new Vue({
     el: '#app',
     mixins: [mixins.strtime, mixins.order],
@@ -29,6 +32,8 @@ new Vue({
                         this.$prompt.show('错误', '订单状态异常，请刷新页面', true);
                     }
                 });
+        },
+        operateorder: function (name, operation) {
         }
     },
     created: function () {
