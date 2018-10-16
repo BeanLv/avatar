@@ -27,7 +27,7 @@ def login():
         if not userid:
             return flask.render_template('unauthorized.html')
 
-        authservice.set_userid(userid=userid)
+        authservice.set_authed_userid(userid=userid)
 
         return flask.redirect(flask.request.args.get('source'))
 

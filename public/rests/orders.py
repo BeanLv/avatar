@@ -69,7 +69,7 @@ def createorder(**kwargs):
                                          '%Y年%m月%d日 %H:%M:%S'))
 
             # 获取发送通知的对象
-            notifyusersids = set(userservice.get_taged_usersids(tagname=UserTag.ORDERNOTIFY.name))
+            notifyusersids = set(userservice.get_taged_usersids(tagname=UserTag.ORDERMANAGER.name))
             if 'source' in kwargs:
                 qrcode = QrCodeDAO.first_or_default(id=kwargs.get('source'))
                 if qrcode:

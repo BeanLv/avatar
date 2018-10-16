@@ -19,4 +19,4 @@ class OrderOperation(Enum):
 
 
 class UserTag(Enum):
-    ORDERNOTIFY = 1
+    ORDERMANAGER = 1

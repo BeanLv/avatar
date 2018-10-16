@@ -8,14 +8,14 @@ from clients import redis
 from constant import CacheKey
 
 
-def set_userid(userid: str, expires_in: int = 30 * 24 * 60 * 60):
-    """ 设置登录用户的ID """
+def set_authed_userid(userid: str, expires_in: int = 30 * 24 * 60 * 60):
+    """ 设置通过登录验证的用户的 ID """
     flask.session['userid'] = userid
     redis.client().setex(CacheKey.userid(userid=userid), userid, expires_in)
 
 
-def get_userid() -> str:
-    """ 获取登录用户的 ID """
+def get_authed_userid() -> str:
+    """ 获取通过登录验证的用户的 ID """
     userid = flask.session.get('userid')
 
     # 检查 redis 中是否缓存 userid，如果没有，即使session中有也算是登录过期
@@ -27,8 +27,8 @@ def get_userid() -> str:
     return userid
 
 
-def get_login_url(source: str = None):
-    """获取跳转登录授权页面的url，采用企业微信登录，跳转链接中添加 source 来源，说明由哪个页面进入登录的，以便在登录成功后跳转回去"""
+def get_auth_login_url(source: str = None):
+    """获取登录授权页面的 url，采用企业微信登录，跳转链接中添加 source 来源，说明由哪个页面进入登录的，在登录成功后跳转回去"""
     server_config = config['server']
     wechat_config = config['wechat']
 
