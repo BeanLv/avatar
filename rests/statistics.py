@@ -50,6 +50,7 @@ def get_pageview_statistic(source: int = None):
 def get_order_statistic(handler: str = None, source: int = None):
     try:
         today = datetime.datetime.utcnow().date()
+
         periods = [TodayPeriod(today=today),
                    ThisWeekPeriod(today=today),
                    ThisMonthPeriod(today=today),
@@ -59,8 +60,8 @@ def get_order_statistic(handler: str = None, source: int = None):
 
         statistic = {p.name: OrderDAO.count(handler=handler,
                                             source=source,
-                                            startdate=p.startdate.strftime('%Y-%m-%d'),
-                                            enddate=p.enddate.strftime('%Y-%m-%d'))
+                                            starttime=p.startdate.strftime('%Y-%m-%d 00:00:00'),
+                                            endtime=p.enddate.strftime('%Y-%m-%d 23:59:59'))
                      for p in periods}
 
         for status in [OrderStatus.WAITING, OrderStatus.WORKING, OrderStatus.DONE]:
