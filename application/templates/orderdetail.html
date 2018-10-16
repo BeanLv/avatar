@@ -35,7 +35,7 @@
         <div class="weui-cells">
             <div class="weui-cell">
                 <div class="weui-cell__bd">套餐</div>
-                <div class="weui-cell__ft">{{ opname }} {{ bizname }}</div>
+                <div class="weui-cell__ft">{{ operatorname }} {{ bizname }}</div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__bd">安装时间</div>
@@ -49,11 +49,11 @@
         <div class="weui-cells">
             <div class="weui-cell">
                 <div class="weui-cell__bd">二维码来源</div>
-                <div class="weui-cell__ft">{{ source | username }}</div>
+                <div class="weui-cell__ft">{{ sourcename | name }}</div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__bd">负责人</div>
-                <div class="weui-cell__ft">{{ handler | username }}</div>
+                <div class="weui-cell__ft">{{ handlername | name }}</div>
             </div>
         </div>
         <div class="weui-msg__opr-area">

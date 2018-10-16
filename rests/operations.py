@@ -45,19 +45,23 @@ def _dispatchorder(order, **kwargs):
     if order['status'] != OrderStatus.WAITING.value:
         return '订单状态不能指派', 412
 
+    user = kwargs.get('user')
+    handler = kwargs.get('handler')
+
     # 更新状态
-    OrderDAO.update({'status': OrderStatus.WORKING.value}, id=order['id'])
+    OrderDAO.update({'status': OrderStatus.WORKING.value,
+                     'handler': kwargs.get('handler')['id']
+                     },
+                    id=order['id'])
 
     # 添加操作记录
-    username = kwargs.get('user')['name']
-    handlername = kwargs.get('handler')['name']
 
     OrderRecordDAO.insert({'orderid': order['id'],
-                           'operation': OrderOperation.DISPATCH,
-                           'opname': ujson.dumps([username, handlername])})
+                           'operation': OrderOperation.DISPATCH.value,
+                           'opname': ujson.dumps([user['name'], handler['name']])})
 
     # 发送通知
-    order_utils.send_order_notify_message(title='%s 给你分了一个订单' % username,
+    order_utils.send_order_notify_message(title='%s 给你分了一个订单' % user['name'],
                                           tousers=kwargs.get('handler')['id'],
                                           orderid=order['id'],
                                           realname=order['realname'],
@@ -66,7 +70,9 @@ def _dispatchorder(order, **kwargs):
                                           operatorname=order['operatorname'],
                                           bizname=order['bizname'])
 
-    return str(OrderStatus.WORKING), 201
+    ishandler = user['id'] == handler['id']
+
+    return ujson.dumps({'ishandler': ishandler}), 201
 
 
 def _dealwithorder(order, **kwargs):

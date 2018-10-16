@@ -12,14 +12,14 @@ new Vue({
         mobile: '',
         address: '',
         bizname: '',
-        opname: '',
+        operatorname: '',
         status: 0,
-        source: '',
         installtime: 0,
         ismanager: false,
-        isowner: false,
+        issource: false,
         ishandler: false,
-        handler: '',
+        sourcename: '',
+        handlername: '',
         launched: false
     },
     methods: {
@@ -49,35 +49,49 @@ new Vue({
         dispatchorder: function () {
             this.$refs['addressbook'].show().then(user => {
                 this.$confirm.show('提示', `你选择了 ${user.name}`).then(() => {
-                    const operation = {operation: 2, user: user.id};
-                    this.operateorder(operation);
+                    const operation = {operation: 2, handler: user.id};
+                    return this.operateorder(operation);
+                }).then(res => {
+                    this.handler = user.id;
+                    this.handlername = user.name;
+                    this.ishandler = res.data['ishandler'] || false;
+                    this.status = 2;
                 });
             });
         },
         dealwithorder: function () {
-            this.$confirm.show('提示', '确定接单么？').then(() => this.operateorder({operation: 3}));
+            this.$confirm.show('提示', '确定接单么？')
+                .then(() => this.operateorder({operation: 3}))
+                .then(() => {
+
+                });
         },
         finishorder: function () {
-            this.$confirm.show('提示', '确定完成么？').then(() => this.operateorder({operation: 4}));
+            this.$confirm.show('提示', '确定完成么？').then(() => this.operateorder({operation: 4}))
+                .then(() => null);
         },
         closeorder: function () {
-            this.$confirm.show('提示', '确定关闭么？').then(() => this.operateorder({operation: 6}));
+            this.$confirm.show('提示', '确定关闭么？').then(() => this.operateorder({operation: 6}))
+                .then(() => null);
         },
         operateorder: function (operation) {
-            this.$post(`/rests/orders/${this.id}/operations`, operation).then(res => {
-                if (res.status === 412) {
-                    this.$prompt('异常', '订单状态异常，请刷新页面', true);
-                } else {
-                    res.data['handler'] && (this.handler = res.data['handler']);
-                    this.status = res.data['status'];
-                    this.$prompt('成功', '操作成功');
-                }
+            return new Promise(resolve => {
+                this.$post(`/rests/orders/${this.id}/operations`, operation).then(res => {
+                    if (res.status === 412) {
+                        this.$prompt.show('异常', '订单状态异常，请刷新页面', true);
+                    } else {
+                        res.data['handler'] && (this.handler = res.data['handler']);
+                        this.status = res.data['status'];
+                        this.$prompt.show('成功', '操作成功');
+                        resolve(res);
+                    }
+                });
             });
         }
     },
     filters: {
-        username: function (username) {
-            return username || '无'
+        name: function (name) {
+            return name || '无'
         },
         mobilehref: function (mobile) {
             return 'tel:' + mobile;
@@ -88,13 +102,13 @@ new Vue({
             return this.status === 1 && this.ismanager;
         },
         candealwith: function () {
-            return this.status === 1 && (this.ismanager || this.isowner);
+            return this.status === 1 && (this.ismanager || this.issource);
         },
         canfinish: function () {
             return this.status === 2 && (this.ismanager || this.ishandler);
         },
         canclose: function () {
-            return this.ismanager || this.isowner || (this.status === 2 && this.ishandler);
+            return this.ismanager || this.issource || (this.status === 2 && this.ishandler);
         },
         hasoperations: function () {
             return this.status === 1 || this.status === 2;
@@ -112,13 +126,14 @@ new Vue({
             this.mobile = order.mobile;
             this.address = order.address;
             this.bizname = order.bizname;
-            this.opname = order.opname;
+            this.operatorname = order.operatorname;
             this.status = order.status;
-            this.source = order.source;
             this.installtime = order.installtime;
             this.ismanager = order.ismanager;
-            this.isowner = order.isowner;
+            this.issource = order.source;
             this.ishandler = order.ishandler;
+            this.sourcename = order.sourcename;
+            this.handlername = order.handlername;
             this.launched = true;
         });
     }

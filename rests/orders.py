@@ -66,7 +66,7 @@ def orderdetail(orderid: int):
                 order['issource'] = False
                 order['sourcename'] = None
             else:
-                order['isowner'] = qrcode['owner'] == userid
+                order['issource'] = qrcode['owner'] == userid
                 order['sourcename'] = qrcode['name']
 
         return ujson.dumps(order)

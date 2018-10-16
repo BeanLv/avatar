@@ -17,7 +17,7 @@ class OrderView:
                  "o.mobile " \
                  "FROM `order` o JOIN `biz` b ON o.biz=b.id " \
                  "{WHERE} " \
-                 "ORDER BY o.updated_at DESC, o.status ASC, o.id DESC " \
+                 "ORDER BY o.status ASC, o.updated_at DESC, o.id DESC " \
                  "LIMIT {LIMIT} OFFSET {OFFSET}"
 
     @classmethod
