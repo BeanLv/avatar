@@ -18,8 +18,8 @@ new Vue({
         }
     },
     filters: {
-        updatebizurl: function (biz) {
-            return `/pages/bizupdate?bizid=${biz['id']}`;
+        bizdetailurl: function (biz) {
+            return `/public/pages/bizs/${biz['id']}`;
         },
         disableupdatebiz: function (biz) {
             return !biz.newname || (biz.name === biz.newname) || !/^\S{1,10}$/.test(biz.newname);

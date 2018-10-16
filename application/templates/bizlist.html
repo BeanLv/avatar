@@ -5,7 +5,7 @@
         <div class="weui-cells__title">{{ operatorname }}</div>
         <div class="weui-cells">
             <swipe class="weui-cell weui-cell_access weui-cell_swipe" v-for="(b, i) in bizs" v-bind:key="b.id"
-                   v-bind:href="b | updatebizurl">
+                   v-bind:href="b | bizdetailurl">
                 <div class="weui-cell__bd weui-cell__swipetrigger">{{ b.name }}</div>
                 <div class="weui-cell__ft"></div>
                 <div class="weui-cell__swiper">
