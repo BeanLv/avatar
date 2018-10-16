@@ -59,19 +59,23 @@ def orderdetail(orderid: int):
         order['records'] = OrderRecordDAO.all('created_at', orderid=orderid)
 
         # 根据 source 和 userid 来判断当前用户可执行的操作，添加到返回 header 中
-        # 管理员可以派发订单也可以自己接单，二维码来源的订单可以由二维码的负责人接单
+        # 管理员可以派发订单也可以自己接单，二维码来源的订单可以由二维码的负责人接单,
+        # 订单负责人和管理员可以完成订单，管理员可以关闭订单
         userid = userservice.get_context_userid()
         ordermanagers = userservice.get_taged_usersids(tagname=UserTag.ORDERMANAGER.name)
         order['ismanager'] = userid in ordermanagers
+        order['ishandler'] = userid == order['handler']
 
         source = order.get('source')
         if source:
             qrcode = QrCodeDAO.first_or_default(id=source)
             if not qrcode:
                 logger.warning('订单的二维码来源不存在. order=%s, source=%s', orderid, source)
-                qrcode['isowner'] = False
+                order['isowner'] = False
+                order['source'] = None
             else:
-                qrcode['isowner'] = qrcode['owner'] == userid
+                order['isowner'] = qrcode['owner'] == userid
+                order['source'] = qrcode['name']
 
         return ujson.dumps(order)
 

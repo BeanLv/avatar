@@ -20,10 +20,10 @@
         </div>
         <div class="weui-cells">
             <div class="weui-cell">
-                <div class="weui-cell__bd">
-                    <p>手机号码</p>
+                <div class="weui-cell__bd">手机号码</div>
+                <div class="weui-cell__ft">
+                    <a class="fc-info" v-bind:href="mobile | mobilehref">{{ mobile }}</a>
                 </div>
-                <div class="weui-cell__ft">{{ mobile }}</div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__bd">
@@ -34,52 +34,43 @@
         </div>
         <div class="weui-cells">
             <div class="weui-cell">
-                <div class="weui-cell__bd">
-                    <p>套餐</p>
-                </div>
-                <div class="weui-cell__ft">{{ bizname }}</div>
+                <div class="weui-cell__bd">套餐</div>
+                <div class="weui-cell__ft">{{ opname }} {{ bizname }}</div>
             </div>
             <div class="weui-cell">
-                <div class="weui-cell__bd">
-                    <p>安装时间</p>
-                </div>
+                <div class="weui-cell__bd">安装时间</div>
                 <div class="weui-cell__ft">{{ installtime | strfdate }}</div>
             </div>
-            <div class="weui-cell weui-cell_access" v-on:click="showrecords=!showrecords;">
-                <div class="weui-cell__bd">
-                    <p>订单状态</p>
-                </div>
-                <div class="weui-cell__ft order-status" v-bind:class="showrecords?'toggle-up':'toggle-down'">
-                    <span v-bind:class="status | statuscss">{{ status | statusname }}</span>
-                </div>
+            <div class="weui-cell weui-cell_access">
+                <div class="weui-cell__bd">订单状态</div>
+                <div class="weui-cell__ft" v-bind:class="status | statuscss">{{ status | statusname }}</div>
             </div>
         </div>
-        <div class="order-records" v-bind:class="{hide : !showrecords}">
-            <div class="weui-cells__title">操作记录</div>
-            <div class="weui-cells">
-                <div class="weui-cell" v-for="record in records">
-                    <div class="weui-cell__bd">
-                        <span>{{ record.opname }}</span>
-                        <span v-bind:class="record.operation | operationcss"> {{ record.operation | operationname }} </span>
-                        <span>了订单</span></div>
-                    <div class="weui-cell__ft">{{ record.created_at | strftime }}</div>
-                </div>
+        <div class="weui-cells">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">二维码来源</div>
+                <div class="weui-cell__ft">{{ source | username }}</div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__bd">负责人</div>
+                <div class="weui-cell__ft">{{ handler | username }}</div>
             </div>
         </div>
         <div class="weui-msg__opr-area">
             <div class="weui-btn-area">
-                <div class="weui-btn bg-info">
+                <div class="weui-btn bg-info" v-if="hasoperations">
                     <span>操作</span>
-                    <actionsheet name="status" v-on:chooseaction="operateorder" class="fc-default">
-                        <actionsheet-item name="派发订单" action="number:1"></actionsheet-item>
-                        <actionsheet-item name="接单" action="number:2"></actionsheet-item>
-                        <actionsheet-item name="已完成" action="number:3"></actionsheet-item>
-                        <actionsheet-item name="已关闭" action="number:5"></actionsheet-item>
+                    <actionsheet name="status" v-on:chooseaction="chooseaction" class="fc-default">
+                        <actionsheet-item name="派发" action="dispatch" v-if="candispatch"></actionsheet-item>
+                        <actionsheet-item name="接单" action="dealwith" v-if="candealwith"></actionsheet-item>
+                        <actionsheet-item name="完成" action="finish" v-if="canfinish"></actionsheet-item>
+                        <actionsheet-item name="关闭" action="close" v-if="canclose"></actionsheet-item>
                     </actionsheet>
                 </div>
                 <a href="javascript:window.history.back();" class="weui-btn bg-default fc-default">返回</a>
             </div>
         </div>
+        <address-book ref="addressbook" title="选择负责人"></address-book>
     </div>
 {% endblock %}
 {% block scripts %}

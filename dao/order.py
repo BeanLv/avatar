@@ -6,7 +6,7 @@ from dao.base_dao import BaseDAO
 
 class OrderDAO(BaseDAO):
     columns = ['id', 'status', 'biz', 'realname', 'nickname', 'headimgurl', 'mobile',
-               'address', 'lon', 'lat', 'source', 'installtime']
+               'address', 'lon', 'lat', 'source', 'handler', 'installtime']
     table = "`order`"
 
     @classmethod
