@@ -53,7 +53,7 @@ minprogram:
   appid: wxc6e44203b5cf3eb3
   secret: 1f2c8578d3be08ca9bb06a09f2ff1c70
   tokenurl: https://api.weixin.qq.com/cgi-bin/token
-  homepage: pages/index/index
+  homepage: pages/start/index
   qrcode:
     createurl: https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode
 

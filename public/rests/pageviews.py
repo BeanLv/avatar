@@ -1,12 +1,14 @@
 # -*- coding: UTF-8 -*-
 
-
+import logging
 import datetime
 
 from blueprints.public.rests import rests
 from models.model_binder import RequestParameterBinder
 from exceptions import RuntimeException
 from dao.pageview import PageViewDAO
+
+logger = logging.getLogger(__name__)
 
 
 @rests.route('/pageviews', methods=['POST'])
@@ -16,6 +18,8 @@ def create_pageview_record(source: int = None):
         record = {'date': datetime.datetime.utcnow().date().strftime('%Y-%m-%d'),
                   'num': 1,
                   'source': source}
+
+        logger.debug('新增页面统计: %s', record)
 
         if not source:
             record.pop('source')

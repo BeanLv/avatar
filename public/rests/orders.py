@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 
+import logging
 import datetime
 
 import requests
@@ -16,6 +17,8 @@ from dao.order import OrderDAO
 from dao.order_record import OrderRecordDAO
 from dao.qrcode import QrCodeDAO
 from services import users as userservice
+
+logger = logging.getLogger(__name__)
 
 
 @rests.route('/orders', methods=['POST'])
@@ -96,6 +99,8 @@ def createorder(**kwargs):
                 raise RuntimeException('调用API发送通知返回错误',
                                        extra={'errcode': body.get('errcode'),
                                               'errmsg': body.get('errmsg')})
+
+            logger.debug('新增订单: %s', {**kwargs})
 
             return str(orderid), 201
 
