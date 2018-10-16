@@ -31,6 +31,8 @@ def createorder(**kwargs):
     try:
         with transaction():
             # 添加记录
+            logger.debug('新增订单: %s', {**kwargs})
+
             orderid = OrderDAO.insert({'biz': kwargs.get('biz'),
                                        'status': OrderStatus.WAITING.value,
                                        'realname': kwargs.get('realname'),
@@ -99,8 +101,6 @@ def createorder(**kwargs):
                 raise RuntimeException('调用API发送通知返回错误',
                                        extra={'errcode': body.get('errcode'),
                                               'errmsg': body.get('errmsg')})
-
-            logger.debug('新增订单: %s', {**kwargs})
 
             return str(orderid), 201
 
