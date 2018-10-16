@@ -53,13 +53,17 @@ def orderdetail(orderid: int):
         # 处理人
         order['ishandler'] = userid == order['handler']
 
+        if order['handler']:
+            handler = userservice.get_user_detail(order['handler'])
+            order['handlername'] = handler['name'] if handler else '未知用户'
+
         # 二维码来源
         source = order.get('source')
         if source:
             qrcode = QrCodeDAO.first_or_default(id=source)
             if not qrcode:
                 logger.warning('订单的二维码来源不存在. order=%s, source=%s', orderid, source)
-                order['isowner'] = False
+                order['issource'] = False
                 order['sourcename'] = None
             else:
                 order['isowner'] = qrcode['owner'] == userid
