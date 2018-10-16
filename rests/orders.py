@@ -69,7 +69,9 @@ def orderdetail(orderid: int):
             qrcode = QrCodeDAO.first_or_default(id=source)
             if not qrcode:
                 logger.warning('订单的二维码来源不存在. order=%s, source=%s', orderid, source)
-            order['isowner'] = (qrcode['owner'] == userid)
+                qrcode['isowner'] = False
+            else:
+                qrcode['isowner'] = qrcode['owner'] == userid
 
         return ujson.dumps(order)
 
