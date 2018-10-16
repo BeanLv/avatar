@@ -20,3 +20,7 @@ class CacheKey:
     setupjobs = 'SETUPJOBS'
     userdetails = 'USERDETAILS'
     leaderids = 'LEADERIDS'
+
+class WechatAPP:
+    BACKEND = 'backend'
+    ORDER = 'order'

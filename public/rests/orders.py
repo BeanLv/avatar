@@ -3,15 +3,11 @@
 import logging
 import datetime
 
-import requests
-
-import wechat
-from config import config
 from blueprints.public.rests import rests
 from models import OrderStatus, OrderOperation, UserTag
 from models.model_binder import OrderModelBinder
 from exceptions import RuntimeException
-from utils import datatime_utils
+from utils import datatime_utils, order_utils
 from dao import transaction
 from dao.order import OrderDAO
 from dao.order_record import OrderRecordDAO
@@ -49,25 +45,6 @@ def createorder(**kwargs):
                                    'operation': OrderOperation.CREATE.value,
                                    'opname': kwargs.get('realname')})
 
-            # 构造消息
-            serverconfig = config['server']
-
-            urltemplate = '{protocal}://{domain}/pages/order?orderid={orderid}'
-            url = urltemplate.format(protocal=serverconfig['protocal'],
-                                     domain=serverconfig['domain'],
-                                     orderid=orderid)
-
-            msgtemplate = "<div class='gray'>{time}</div><br><br>" \
-                          "<div class='normal'>{operatorname} {bizname}</div><br>" \
-                          "<div class='highlight'>{realname} {mobile} {address}</div>"
-            msg = msgtemplate.format(realname=kwargs.get('realname'),
-                                     mobile=kwargs.get('mobile'),
-                                     address=kwargs.get('address'),
-                                     operatorname=kwargs.get('operatorname'),
-                                     bizname=kwargs.get('bizname'),
-                                     time=datatime_utils.localtime(datetime.datetime.utcnow()).strftime(
-                                         '%Y年%m月%d日 %H:%M:%S'))
-
             # 获取发送通知的对象
             notifyusersids = set(userservice.get_taged_usersids(tagname=UserTag.ORDERMANAGER.name))
             if 'source' in kwargs:
@@ -78,29 +55,14 @@ def createorder(**kwargs):
             tousers = '|'.join(notifyusersids)
 
             # 发送通知
-            token = wechat.get_app_token('order')
-
-            resp = requests.post(config['wechat']['notifyurl'],
-                                 params={'access_token': token},
-                                 json={'touser': tousers,
-                                       'msgtype': 'textcard',
-                                       'agentid': config['apps']['order']['agentid'],
-                                       'textcard': {
-                                           'title': '新订单通知',
-                                           'description': msg,
-                                           'url': url,
-                                           'btntxt': '查看详情'
-                                       }})
-
-            if resp.status_code != 200:
-                raise RuntimeException('发送请求发送订单通知返回!200',
-                                       extra={'resp': resp.text})
-
-            body = resp.json()
-            if body.get('errcode', 0) != 0:
-                raise RuntimeException('调用API发送通知返回错误',
-                                       extra={'errcode': body.get('errcode'),
-                                              'errmsg': body.get('errmsg')})
+            order_utils.send_order_notify_message(title='新订单通知',
+                                                  tousers=tousers,
+                                                  orderid=orderid,
+                                                  realname=kwargs.get('realname'),
+                                                  mobile=kwargs.get('mobile'),
+                                                  address=kwargs.get('address'),
+                                                  operatorname=kwargs.get('operatorname'),
+                                                  bizname=kwargs.get('bizname'))
 
             return str(orderid), 201
 

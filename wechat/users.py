@@ -4,14 +4,14 @@ import requests
 
 import wechat
 from config import config
-
+from constant import WechatAPP
 from exceptions import RuntimeException
 
 
 def get_users_details():
     addressbook_config = config['apps']['addressbook']
     resp = requests.get(addressbook_config['apiurl'],
-                        params={'access_token': wechat.get_app_token('backend'),
+                        params={'access_token': wechat.get_app_token(WechatAPP.BACKEND),
                                 'department_id': addressbook_config['deptid']})
 
     if resp.status_code != 200:
@@ -30,7 +30,7 @@ def get_users_details():
 
 def get_userid_from_code(code: str) -> str:
     wechat_config = config['wechat']
-    access_token = wechat.get_app_token('backend')
+    access_token = wechat.get_app_token(WechatAPP.BACKEND)
 
     url = wechat_config['userinfourl']
     params = {'access_token': access_token, 'code': code}
@@ -57,7 +57,7 @@ def get_userid_from_code(code: str) -> str:
 
 def get_taged_users(tagid: int) -> list:
     resp = requests.get(config['wechat']['tagurl'],
-                        params={'access_token': wechat.get_app_token('backend'),
+                        params={'access_token': wechat.get_app_token(WechatAPP.BACKEND),
                                 'tagid': tagid})
 
     if resp.status_code != 200:

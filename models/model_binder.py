@@ -5,7 +5,8 @@ from functools import wraps
 
 import flask
 
-from models import OrderStatus
+from models import OrderStatus, OrderOperation
+from services import users as userservice
 
 
 class RequestParameterBinder:
@@ -208,6 +209,62 @@ class QrCodeModelBinder:
             kwargs['name'] = name
             kwargs['owner'] = owner
             kwargs['remark'] = remark
+
+            return func(*args, **kwargs)
+
+        return wrapper
+
+
+class OrderOperationBinder:
+    """ 操作订单参数绑定 """
+
+    def __call__(self, func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            if not flask.request.is_json:
+                return '要提交 application/json', 400
+
+            if not flask.request.data:
+                return '报文内容不能为空', 400
+
+            json = flask.request.json
+
+            if 'operation' not in json:
+                return 'operation 不能为空', 400
+
+            operation = json['operation']
+
+            allowoperations = [OrderOperation.DISPATCH,
+                               OrderOperation.DEALWITH,
+                               OrderOperation.FINISH,
+                               OrderOperation.CLOSE]
+
+            if operation not in [o.value for o in allowoperations]:
+                return 'operation 值非法. %s' % operation, 400
+
+            operation = OrderOperation(operation)
+
+            kwargs['operation'] = operation
+
+            if operation == OrderOperation.DISPATCH:
+                if 'handler' not in json:
+                    return '指派订单时必须选定一个用户', 400
+
+                handler = json.get('handler')
+
+                if not handler or not isinstance(handler, str):
+                    return '用户ID不合法'
+
+                handler = userservice.get_user_detail(handler)
+                if not handler:
+                    return '指定用户不存在', 404
+
+                kwargs['handler'] = handler
+
+            userid = userservice.get_context_userid()
+            user = userservice.get_user_detail(userid)
+
+            kwargs['user'] = user
 
             return func(*args, **kwargs)
 
