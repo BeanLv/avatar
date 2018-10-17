@@ -4,56 +4,79 @@
     <div id="app" style="display: none;" v-show="launched">
         <div class="weui-cells__title">运营商</div>
         <div class="weui-cells">
-            <div class="weui-cell_list" v-for="(o, i) in operators" v-bind:key="o.id">
-                <swipe class="weui-cell weui-cell_access weui-cell_swipe" v-show="!o.editing"
-                       v-bind:href="o.id | bizlisturl">
-                    <div class="weui-cell__bd weui-cell__swipetrigger">{{ o.name }}</div>
-                    <div class="weui-cell__ft"></div>
-                    <div class="weui-cell__swiper">
-                        <button type="button" class="weui-cell-btn bg-info"
-                                v-on:click="editoperator(o)">编辑
-                        </button>
-                        <button type="button" class="weui-cell-btn bg-warn"
-                                v-on:click="deleteoperator(o, i)">删除
-                        </button>
-                    </div>
-                </swipe>
-                <div class="weui-cell weui-cell_form" v-show="o.editing">
-                    <div class="weui-cell__bd">
-                        <input type="text" class="weui-input" placeholder="输出新名称" v-model="o.newname">
-                    </div>
-                    <div class="weui-cell__ft">
-                        <button type="button" class="weui-cell-btn bg-primary"
-                                v-bind:disabled="o | disableupdateoperator"
-                                v-on:click="updateoperator(o)">保存
-                        </button>
-                        <button type="button" class="weui-cell-btn bg-warn"
-                                v-on:click="canceleditoperator(o)">取消
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="weui-cell weui-cell_form" v-show="createform.show">
-                <div class="weui-cell__bd">
-                    <input type="text"
-                           class="weui-input"
-                           maxlength="10"
-                           placeholder="输入运营商名称"
-                           v-model="createform.name">
-                </div>
-                <div class="weui-cell__ft">
-                    <button type="button" class="weui-cell-btn bg-primary"
-                            v-on:click="createoperator"
-                            v-bind:disabled="disablecreateoperator">确定
+            <swipe class="weui-cell weui-cell_access weui-cell_swipe"
+                   v-for="(o, i) in operators" v-bind:key="o.id"
+                   v-bind:href="o.id | bizlisturl">
+                <div class="weui-cell__bd weui-cell__swipetrigger">{{ o.name }}</div>
+                <div class="weui-cell__ft"></div>
+                <div class="weui-cell__swiper">
+                    <button type="button" class="weui-cell-btn bg-info"
+                            v-on:click="entereditmode(o)">编辑
                     </button>
-                    <button type="button" class="weui-cell-btn bg-warn" v-on:click="closecreateform">取消</button>
+                    <button type="button" class="weui-cell-btn bg-warn"
+                            v-on:click="deleteoperator(o, i)">删除
+                    </button>
                 </div>
-            </div>
-            <a class="weui-cell weui-cell_link" v-show="!createform.show" v-on:click="opencreateform">添加运营商</a>
+            </swipe>
+            <a class="weui-cell weui-cell_link" v-on:click="entercreatemode">添加运营商</a>
         </div>
         <div class="weui-loadmore weui-loadmore_line" v-show="launched && operators.length===0">
             <span class="weui-loadmore__tips bg-trans">暂无数据</span>
         </div>
+        <hidden-page ref="editpage">
+            <div class="weui-cells__title">编辑运营商: {{ editpage.operator | operatorname }}</div>
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <input type="text"
+                               class="weui-input"
+                               placeholder="输入新名称"
+                               maxlength="10"
+                               v-model="editpage.newname">
+                    </div>
+                    <div class="weui-cell__ft">
+                        <i v-bind:class="editpage.newname | operatornamecss"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-tabbar">
+                <div class="weui-tabbar__item">
+                    <button type="button" class="weui-btn bg-info" v-on:click="updateoperator"
+                            v-bind:disabled="disableupdateoperator">确定
+                    </button>
+                </div>
+                <div class="weui-tabbar__item">
+                    <button type="button" class="weui-btn weui-btn_default" v-on:click="exiteditmode">返回</button>
+                </div>
+            </div>
+        </hidden-page>
+        <hidden-page ref="createpage">
+            <div class="weui-cells__title">新增运营商</div>
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <input type="text"
+                               class="weui-input"
+                               placeholder="输入运营商名称"
+                               maxlength="10"
+                               v-model="createpage.name">
+                    </div>
+                    <div class="weui-cell__ft">
+                        <i v-bind:class="createpage.name | operatornamecss"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-tabbar">
+                <div class="weui-tabbar__item">
+                    <button type="button" class="weui-btn bg-info" v-on:click="createoperator"
+                            v-bind:disabled="disablecreateoperator">确定
+                    </button>
+                </div>
+                <div class="weui-tabbar__item">
+                    <button type="button" class="weui-btn weui-btn_default" v-on:click="exitcreatemode">返回</button>
+                </div>
+            </div>
+        </hidden-page>
     </div>
 {% endblock %}
 {% block scripts %}

@@ -62,7 +62,7 @@ button:disabled, input[type=button]:disabled { background-color: #c8c7cd; color:
 button.weui-cell-btn { font-size: 17px; border: none; outline: none; }
 button.weui-cell-btn:focus { outline: none; }
 .weui-cell_swipe { padding: 0 15px; }
-.weui-cell_swipe > .weui-cell__bd { padding: 10px 0; }
+.weui-cell_swipe > .weui-cell__swipetrigger { padding: 15px 0; }
 .weui-cell__swiper { position: absolute; right: 0; top: 0; bottom: 0; display: -webkit-box; display: -webkit-flex; display: flex; transform: translateX(100%); }
 /* order list */
 .order-list { position: relative; }

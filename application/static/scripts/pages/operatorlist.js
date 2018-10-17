@@ -1,33 +1,52 @@
 Vue.use(swipe);
+Vue.use(hiddenpage);
 new Vue({
     el: '#app',
     data: {
         operators: [],
-        createform: {
-            show: false,
-            name: ''
+        createpage: {
+            name: '',
         },
-        editingoperator: null,
+        editpage: {
+            operator: null,
+            newname: ''
+        },
         launched: false
     },
     methods: {
-        editoperator: function (o) {
-            this.editingoperator = o;
-            o.editing = true;
-            o.newname = '';
+        entereditmode: function (o) {
+            this.editpage.operator = o;
+            this.editpage.newname = '';
+            this.$refs['editpage'].show();
+            window.$eventbus.$emit('swipeclear', true);
         },
-        canceleditoperator: function (o) {
-            this.editingoperator = null;
-            o.editing = false;
-            o.newname = '';
-            window.$eventbus.$emit('swipeclear');
+        exiteditmode: function () {
+            this.editpage.operator = null;
+            this.editpage.newname = '';
+            this.$refs['editpage'].close();
         },
-        updateoperator: function (o) {
-            this.$patch(`/rests/operators/${o['id']}`, {name: o.newname}).then(() => {
-                o.name = o.newname;
-                this.canceleditoperator(o);
-                this.$prompt.show('成功', '编辑成功');
-                window.$eventbus.$emit('swipeclear');
+        entercreatemode: function () {
+            this.createpage.name = '';
+            this.$refs['createpage'].show();
+            window.$eventbus.$emit('swipeclear', true);
+        },
+        exitcreatemode: function () {
+            this.createpage.name = '';
+            this.$refs['createpage'].close();
+        },
+        updateoperator: function () {
+            this.$refs['editpage'].close();
+            const operatorid = this.editpage.operator.id;
+            this.$patch(`/rests/operators/${operatorid}`, {name: this.editpage.newname}).then(() => {
+                this.editpage.operator.name = this.editpage.newname;
+                this.$toast.show();
+            });
+        },
+        createoperator: function () {
+            this.$refs['createpage'].close();
+            this.$post(`/rests/operators`, {name: this.createpage.name}).then(res => {
+                this.operators.push(res.data);
+                this.$toast.show();
             });
         },
         deleteoperator: function (o, i) {
@@ -37,58 +56,33 @@ new Vue({
                     this.operators.splice(i, 1);
                     this.$toast.show();
                 });
-        },
-        opencreateform: function () {
-            this.createform.show = true;
-            this.createform.name = '';
-            this.editingoperator && this.canceleditoperator(this.editingoperator);
-            window.$eventbus.$emit('swipeclear', true);
-        },
-        closecreateform: function () {
-            this.createform.show = false;
-            this.createform.name = '';
-        },
-        createoperator: function () {
-            this.$post('/rests/operators', {name: this.createform.name}).then(res => {
-                res.data.editing = false;
-                res.data.newname = '';
-                this.operators.push(res.data);
-                this.createform.name = '';
-                this.$prompt.show('成功', '添加成功');
-            });
-        },
-        onswipestart: function () {
-            this.editingoperator && this.canceleditoperator(this.editingoperator);
-            this.createform.show && this.closecreateform();
         }
     },
     filters: {
+        operatorname: function (operator) {
+            return operator ? operator.name : '';
+        },
         bizlisturl: function (operatorid) {
             return `/pages/bizlist?operatorid=${operatorid}`;
         },
-        disableupdateoperator: function (o) {
-            return !o.newname || (o.name === o.newname) || !/^\S{1,10}$/.test(o.newname);
+        operatornamecss: function (name) {
+            return (!name || !/^\S{1,10}$/.test(name)) ? 'weui-icon-warn' : '';
         }
     },
     computed: {
+        disableupdateoperator: function () {
+            return !this.editpage.operator || !this.editpage.newname ||
+                this.editpage.newname === this.editpage.operator.name ||
+                !/^\S{1,10}$/.test(this.editpage.newname);
+        },
         disablecreateoperator: function () {
-            return !this.createform.name || !/^\S{1,10}$/.test(this.createform.name);
+            return !this.createpage.name || !/^\S{1,10}$/.test(this.createpage.name);
         }
     },
     created: function () {
         this.$get('/rests/operators').then(res => {
-            res.data.forEach(o => {
-                o.editing = false;
-                o.newname = '';
-            });
             this.operators = res.data;
             this.launched = true;
         });
-    },
-    mounted: function () {
-        window.$eventbus.$on('swipestart', this.onswipestart);
-    },
-    beforeDestroy: function () {
-        window.$eventbus.$off('swipestart', this.onswipestart);
     }
 });
