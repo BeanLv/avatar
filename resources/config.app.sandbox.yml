@@ -1,4 +1,5 @@
 ENV: production
+DEBUG: False
 
 server:
   protocal: https
