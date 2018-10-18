@@ -7,17 +7,18 @@ from dao.base_dao import BaseDAO
 
 
 class BizDAO(BaseDAO):
-    columns = ['id', 'name', 'operator', 'remark', 'disabled']
+    columns = ['id', 'name', 'operator', 'cost', 'i1', 'i2', 'i3', 'i4', 'i5', 'remark', 'disabled']
     table = 'biz'
 
     @classmethod
     def get_bizs_of_operators(cls, operatorids):
         sql = 'SELECT {COLUMNS} ' \
               'FROM {TABLE} ' \
-              'WHERE disabled=0 AND operator IN ({IN}) ORDER BY id'.format(COLUMNS=','.join(cls.columns),
-                                                                                 TABLE=cls.table,
-                                                                                 IN=','.join(
-                                                                                     [str(b) for b in operatorids]))
+              'WHERE disabled=0 ' \
+              'AND operator IN ({IN}) ORDER BY id'.format(COLUMNS=','.join(cls.columns),
+                                                          TABLE=cls.table,
+                                                          IN=','.join(
+                                                              [str(b) for b in operatorids]))
 
         connection = dao.connect()
         cursor = connection.cursor(cursor=DictCursor)

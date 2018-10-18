@@ -1,7 +1,6 @@
 {% extends '_static_.html' %}
 {% set title = '套餐详情' %}
 {% set bodycss = 'bg-page_secondary' %}
-{% set p = biz['properties'] %}
 {% set n = config['corp']['manager']['name'][0] %}
 {% set m = config['corp']['manager']['mobile'] %}
 {% block body %}
@@ -12,19 +11,19 @@
     <div class="bizpreview weui-flex">
         <div class="weui-flex__item">
             <div class="weui-flex__item weui-flex">
-                <div class="bizpreview__cell">{$ p['i1']['value'] $}</div>
-                <div class="bizpreview__cell">{$ p['i2']['value'] $}</div>
+                <div class="bizpreview__cell">{$ biz.get('i1') $}</div>
+                <div class="bizpreview__cell">{$ biz.get('i2') $}</div>
             </div>
             <div class="weui-flex__item weui-flex">
-                <div class="bizpreview__cell">{$ p['i3']['value'] $}</div>
-                <div class="bizpreview__cell">{$ p['i4']['value'] $}</div>
-                <div class="bizpreview__cell">{$ p['i5']['value'] $}</div>
+                <div class="bizpreview__cell">{$ biz.get('i3') $}</div>
+                <div class="bizpreview__cell">{$ biz.get('i4') $}</div>
+                <div class="bizpreview__cell">{$ biz.get('i5') $}</div>
             </div>
         </div>
         <div class="bizpreview__cost">
             <div class="bizpreview__cost__hd">仅需</div>
             <div class="bizpreview__cost__bd">
-                <span style="font-size: 20px;">{$ p['cost']['value'] $}</span>
+                <span style="font-size: 20px;">{$ biz.get('cost') $}</span>
                 <span style="font-size: 16px;">&nbsp;元/月</span>
             </div>
         </div>

@@ -6,7 +6,6 @@ import flask
 
 from dao.biz import BizDAO
 from dao.operator import OperatorDAO
-from dao.bizproperty import BizPropertyDAO
 
 from blueprints.public.pages import pages
 
@@ -22,10 +21,10 @@ def biz_review(bizid):
             return flask.render_template('404.html', message='套餐不存在'), 404
 
         operator = OperatorDAO.first_or_default(id=biz['operator'])
-        properties = BizPropertyDAO.all(biz=bizid)
+        if operator is None:
+            return flask.render_template('404.html', message='套餐不存在'), 404
 
         biz['operatorname'] = operator['name']
-        biz['properties'] = {p['name']: p for p in properties}
 
         return flask.render_template('bizpreview.html', biz=biz)
 

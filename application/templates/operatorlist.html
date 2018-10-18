@@ -20,7 +20,7 @@
             </swipe>
             <a class="weui-cell weui-cell_link" v-on:click="entercreatemode">添加运营商</a>
         </div>
-        <div class="weui-loadmore weui-loadmore_line" v-show="launched && operators.length===0">
+        <div class="weui-loadmore weui-loadmore_line" v-show="operators.length===0">
             <span class="weui-loadmore__tips bg-trans">暂无数据</span>
         </div>
         <hidden-page ref="editpage">

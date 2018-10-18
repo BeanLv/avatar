@@ -9,14 +9,231 @@
                 <div class="weui-cell__bd weui-cell__swipetrigger">{{ b.name }}</div>
                 <div class="weui-cell__ft"></div>
                 <div class="weui-cell__swiper">
+                    <button type="button" class="weui-cell-btn bg-info" v-on:click="entereditmode(b)">编辑</button>
                     <button type="button" class="weui-cell-btn bg-warn" v-on:click="deletebiz(b, i)">删除</button>
                 </div>
             </swipe>
-            <a class="weui-cell weui-cell_access weui-cell_link" v-bind:href.once="createbizurl">新增套餐</a>
+            <a class="weui-cell weui-cell_access weui-cell_link" v-on:click="entercreatemode">新增套餐</a>
         </div>
         <div class="weui-loadmore weui-loadmore_line" v-show="bizs.length===0">
             <span class="weui-loadmore__tips bg-trans">暂无数据</span>
         </div>
+        <hidden-page ref="editpage" class="biz_form">
+            <div class="weui-cells__title">编辑 {{ editpage.biz.name }}</div>
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">名称</label></div>
+                    <div class="weui-cell__bd">
+                        <input type="text"
+                               class="weui-input"
+                               placeholder="输入名称"
+                               maxlength="10"
+                               v-model="editpage.name">
+                    </div>
+                    <div class="weui-cell__ft"><i v-bind:class="editpage.name | propcss"></i></div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">费用</label></div>
+                    <div class="weui-cell__bd">
+                        <input type="number"
+                               class="weui-input"
+                               placeholder="输入费用"
+                               v-model.number="editpage.cost">
+                    </div>
+                    <div class="weui-cell__ft"><i v-bind:class="editpage.cost | costcss"></i></div>
+                </div>
+            </div>
+            <div class="weui-cells__title">属性</div>
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">属性1</label></div>
+                    <div class="weui-cell__bd">
+                        <input type="text"
+                               class="weui-input"
+                               placeholder="输入属性1"
+                               maxlength="30"
+                               v-model="editpage.i1">
+                    </div>
+                    <div class="weui-cell__ft"><i v-bind:class="editpage.i1 | propcss"></i></div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">属性2</label></div>
+                    <div class="weui-cell__bd">
+                        <input type="text"
+                               class="weui-input"
+                               placeholder="输入属性2"
+                               maxlength="30"
+                               v-model="editpage.i2">
+                    </div>
+                    <div class="weui-cell__ft"><i v-bind:class="editpage.i2 | propcss"></i></div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">属性3</label></div>
+                    <div class="weui-cell__bd">
+                        <input type="text"
+                               class="weui-input"
+                               placeholder="输入属性3"
+                               maxlength="30"
+                               v-model="editpage.i3">
+                    </div>
+                    <div class="weui-cell__ft"><i v-bind:class="editpage.i3 | propcss"></i></div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">属性4</label></div>
+                    <div class="weui-cell__bd">
+                        <input type="text"
+                               class="weui-input"
+                               placeholder="输入属性4"
+                               maxlength="30"
+                               v-model="editpage.i4">
+                    </div>
+                    <div class="weui-cell__ft"><i v-bind:class="editpage.i4 | propcss"></i></div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">属性5</label></div>
+                    <div class="weui-cell__bd">
+                        <input type="text"
+                               class="weui-input"
+                               placeholder="输入属性5"
+                               maxlength="30"
+                               v-model="editpage.i5">
+                    </div>
+                    <div class="weui-cell__ft"><i v-bind:class="editpage.i5 | propcss"></i></div>
+                </div>
+            </div>
+            <div class="weui-cells__title">备注</div>
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                            <textarea class="weui-textarea"
+                                      placeholder="输入备注"
+                                      maxlength="100"
+                                      v-model="editpage.remark"></textarea>
+                        <div class="weui-textarea-counter">
+                            <span>{{ editpage.remark | remarklength }}</span>/100
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-tabbar">
+                <div class="weui-tabbar__item">
+                    <button type="button" class="weui-btn bg-info" v-on:click="updatebiz"
+                            v-bind:disabled="disableupdatebiz">确定
+                    </button>
+                </div>
+                <div class="weui-tabbar__item">
+                    <button type="button" class="weui-btn weui-btn_default" v-on:click="exiteditmode">返回</button>
+                </div>
+            </div>
+        </hidden-page>
+        <hidden-page ref="createpage" class="biz_form">
+            <div class="weui-cells__title">新增套餐</div>
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">名称</label></div>
+                    <div class="weui-cell__bd">
+                        <input type="text"
+                               class="weui-input"
+                               placeholder="输入名称"
+                               maxlength="10"
+                               v-model="createpage.name">
+                    </div>
+                    <div class="weui-cell__ft"><i v-bind:class="createpage.name | propcss"></i></div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">费用</label></div>
+                    <div class="weui-cell__bd">
+                        <input type="number"
+                               class="weui-input"
+                               placeholder="输入费用"
+                               v-model.number="createpage.cost">
+                    </div>
+                    <div class="weui-cell__ft"><i v-bind:class="createpage.cost | costcss"></i></div>
+                </div>
+            </div>
+            <div class="weui-cells__title">属性</div>
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">属性1</label></div>
+                    <div class="weui-cell__bd">
+                        <input type="text"
+                               class="weui-input"
+                               placeholder="输入属性1"
+                               maxlength="30"
+                               v-model="createpage.i1">
+                    </div>
+                    <div class="weui-cell__ft"><i v-bind:class="createpage.i1 | propcss"></i></div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">属性2</label></div>
+                    <div class="weui-cell__bd">
+                        <input type="text"
+                               class="weui-input"
+                               placeholder="输入属性2"
+                               maxlength="30"
+                               v-model="createpage.i2">
+                    </div>
+                    <div class="weui-cell__ft"><i v-bind:class="createpage.i2 | propcss"></i></div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">属性3</label></div>
+                    <div class="weui-cell__bd">
+                        <input type="text"
+                               class="weui-input"
+                               placeholder="输入属性3"
+                               maxlength="30"
+                               v-model="createpage.i3">
+                    </div>
+                    <div class="weui-cell__ft"><i v-bind:class="createpage.i3 | propcss"></i></div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">属性4</label></div>
+                    <div class="weui-cell__bd">
+                        <input type="text"
+                               class="weui-input"
+                               placeholder="输入属性4"
+                               maxlength="30"
+                               v-model="createpage.i4">
+                    </div>
+                    <div class="weui-cell__ft"><i v-bind:class="createpage.i4 | propcss"></i></div>
+                </div>
+                <div class="weui-cell">
+                    <div class="weui-cell__hd"><label class="weui-label">属性5</label></div>
+                    <div class="weui-cell__bd">
+                        <input type="text"
+                               class="weui-input"
+                               placeholder="输入属性5"
+                               maxlength="30"
+                               v-model="createpage.i5">
+                    </div>
+                    <div class="weui-cell__ft"><i v-bind:class="createpage.i5 | propcss"></i></div>
+                </div>
+            </div>
+            <div class="weui-cells__title">备注</div>
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                            <textarea class="weui-textarea"
+                                      placeholder="输入备注"
+                                      maxlength="100"
+                                      v-model="createpage.remark"></textarea>
+                        <div class="weui-textarea-counter">
+                            <span>{{ createpage.remark | remarklength }}</span>/100
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-tabbar">
+                <div class="weui-tabbar__item">
+                    <button type="button" class="weui-btn bg-info" v-on:click="createbiz"
+                            v-bind:disabled="disablecreatebiz">确定
+                    </button>
+                </div>
+                <div class="weui-tabbar__item">
+                    <button type="button" class="weui-btn weui-btn_default" v-on:click="exitcreatemode">返回</button>
+                </div>
+            </div>
+        </hidden-page>
     </div>
 {% endblock %}
 {% block scripts %}

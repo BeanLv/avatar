@@ -164,17 +164,23 @@ class BizModelBinder:
                 return flask.make_response(('供应商不对', 400))
 
             remark = body.get('remark')
-            if not isinstance(remark, str) or len(remark) > 100:
+            if remark and (not isinstance(remark, str) or len(remark) > 100):
                 return flask.make_response(('备注必填且必须在100个字符内', 400))
 
-            properties = body.get('properties')
-            if not properties or not isinstance(properties, list):
-                return flask.make_response(('缺少属性list', 400))
+            cost = body.get('cost')
+            if not isinstance(cost, int):
+                return flask.make_response(('费用格式不对或者为空', 400))
 
             kwargs['name'] = name
             kwargs['operator'] = operator
+            kwargs['cost'] = cost
             kwargs['remark'] = remark
-            kwargs['properties'] = properties
+
+            for i in ['i1', 'i2', 'i3', 'i4', 'i5']:
+                p = body.get(i)
+                if not isinstance(p, str) or len(p) == 0 or len(p) > 30:
+                    return '%s 必须是30以内的字符串' % i, 400
+                kwargs[i] = p
 
             return func(*args, **kwargs)
 

@@ -67,14 +67,14 @@ def updateoperator(operatorid, name: str = None):
 @rests.route('/operators/<int:operatorid>/bizs')
 def operatorbizs(operatorid):
     try:
-        operator = OperatorDAO.first_or_default(id=operatorid, disabled=0)
+        operator = OperatorDAO.first_or_default(id=operatorid)
         if operator is None:
             return '供应商不存在', 404
 
-        bizs = BizDAO.all('updated_at', operator=operatorid, disabled=0)
-        bizs = [{'id': b['id'], 'name': b['name']} for b in bizs]
+        bizs = BizDAO.all('id', operator=operatorid, disabled=0)
 
-        return ujson.dumps({'operatorname': operator['name'],
+        return ujson.dumps({'operatorid': operatorid,
+                            'operatorname': operator['name'],
                             'bizs': bizs})
 
     except Exception as e:
