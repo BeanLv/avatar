@@ -214,6 +214,7 @@ Vue.prototype.$choice = (function () {
 Vue.prototype._$onresponseerr = function (e) {
     if (e.response.status === 401) this.$prompt.show('登录超时', '请刷新页面重新登录', true);
     else if (e.response.status === 403) this.$prompt.show('拒绝访问', '你没有权限这么做', true);
+    else if (e.response.status === 400) this.$prompt.show('错误', e.response.data, true);
     else this.$prompt.show('错误', '出错啦！请联系管理员', true);
 };
 

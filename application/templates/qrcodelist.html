@@ -6,19 +6,113 @@
         <div class="weui-cells">
             <swipe class="weui-cell weui-cell_access weui-cell_swipe"
                    v-for="(qrcode, i) in qrcodes" v-bind:key="qrcode.id"
-                   v-bind:href="qrcode | previewqrcodeurl">
+                   v-bind:href="qrcode | qrcodepreviewurl">
                 <div class="weui-cell__bd weui-cell__swipetrigger">{{ qrcode.name }}</div>
                 <div class="weui-cell__ft"></div>
                 <div class="weui-cell__swiper">
-                    <button class="weui-cell-btn bg-info">编辑</button>
+                    <button class="weui-cell-btn bg-info" v-on:click="entereditmode(qrcode)">编辑</button>
                     <button type="button" class="weui-cell-btn bg-warn" v-on:click="deleteqrcode(qrcode, i)">删除</button>
                 </div>
             </swipe>
-            <a class="weui-cell weui-cell_access weui-cell_link" v-bind:href.once="createqrcodeurl">新增二维码</a>
+            <a class="weui-cell weui-cell_access weui-cell_link" v-on:click="entercreatemode">新增二维码</a>
         </div>
         <div class="weui-loadmore weui-loadmore_line" v-show="qrcodes.length===0">
             <span class="weui-loadmore__tips bg-trans">暂无数据</span>
         </div>
+        <hidden-page ref="editpage">
+            <div class="weui-cells__title">编辑二维码</div>
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <input type="text"
+                               class="weui-input"
+                               placeholder="输入新名称"
+                               maxlength="10"
+                               v-model="editpage.name">
+                    </div>
+                    <div class="weui-cell__ft"><i v-bind:class="editpage.name | namecss"></i></div>
+                </div>
+            </div>
+            <div class="weui-cells__title">负责人</div>
+            <div class="weui-cells">
+                <div class="weui-cell" v-on:click="changeowner">
+                    <div class="weui-cell__bd">{{ editpage.ownername | ownername }}</div>
+                    <div class="weui-cell__ft"><i v-bind:class="editpage.owner | ownercss"></i></div>
+                </div>
+            </div>
+            <div class="weui-cells__title">备注</div>
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                            <textarea class="weui-textarea"
+                                      placeholder="输入备注"
+                                      maxlength="100"
+                                      v-model="editpage.remark"></textarea>
+                        <div class="weui-textarea-counter">
+                            <span>{{ editpage.remark.length }}</span>/100
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-tabbar">
+                <div class="weui-tabbar__item">
+                    <button type="button" class="weui-btn bg-info" v-on:click="updateqrcode"
+                            v-bind:disabled="disableupdateqrcode">更新
+                    </button>
+                </div>
+                <div class="weui-tabbar__item">
+                    <button type="button" class="weui-btn weui-btn_default" v-on:click="exiteditmode">返回</button>
+                </div>
+            </div>
+            <address-book ref="changeowner"></address-book>
+        </hidden-page>
+        <hidden-page ref="createpage">
+            <div class="weui-cells__title">新增二维码</div>
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                        <input type="text"
+                               class="weui-input"
+                               placeholder="输入名称"
+                               maxlength="10"
+                               v-model="createpage.name">
+                    </div>
+                    <div class="weui-cell__ft"><i v-bind:class="createpage.name | namecss"></i></div>
+                </div>
+            </div>
+            <div class="weui-cells__title">负责人</div>
+            <div class="weui-cells">
+                <div class="weui-cell" v-on:click="chooseowner">
+                    <div class="weui-cell__bd">{{ createpage.ownername | ownername }}</div>
+                    <div class="weui-cell__ft"><i v-bind:class="createpage.owner | ownercss"></i></div>
+                </div>
+            </div>
+            <div class="weui-cells__title">备注</div>
+            <div class="weui-cells">
+                <div class="weui-cell">
+                    <div class="weui-cell__bd">
+                            <textarea class="weui-textarea"
+                                      placeholder="输入备注"
+                                      maxlength="100"
+                                      v-model="createpage.remark"></textarea>
+                        <div class="weui-textarea-counter">
+                            <span>{{ createpage.remark.length }}</span>/100
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-tabbar">
+                <div class="weui-tabbar__item">
+                    <button type="button" class="weui-btn bg-info" v-on:click="createqrcode"
+                            v-bind:disabled="disablecreateqrcode">新增
+                    </button>
+                </div>
+                <div class="weui-tabbar__item">
+                    <button type="button" class="weui-btn weui-btn_default" v-on:click="exitcreatemode">返回</button>
+                </div>
+            </div>
+            <address-book ref="chooseowner"></address-book>
+        </hidden-page>
     </div>
 {% endblock %}
 {% block scripts %}

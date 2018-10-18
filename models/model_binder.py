@@ -188,8 +188,6 @@ class BizModelBinder:
 
 
 class QrCodeModelBinder:
-    name_re = re.compile('^\S{1,10}$')
-
     def __call__(self, func):
         @wraps(func)
         def wrapper(*args, **kwargs):
@@ -201,7 +199,7 @@ class QrCodeModelBinder:
             body = request.json
 
             name = body.get('name')
-            if not name or not isinstance(name, str) or self.name_re.match(name) is None:
+            if not name or not isinstance(name, str):
                 return flask.make_response(('二维码名称不对', 400))
 
             owner = body.get('owner')
@@ -209,8 +207,8 @@ class QrCodeModelBinder:
                 return flask.make_response(('必须为二维码指定一个用户', 400))
 
             remark = body.get('remark')
-            if not isinstance(remark, str) or len(remark) > 100:
-                return flask.make_response(('备注必填且必须在100个字符内', 400))
+            if remark and (not isinstance(remark, str) or len(remark) > 100):
+                return '备注最多100个字符', 400
 
             kwargs['name'] = name
             kwargs['owner'] = owner
