@@ -26,11 +26,11 @@ class SetupJob:
                         self.name, self.envs, self.mark)
 
             if self.envs and config.get('ENV') not in self.envs:
-                logger.info('SetupJob: %s: %s 不在指定环境中，跳过', self.name, config.get('ENVIRONMENT'))
+                logger.info('SetupJob %s: %s 不在指定环境中，跳过', self.name, config.get('ENVIRONMENT'))
                 return
 
             if self.mark and redis.client().sismember(CacheKey.setupjobs, self.name):
-                logger.info('SetupJob: %s: 已经被标记在缓存中，跳过', self.name)
+                logger.info('SetupJob %s: 已经被标记在缓存中，跳过', self.name)
                 return
 
             func(*args, **kwargs)
@@ -38,7 +38,7 @@ class SetupJob:
             if self.mark:
                 redis.client().sadd(CacheKey.setupjobs, self.name)
 
-            logger.info('SetupJob: %s: 执行完毕', self.name)
+            logger.info('SetupJob %s: 执行完毕', self.name)
 
         return wrapper
 

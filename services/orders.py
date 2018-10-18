@@ -18,17 +18,17 @@ def get_orderdetail(orderid: int):
     # 套餐
     biz = BizDAO.first_or_default(id=order['biz'])
     if biz is None:
-        logger.warning('订单没有对应的套餐. order=%s, biz=%s', orderid, order['biz'])
-        order['bizname'] = None
-    else:
-        order['bizname'] = biz['name']
+        logger.error('订单没有对应的套餐. order=%s, biz=%s', orderid, order['biz'])
+        return None
+
+    order['bizname'] = biz['name']
 
     # 供应商
     operator = OperatorDAO.first_or_default(id=biz['operator'])
     if operator is None:
-        logger.warning('订单没有对应的供应商. order=%s, biz=%s, operator=%d', orderid, order['biz'], biz['operator'])
-        order['operatorname'] = None
-    else:
-        order['operatorname'] = operator['name']
+        logger.error('订单没有对应的供应商. order=%s, biz=%s, operator=%d', orderid, order['biz'], biz['operator'])
+        return None
+
+    order['operatorname'] = operator['name']
 
     return order

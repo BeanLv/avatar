@@ -23,12 +23,14 @@ def get_order_detail_url(orderid: int):
     return url
 
 
-def get_order_message(realname, mobile, address, operatorname, bizname) -> str:
+def get_order_message(message, realname, mobile, address, operatorname, bizname) -> str:
     msgtemplate = "<div class='gray'>{time}</div><br><br>" \
-                  "<div class='normal'>{operatorname} {bizname}</div><br>" \
-                  "<div class='highlight'>{realname} {mobile} {address}</div>"
+                  "<div class='normal'>{message}</div><br><br>" \
+                  "<div class='normal'>{operatorname} {bizname}</div><br><br>" \
+                  "<div class='normal'>{realname} {mobile} {address}</div>"
 
-    msg = msgtemplate.format(realname=realname,
+    msg = msgtemplate.format(message=message,
+                             realname=realname,
                              mobile=mobile,
                              address=address,
                              operatorname=operatorname,
@@ -39,12 +41,13 @@ def get_order_message(realname, mobile, address, operatorname, bizname) -> str:
     return msg
 
 
-def send_order_notify_message(title, tousers, orderid, realname, mobile, address, operatorname, bizname):
+def send_order_notify_message(title, message, tousers, orderid, realname, mobile, address, operatorname, bizname):
     # 获取发送通知 token
     token = wechat.get_app_token(WechatAPP.ORDER)
 
     # 构造消息
-    msg = get_order_message(realname=realname,
+    msg = get_order_message(message=message,
+                            realname=realname,
                             mobile=mobile,
                             address=address,
                             operatorname=operatorname,

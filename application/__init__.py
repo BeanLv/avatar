@@ -43,7 +43,10 @@ app.register_blueprint(wechatblueprint)
 # 蓝图不支持 404，只能在 app 上处理
 @app.errorhandler(404)
 def not_found(*args):
-    return flask.render_template('404.html'), 404
+    if flask.request.blueprint == rests.name:
+        return '访问的资源不存在', 404
+    else:
+        return flask.render_template('404.html'), 404
 
 
 # 蓝图支持 500，但还是在 app 上统一处理

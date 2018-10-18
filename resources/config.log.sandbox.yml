@@ -1,0 +1,32 @@
+version: 1
+handlers:
+  werkzeug:
+    level: INFO
+    class: logging.handlers.TimedRotatingFileHandler
+    filename: !!os/expandvars ${HOME}/avatar/logs/werkzeug
+    formatter: simple
+    when: D
+  public:
+    level: INFO
+    class: logging.handlers.TimedRotatingFileHandler
+    filename: !!os/expandvars ${HOME}/avatar/logs/public
+    formatter: simple
+    when: D
+  root:
+    level: INFO
+    class: logging.handlers.TimedRotatingFileHandler
+    filename: !!os/expandvars ${HOME}/avatar/logs/root
+    formatter: simple
+    when: D
+loggers:
+  werkzeug:
+    level: INFO
+    handlers: [werkzeug]
+    propagate: False
+  public:
+    level: INFO
+    handlers: [public]
+    propagate: False
+root:
+  handlers: [root]
+

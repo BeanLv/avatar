@@ -47,7 +47,7 @@ def createorder(**kwargs):
 
             # 获取发送通知的对象
             notifyusersids = set(userservice.get_taged_usersids(tagname=UserTag.ORDERMANAGER.name))
-            if 'source' in kwargs:
+            if kwargs.get('source'):
                 qrcode = QrCodeDAO.first_or_default(id=kwargs.get('source'))
                 if qrcode:
                     notifyusersids.add(qrcode['owner'])
@@ -56,6 +56,7 @@ def createorder(**kwargs):
 
             # 发送通知
             order_utils.send_order_notify_message(title='新订单通知',
+                                                  message='有新订单了',
                                                   tousers=tousers,
                                                   orderid=orderid,
                                                   realname=kwargs.get('realname'),

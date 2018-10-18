@@ -9,6 +9,8 @@ services:
       - .:/root/avatar/src
       - ${HOME}/avatar/static:/root/avatar/static
       - ${HOME}/avatar/ssh:/root/avatar/ssh
+      - ${HOME}/avatar/logs:/root/avatar/logs
     environment:
       - MYSQL_USER=avatar
       - APPCONFIG=resources/config.app.sandbox.yml
+      - LOGCONFIG=resources/config.log.sandbox.yml

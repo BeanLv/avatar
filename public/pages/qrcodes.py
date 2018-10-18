@@ -18,6 +18,7 @@ def qrcode_preview(qrcodeid):
         qrcode = QrCodeDAO.first_or_default(id=qrcodeid)
 
         if qrcode is None:
+            logger.warning('用户访问一个不存在的二维码. %d', qrcodeid)
             return flask.render_template('404.html', message='二维码不存在'), 404
 
         return flask.render_template('qrcodepreview.html',

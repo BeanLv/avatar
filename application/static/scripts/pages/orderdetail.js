@@ -62,17 +62,19 @@ new Vue({
         dealwithorder: function () {
             this.$confirm.show('提示', '确定接单么？')
                 .then(() => this.operateorder({operation: 3}))
-                .then(() => {
-
+                .then(res => {
+                    this.ishandler = true;
+                    this.handlername = res.data;
+                    this.status = 2;
                 });
         },
         finishorder: function () {
             this.$confirm.show('提示', '确定完成么？').then(() => this.operateorder({operation: 4}))
-                .then(() => null);
+                .then(() => this.status = 3);
         },
         closeorder: function () {
             this.$confirm.show('提示', '确定关闭么？').then(() => this.operateorder({operation: 6}))
-                .then(() => null);
+                .then(() => this.status = 5);
         },
         operateorder: function (operation) {
             return new Promise(resolve => {

@@ -261,7 +261,7 @@ class OrderOperationBinder:
 
                 handler = userservice.get_user_detail(handler)
                 if not handler:
-                    return '指定用户不存在', 404
+                    return '指定用户不存在', 400
 
                 kwargs['handler'] = handler
 
