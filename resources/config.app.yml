@@ -12,7 +12,7 @@ runwith:
   host: 0.0.0.0
   port: 5000
 
-deployversion: gieGh8Za
+deployversion: 20181019051212
 
 corp:
   name: '柳州宽带报装服务中心'

@@ -1,3 +1,5 @@
+ENV: production
+
 server:
   protocal: https
   domain: www.lzkdbz.com
