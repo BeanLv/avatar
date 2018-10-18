@@ -74,7 +74,7 @@ button.weui-cell-btn:focus { outline: none; }
 .statistics__bd { font-size: 17px; }
 .statistics .iconfont { font-size: 32px; }
 /* biz form */
-.biz_form .weui-label { width: 80px; }
+.biz_form .weui-label, .operator_form .weui-label { width: 80px; }
 /* bizpreview */
 .bizpreview__title { margin-top: 1em; margin-bottom: .7em; padding-left: 15px; padding-right: 15px; align-items: center; }
 .bizpreview__title__bd { color: #2f7dcd; font-size: 17px; }

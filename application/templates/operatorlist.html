@@ -23,10 +23,11 @@
         <div class="weui-loadmore weui-loadmore_line" v-show="operators.length===0">
             <span class="weui-loadmore__tips bg-trans">暂无数据</span>
         </div>
-        <hidden-page ref="editpage">
-            <div class="weui-cells__title">编辑运营商: {{ editpage.operator | operatorname }}</div>
+        <hidden-page ref="editpage" class="operator_form">
+            <div class="weui-cells__title">编辑 {{ editpage.operator | operatorname }}</div>
             <div class="weui-cells">
                 <div class="weui-cell">
+                    <div class="weui-cell_hd"><label class="weui-label">名称</label></div>
                     <div class="weui-cell__bd">
                         <input type="text"
                                class="weui-input"
@@ -50,10 +51,11 @@
                 </div>
             </div>
         </hidden-page>
-        <hidden-page ref="createpage">
+        <hidden-page ref="createpage" class="operator_form">
             <div class="weui-cells__title">新增运营商</div>
             <div class="weui-cells">
                 <div class="weui-cell">
+                    <div class="weui-cell_hd"><label class="weui-label">名称</label></div>
                     <div class="weui-cell__bd">
                         <input type="text"
                                class="weui-input"

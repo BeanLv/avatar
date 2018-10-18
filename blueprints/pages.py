@@ -26,15 +26,15 @@ def render_templage(page):
         return flask.render_template('500.html'), 500
 
 
-@pages.before_request
-def redirect_to_login_if_not_logined():
-    """ 检查用户是否已经通过登录验证 """
-    try:
-        if not authservice.get_authed_userid():
-            source = flask.request.url
-            loginurl = authservice.get_auth_login_url(source)
-            return flask.redirect(loginurl)
-
-    except Exception:
-        logger.exception('访问页面前，检查用户登录异常. %s', flask.request.url)
-        return flask.render_template('500.html'), 500
+# @pages.before_request
+# def redirect_to_login_if_not_logined():
+#     """ 检查用户是否已经通过登录验证 """
+#     try:
+#         if not authservice.get_authed_userid():
+#             source = flask.request.url
+#             loginurl = authservice.get_auth_login_url(source)
+#             return flask.redirect(loginurl)
+#
+#     except Exception:
+#         logger.exception('访问页面前，检查用户登录异常. %s', flask.request.url)
+#         return flask.render_template('500.html'), 500

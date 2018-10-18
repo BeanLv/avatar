@@ -16,7 +16,7 @@ new Vue({
     methods: {
         entereditmode: function (o) {
             this.editpage.operator = o;
-            this.editpage.newname = '';
+            this.editpage.newname = o.name;
             this.$refs['editpage'].show();
             window.$eventbus.$emit('swipeclear', true);
         },
