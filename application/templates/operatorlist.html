@@ -24,7 +24,7 @@
             <span class="weui-loadmore__tips bg-trans">暂无数据</span>
         </div>
         <hidden-page ref="editpage" class="operator_form">
-            <div class="weui-cells__title">编辑 {{ editpage.operator | operatorname }}</div>
+            <div class="weui-cells__title">编辑运营商</div>
             <div class="weui-cells">
                 <div class="weui-cell">
                     <div class="weui-cell_hd"><label class="weui-label">名称</label></div>
@@ -43,7 +43,7 @@
             <div class="weui-tabbar">
                 <div class="weui-tabbar__item">
                     <button type="button" class="weui-btn bg-info" v-on:click="updateoperator"
-                            v-bind:disabled="disableupdateoperator">确定
+                            v-bind:disabled="disableupdateoperator">保存
                     </button>
                 </div>
                 <div class="weui-tabbar__item">
@@ -71,7 +71,7 @@
             <div class="weui-tabbar">
                 <div class="weui-tabbar__item">
                     <button type="button" class="weui-btn bg-info" v-on:click="createoperator"
-                            v-bind:disabled="disablecreateoperator">确定
+                            v-bind:disabled="disablecreateoperator">新增
                     </button>
                 </div>
                 <div class="weui-tabbar__item">

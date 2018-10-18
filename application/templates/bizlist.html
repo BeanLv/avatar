@@ -19,7 +19,7 @@
             <span class="weui-loadmore__tips bg-trans">暂无数据</span>
         </div>
         <hidden-page ref="editpage" class="biz_form">
-            <div class="weui-cells__title">编辑 {{ editpage.biz.name }}</div>
+            <div class="weui-cells__title">编辑套餐</div>
             <div class="weui-cells">
                 <div class="weui-cell">
                     <div class="weui-cell__hd"><label class="weui-label">名称</label></div>
@@ -118,7 +118,7 @@
             <div class="weui-tabbar">
                 <div class="weui-tabbar__item">
                     <button type="button" class="weui-btn bg-info" v-on:click="updatebiz"
-                            v-bind:disabled="disableupdatebiz">确定
+                            v-bind:disabled="disableupdatebiz">保存
                     </button>
                 </div>
                 <div class="weui-tabbar__item">
@@ -226,7 +226,7 @@
             <div class="weui-tabbar">
                 <div class="weui-tabbar__item">
                     <button type="button" class="weui-btn bg-info" v-on:click="createbiz"
-                            v-bind:disabled="disablecreatebiz">确定
+                            v-bind:disabled="disablecreatebiz">新增
                     </button>
                 </div>
                 <div class="weui-tabbar__item">
