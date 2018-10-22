@@ -5,8 +5,10 @@ from functools import wraps
 
 import flask
 
+from config import config
 from models import OrderStatus, OrderOperation
 from services import users as userservice
+from dao.qrcode import QrCodeDAO
 
 
 class RequestParameterBinder:
@@ -269,6 +271,36 @@ class OrderOperationBinder:
             user = userservice.get_user_detail(userid)
 
             kwargs['user'] = user
+
+            return func(*args, **kwargs)
+
+        return wrapper
+
+
+class QrCodeSourceBinder:
+    """扫二维码进入相关页面时，调用api或者访问页面，返回二维码来源，如果不是扫码进入，返回配置中的默认值"""
+
+    def __call__(self, func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            user, sourcename, sourcemobile = None, None, None
+
+            source = flask.request.args.get('source')
+            if source and source.isdigit():
+                qrcode = QrCodeDAO.first_or_default(id=int(source))
+                if qrcode and qrcode.get('owner'):
+                    user = userservice.get_user_detail(qrcode.get('owner'))
+
+            if user:
+                sourcename = user['name']
+                sourcemobile = user['mobile']
+
+            if not sourcename or not sourcemobile:
+                sourcename = config['corp']['manager']['name']
+                sourcemobile = config['corp']['manager']['mobile']
+
+            kwargs['sourcename'] = sourcename
+            kwargs['sourcemobile'] = sourcemobile
 
             return func(*args, **kwargs)
 

@@ -7,12 +7,14 @@ import ujson
 from blueprints.public.rests import rests
 from dao.operator import OperatorDAO
 from dao.biz import BizDAO
+from models.model_binder import QrCodeSourceBinder
 
 logger = logging.getLogger(__name__)
 
 
 @rests.route('/bizs', methods=['GET'])
-def bizs():
+@QrCodeSourceBinder()
+def bizs(sourcename=None, sourcemobile=None):
     try:
         operators = OperatorDAO.all('id', disabled=0)
         bizs = BizDAO.get_bizs_of_operators([o['id'] for o in operators])
@@ -29,7 +31,10 @@ def bizs():
             b.pop('disabled')
             b.pop('operator')
 
-        return ujson.dumps(operators)
+        return ujson.dumps({'operators': operators,
+                            'source': {'name': sourcename,
+                                       'mobile': sourcemobile}
+                            })
 
     except Exception:
         logger.exception('获取套餐列表异常')

@@ -12,3 +12,6 @@ ut:
 
 integration:
 	APPCONFIG="tests/resources/config.app.yml" pytest tests/integration -svv
+
+run:
+	python run.py

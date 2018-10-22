@@ -4,11 +4,9 @@ import logging
 
 import flask
 
-from config import config
 from dao.biz import BizDAO
 from dao.operator import OperatorDAO
-from dao.qrcode import QrCodeDAO
-from services import users as userservice
+from models.model_binder import QrCodeSourceBinder
 
 from blueprints.public.pages import pages
 
@@ -16,7 +14,8 @@ logger = logging.getLogger(__name__)
 
 
 @pages.route('/bizs/<int:bizid>')
-def biz_preview(bizid):
+@QrCodeSourceBinder()
+def biz_preview(bizid, sourcename=None, sourcemobile=None):
     try:
         biz = BizDAO.first_or_default(id=bizid)
 
@@ -30,22 +29,6 @@ def biz_preview(bizid):
             return flask.render_template('404.html', message='套餐不存在'), 404
 
         biz['operatorname'] = operator['name']
-
-        user, sourcename, sourcemobile = None, None, None
-
-        source = flask.request.args.get('source')
-        if source and source.isdigit():
-            qrcode = QrCodeDAO.first_or_default(id=int(source))
-            if qrcode and qrcode.get('owner'):
-                user = userservice.get_user_detail(qrcode.get('owner'))
-
-        if user:
-            sourcename = user['name']
-            sourcemobile = user['mobile']
-
-        if not sourcename or not sourcemobile:
-            sourcename = config['corp']['manager']['name']
-            sourcemobile = config['corp']['manager']['mobile']
 
         return flask.render_template('bizpreview.html',
                                      biz=biz,
