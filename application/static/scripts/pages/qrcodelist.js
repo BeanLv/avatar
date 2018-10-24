@@ -6,7 +6,7 @@ new Vue({
     data: {
         qrcodes: [],
         editpage: {
-            qrcode: {id: '', name: '', owner: null, ownername: '', remark: ''},
+            qrcode: {id: '', name: '', owner: '', ownername: '', remark: ''},
             name: '',
             owner: '',
             ownername: '',
@@ -34,7 +34,7 @@ new Vue({
             this.$refs['editpage'].close();
         },
         changeowner: function () {
-            this.$refs['choosenewowner'].show().then(owner => {
+            this.$refs['changeowner'].show().then(owner => {
                 this.editpage.owner = owner.id;
                 this.editpage.ownername = owner.name;
             });
@@ -84,14 +84,6 @@ new Vue({
                 this.qrcodes.push(qrcode);
                 this.$toast.show();
             });
-        },
-        deleteqrcode: function (qrcode, i) {
-            this.$confirm.show('提示', '确定要删除么?')
-                .then(() => this.$delete(`/rests/qrcodes/${qrcode.id}`))
-                .then(() => {
-                    this.qrcodes.splice(i, 1);
-                    this.$toast.show();
-                });
         }
     },
     filters: {
