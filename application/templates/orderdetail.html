@@ -39,7 +39,7 @@
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__bd">安装时间</div>
-                <div class="weui-cell__ft">{{ installtime | strfdate }}</div>
+                <div class="weui-cell__ft">{{ installtime }}</div>
             </div>
             <div class="weui-cell weui-cell_access">
                 <div class="weui-cell__bd">订单状态</div>
@@ -67,7 +67,6 @@
                         <actionsheet-item name="关闭" action="close" v-if="canclose"></actionsheet-item>
                     </actionsheet>
                 </div>
-                <a href="javascript:window.history.back();" class="weui-btn bg-default fc-default">返回</a>
             </div>
         </div>
         <address-book ref="addressbook" title="选择负责人"></address-book>

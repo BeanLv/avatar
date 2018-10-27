@@ -41,6 +41,8 @@ def orderdetail(orderid: int):
         if order is None:
             return flask.make_response(('订单不存在', 404))
 
+        order['installtime'] = order['installtime'].strftime('%Y-%m-%d %H:%M:00')
+
         # 根据 source 和 userid 来判断当前用户可执行的操作，添加到返回 header 中
         # 管理员可以派发订单也可以自己接单，二维码来源的订单可以由二维码的负责人接单,
         # 订单负责人和管理员可以完成订单，管理员可以关闭订单

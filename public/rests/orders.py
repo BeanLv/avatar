@@ -1,13 +1,12 @@
 # -*- coding: UTF-8 -*-
 
 import logging
-import datetime
 
 from blueprints.public.rests import rests
 from models import OrderStatus, OrderOperation, UserTag
 from models.model_binder import OrderModelBinder
 from exceptions import RuntimeException
-from utils import datatime_utils, order_utils
+from utils import datetime_utils, order_utils
 from dao import transaction
 from dao.order import OrderDAO
 from dao.order_record import OrderRecordDAO
@@ -20,14 +19,9 @@ logger = logging.getLogger(__name__)
 @rests.route('/orders', methods=['POST'])
 @OrderModelBinder()
 def createorder(**kwargs):
-    installtime = datetime.datetime.strptime(kwargs.get('installtime'), '%Y-%m-%d %H:%M')
-    installtime = datatime_utils.utctime(installtime)
-    installtime = installtime.strftime('%Y-%m-%d %H:%M')
-
     try:
         with transaction():
-            # 添加记录
-            logger.debug('新增订单: %s', {**kwargs})
+            created_date = datetime_utils.utc8now().date()
 
             orderid = OrderDAO.insert({'biz': kwargs.get('biz'),
                                        'status': OrderStatus.WAITING.value,
@@ -38,7 +32,8 @@ def createorder(**kwargs):
                                        'address': kwargs.get('address'),
                                        'lon': kwargs.get('lon'),
                                        'lat': kwargs.get('lat'),
-                                       'installtime': installtime,
+                                       'installtime': kwargs.get('installtime'),
+                                       'created_date': created_date.strftime('%Y-%m-%d'),
                                        'source': kwargs.get('source')})
 
             OrderRecordDAO.insert({'orderid': orderid,

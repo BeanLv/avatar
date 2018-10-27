@@ -3,7 +3,7 @@ Vue.use(addressbook);
 Vue.use(hiddenpage);
 new Vue({
     el: '#app',
-    mixins: [mixins.strtime, mixins.order],
+    mixins: [mixins.order],
     data: {
         id: 0,
         realname: '',
@@ -113,7 +113,13 @@ new Vue({
             return this.ismanager || this.issource || (this.status === 2 && this.ishandler);
         },
         hasoperations: function () {
-            return this.status === 1 || this.status === 2;
+            if (this.status === 1) {
+                return this.ismanager || this.issource;
+            } else if (this.status === 2) {
+                return this.ismanager || this.issource || this.ishandler;
+            } else {
+                return false;
+            }
         }
     },
     created: function () {
@@ -132,7 +138,7 @@ new Vue({
             this.status = order.status;
             this.installtime = order.installtime;
             this.ismanager = order.ismanager;
-            this.issource = order.source;
+            this.issource = order.issource;
             this.ishandler = order.ishandler;
             this.sourcename = order.sourcename;
             this.handlername = order.handlername;

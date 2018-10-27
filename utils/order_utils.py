@@ -1,12 +1,10 @@
 # -*- coding: UTF-8 -*
 
-import datetime
-
 import requests
 
 from constant import WechatAPP
 from config import config
-from utils import datatime_utils
+from utils import datetime_utils
 import wechat
 
 from exceptions import RuntimeException
@@ -35,8 +33,7 @@ def get_order_message(message, realname, mobile, address, operatorname, bizname)
                              address=address,
                              operatorname=operatorname,
                              bizname=bizname,
-                             time=datatime_utils.localtime(datetime.datetime.utcnow()).strftime(
-                                 '%Y年%m月%d日 %H:%M:%S'))
+                             time=datetime_utils.utc8now().strftime('%Y年%m月%d日 %H:%M:%S'))
 
     return msg
 

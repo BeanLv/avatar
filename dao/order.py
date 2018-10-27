@@ -19,15 +19,15 @@ class OrderDAO(BaseDAO):
                 filters.append('{}=%s'.format(p))
                 arguments.append(v)
 
-        starttime = kwargs.get('starttime')
-        if starttime:
-            filters.append('created_at>=%s')
-            arguments.append(starttime)
+        startdate = kwargs.get('startdate')
+        if startdate:
+            filters.append('created_date>=%s')
+            arguments.append(startdate)
 
-        endtime = kwargs.get('endtime')
-        if endtime:
-            filters.append('created_at<=%s')
-            arguments.append(endtime)
+        enddate = kwargs.get('enddate')
+        if enddate:
+            filters.append('created_date<=%s')
+            arguments.append(enddate)
 
         where = ('WHERE ' + ' AND '.join(filters)) if filters else ''
 

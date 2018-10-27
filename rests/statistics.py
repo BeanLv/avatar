@@ -1,6 +1,5 @@
 # -*- coding: UTF-8 -*-
 
-import datetime
 import ujson
 
 from blueprints.rests import rests
@@ -8,6 +7,8 @@ from exceptions import RuntimeException
 
 from dao.order import OrderDAO
 from dao.pageview import PageViewDAO
+from utils import datetime_utils
+
 from models.model_binder import RequestParameterBinder
 
 from models import OrderStatus
@@ -23,7 +24,8 @@ from models.date_period import (TodayPeriod,
 @RequestParameterBinder(name='source', required=False, constructor=int)
 def get_pageview_statistic(source: int = None):
     try:
-        today = datetime.datetime.utcnow().date()
+        today = datetime_utils.utc8now().date()
+
         periods = [TodayPeriod(today=today),
                    ThisWeekPeriod(today=today),
                    ThisMonthPeriod(today=today),
@@ -49,7 +51,7 @@ def get_pageview_statistic(source: int = None):
 @RequestParameterBinder(name='source', required=False, constructor=int)
 def get_order_statistic(handler: str = None, source: int = None):
     try:
-        today = datetime.datetime.utcnow().date()
+        today = datetime_utils.utc8now().date()
 
         periods = [TodayPeriod(today=today),
                    ThisWeekPeriod(today=today),
@@ -60,8 +62,8 @@ def get_order_statistic(handler: str = None, source: int = None):
 
         statistic = {p.name: OrderDAO.count(handler=handler,
                                             source=source,
-                                            starttime=p.startdate.strftime('%Y-%m-%d 00:00:00'),
-                                            endtime=p.enddate.strftime('%Y-%m-%d 23:59:59'))
+                                            startdate=p.startdate.strftime('%Y-%m-%d'),
+                                            enddate=p.enddate.strftime('%Y-%m-%d'))
                      for p in periods}
 
         for status in [OrderStatus.WAITING, OrderStatus.WORKING, OrderStatus.DONE]:

@@ -646,29 +646,6 @@ const qrcodeselect = (function () {
 })();
 
 const mixins = {
-    strtime: {
-        filters: {
-            strfdate: function (timestampinseconds) {
-                const date = new Date(timestampinseconds * 1000);
-                const stryear = date.getFullYear().toString();
-                const strmonth = (date.getMonth() + 1).toString().padStart(2, '0');
-                const strday = date.getDate().toString().padStart(2, '0');
-                const strhour = date.getHours().toString().padStart(2, '0');
-                const strminutes = date.getMinutes().toString().padStart(2, '0');
-                return `${stryear}-${strmonth}-${strday} ${strhour}:${strminutes}`;
-            },
-            strftime: function (timestampinseconds) {
-                const date = new Date(timestampinseconds * 1000);
-                const stryear = date.getFullYear().toString();
-                const strmonth = (date.getMonth() + 1).toString().padStart(2, '0');
-                const strday = date.getDate().toString().padStart(2, '0');
-                const hour = date.getHours().toString().padStart(2, '0');
-                const minutes = date.getMinutes().toString().padStart(2, '0');
-                const seconds = date.getSeconds().toString().padStart(2, '0');
-                return `${stryear}/${strmonth}/${strday} ${hour}:${minutes}:${seconds}`;
-            }
-        }
-    },
     order: (function () {
         const statusnames = ['所有', '待处理', '处理中', '已完成', '已取消', '已关闭'];
         const statuscsses = ['', 'fc-warn_primary', 'fc-info', 'fc-primary', 'fc-warn', 'fc-warn'];
