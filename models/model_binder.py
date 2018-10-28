@@ -296,7 +296,7 @@ class QrCodeSourceBinder:
                 sourcename = config['corp']['manager']['name']
                 sourcemobile = config['corp']['manager']['mobile']
 
-            kwargs['sourcename'] = sourcename
+            kwargs['sourcename'] = sourcename[0] + '经理'
             kwargs['sourcemobile'] = sourcemobile
 
             return func(*args, **kwargs)
