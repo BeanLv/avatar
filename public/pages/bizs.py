@@ -35,7 +35,7 @@ def biz_preview(bizid, sourcename=None, sourcemobile=None):
 
         return flask.render_template('bizpreview.html',
                                      biz=biz,
-                                     n=sourcename[0],
+                                     n=sourcename,
                                      m=sourcemobile,
                                      t=config['corp']['customerserver']['tel'])
 
