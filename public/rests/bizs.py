@@ -36,7 +36,7 @@ def bizs(sourcename=None, sourcemobile=None):
         return ujson.dumps({'operators': operators,
                             'source': {'name': sourcename,
                                        'mobile': sourcemobile},
-                            'customerservice': {'tel': config['corp']['customer']['tel']}
+                            'customerservice': {'tel': config['corp']['customerserver']['tel']}
                             })
 
     except Exception:
