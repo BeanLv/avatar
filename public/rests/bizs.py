@@ -4,6 +4,7 @@ import logging
 
 import ujson
 
+from config import config
 from blueprints.public.rests import rests
 from dao.operator import OperatorDAO
 from dao.biz import BizDAO
@@ -34,7 +35,8 @@ def bizs(sourcename=None, sourcemobile=None):
 
         return ujson.dumps({'operators': operators,
                             'source': {'name': sourcename,
-                                       'mobile': sourcemobile}
+                                       'mobile': sourcemobile},
+                            'customerservice': {'tel': config['corp']['customer']['tel']}
                             })
 
     except Exception:

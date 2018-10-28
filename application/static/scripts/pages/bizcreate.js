@@ -38,7 +38,7 @@ new Vue({
                 boards: this.boards
             };
             this.$post(`/rests/bizs`, biz).then(res=>{
-                window.href.location = `/public/pages/bizs/${res.data}`;
+                window.location.href = `/public/pages/bizs/${res.data}`;
             });
         },
         reset: function() {
