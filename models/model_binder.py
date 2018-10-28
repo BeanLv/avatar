@@ -3,6 +3,7 @@
 import re
 from functools import wraps
 
+import ujson
 import flask
 
 from config import config
@@ -169,20 +170,16 @@ class BizModelBinder:
             if remark and (not isinstance(remark, str) or len(remark) > 100):
                 return flask.make_response(('备注必填且必须在100个字符内', 400))
 
-            cost = body.get('cost')
-            if not isinstance(cost, int):
-                return flask.make_response(('费用格式不对或者为空', 400))
+            boards = body.get('boards')
+            if not isinstance(boards, list):
+                return '属性面板不能为空', 400
+
+            boards = ujson.dumps(boards)
 
             kwargs['name'] = name
             kwargs['operator'] = operator
-            kwargs['cost'] = cost
+            kwargs['boards'] = boards
             kwargs['remark'] = remark
-
-            for i in ['i1', 'i2', 'i3', 'i4', 'i5']:
-                p = body.get(i)
-                if not isinstance(p, str) or len(p) == 0 or len(p) > 30:
-                    return '%s 必须是30以内的字符串' % i, 400
-                kwargs[i] = p
 
             return func(*args, **kwargs)
 

@@ -76,16 +76,20 @@ button.weui-cell-btn:focus { outline: none; }
 /* biz form */
 .biz_form .weui-label, .operator_form .weui-label { width: 80px; }
 /* bizpreview */
-.bizpreview__title { margin-top: 1em; margin-bottom: .7em; padding-left: 15px; padding-right: 15px; align-items: center; }
+.bizpage input { border: none; outline: none; font-size: inherit; -webkit-appearance: none; background-color: transparent; color: inherit; line-height: 1.5; }
+.bizpage .weui-textarea { background-color: transparent; text-align: center; }
+.bizpreview__title { margin-top: 1em; margin-bottom: .7em; padding-left: 15px; padding-right: 15px; }
 .bizpreview__title__bd { color: #2f7dcd; font-size: 17px; }
 .bizpreview__title__ft { color: #999; font-size: 13px; transform: translateY(2px); }
-.bizpreview { margin: 15px; font-size: 13px; background: #fff; text-align: center; }
-.bizpreview__cost { position: relative; background-color: #2f7dcd; width: 28%; color: #fff; }
-.bizpreview__cost__hd { position: absolute; top: 20px; left: 10px; }
-.bizpreview__cost__bd { position: absolute; top: 50%; left: 0; right: 0; transform: translateY(-60%); }
+.bizpreview__title__ft input { text-align: right; position: absolute; right: 0; bottom: 4px; }
+.bizpreview, .bizpreview__rt, .bizpreview__cell { border: solid #2f7dcd; border-width: 0 1px 1px 0; }
+.bizpreview { margin: 15px; font-size: 13px; background: #fff; text-align: center; border-width: 1px 0 0 1px; }
 .bizpreview__cell { font-size: 12px; padding: 20px 10px; display: flex; align-items: center; justify-content: center; -webkit-box-flex: 1; -webkit-flex: 1; flex: 1; }
-.bizpreview, .bizpreview__cost, .bizpreview__cell { border: solid #2f7dcd; }
-.bizpreview { border-width: 1px 0 0 1px; }
-.bizpreview__cost, .bizpreview__cell { border-width: 0 1px 1px 0; }
-.bizpreview__desc { margin: 15px; font-size: 14px; color: #999; }
+.bizpreview__rt { position: relative; background-color: #2f7dcd; width: 28%; color: #fff; }
+.bizpreview__rt__hd { position: absolute; top: 20px; left: 10px; text-align: left; }
+.bizpreview__rt__bd { position: absolute; top: 50%; left: 0; right: 0; transform: translateY(-60%); font-size: 20px; text-align: center; }
+.bizpreview__rt input, .bizpreview__rt textarea { width: 100%; }
+.bizpreview__rt input::-webkit-input-placeholder, .bizpreview__rt textarea::-webkit-input-placeholder { color: #fff; }
+.bizpreview__rt textarea { margin-top: 15px; }
+.bizpreview__desc { margin: 0 15px; font-size: 14px; color: #999; height: 26px; line-height: 26px; }
 .bizpreview__desc a, .bizpreview__desc a:visited, .bizpreview__desc a:focus { color: #2f7dcd; }

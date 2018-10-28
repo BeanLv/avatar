@@ -12,7 +12,7 @@ from dao.biz import BizDAO
 
 
 @rests.route('/operators')
-def operators():
+def getoperatorlist():
     try:
         operators = OperatorDAO.all('id', disabled=0)
 
@@ -23,6 +23,22 @@ def operators():
 
     except Exception as e:
         raise RuntimeException('获取供应商列表异常') \
+            from e
+
+
+@rests.route('/operators/<int:operatorid>')
+def getoperator(operatorid):
+    try:
+        operator = OperatorDAO.first_or_default(id=operatorid)
+
+        if operator is None:
+            return '供应商不存在', 404
+
+        return ujson.dumps(operator)
+
+    except Exception as e:
+        raise RuntimeException('获取供应商详情异常',
+                               extra={'operatorid': operatorid}) \
             from e
 
 

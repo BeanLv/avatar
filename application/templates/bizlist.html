@@ -13,7 +13,7 @@
                     <button type="button" class="weui-cell-btn bg-warn" v-on:click="deletebiz(b, i)">删除</button>
                 </div>
             </swipe>
-            <a class="weui-cell weui-cell_access weui-cell_link" v-on:click="entercreatemode">新增套餐</a>
+            <a class="weui-cell weui-cell_access weui-cell_link" v-bind:href="createbizurl">新增套餐</a>
         </div>
         <div class="weui-loadmore weui-loadmore_line" v-show="bizs.length===0">
             <span class="weui-loadmore__tips bg-trans">暂无数据</span>

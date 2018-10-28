@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 def bizs(sourcename=None, sourcemobile=None):
     try:
         operators = OperatorDAO.all('id', disabled=0)
-        bizs = BizDAO.get_bizs_of_operators([o['id'] for o in operators])
+        bizs = BizDAO.all(disabled=0)
 
         operatordict = {o['id']: o for o in operators}
 
@@ -28,6 +28,7 @@ def bizs(sourcename=None, sourcemobile=None):
 
         for b in bizs:
             operatordict[b['operator']]['bizs'].append(b)
+            b.pop('boards')
             b.pop('disabled')
             b.pop('operator')
 

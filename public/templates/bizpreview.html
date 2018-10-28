@@ -2,29 +2,46 @@
 {% set title = '套餐详情' %}
 {% set bodycss = 'bg-page_secondary' %}
 {% block body %}
-    <div class="bizpreview__title weui-flex">
-        <div class="bizpreview__title__bd weui-flex__item">{$ biz['operatorname'] $}:&nbsp;{$ biz['name'] $}</div>
-        <div class="bizpreview__title__ft">{$ biz.get('remark') or '' $}</div>
-    </div>
-    <div class="bizpreview weui-flex">
-        <div class="weui-flex__item">
-            <div class="weui-flex__item weui-flex">
-                <div class="bizpreview__cell">{$ biz.get('i1') $}</div>
-                <div class="bizpreview__cell">{$ biz.get('i2') $}</div>
-            </div>
-            <div class="weui-flex__item weui-flex">
-                <div class="bizpreview__cell">{$ biz.get('i3') $}</div>
-                <div class="bizpreview__cell">{$ biz.get('i4') $}</div>
-                <div class="bizpreview__cell">{$ biz.get('i5') $}</div>
-            </div>
+<div class="bizpreview__title weui-flex">
+    <div class="bizpreview__title__bd weui-flex__item">{$ biz['operatorname'] $}&nbsp;{$ biz['name'] $}</div>
+    <div class="bizpreview__title__ft">{$ biz.get('remark') or '' $}</div>
+</div>
+<div class="bizpreview weui-flex">
+    <div class="weui-flex__item">
+        <div class="weui-flex__item weui-flex">
+            <div class="bizpreview__cell">{$ biz['boards'][0].get('v1') $}</div>
+            <div class="bizpreview__cell">{$ biz['boards'][0].get('v2') $}</div>
         </div>
-        <div class="bizpreview__cost">
-            <div class="bizpreview__cost__hd">仅需</div>
-            <div class="bizpreview__cost__bd">
-                <span style="font-size: 20px;">{$ biz.get('cost') $}</span>
-                <span style="font-size: 16px;">&nbsp;元/月</span>
-            </div>
+        <div class="weui-flex__item weui-flex">
+            <div class="bizpreview__cell">{$ biz['boards'][0].get('v3') $}</div>
+            <div class="bizpreview__cell">{$ biz['boards'][0].get('v4') $}</div>
+            <div class="bizpreview__cell">{$ biz['boards'][0].get('v5') $}</div>
         </div>
     </div>
-    <div class="bizpreview__desc">详情拨打电话: <a href="tel:{$ m $}">{$ m $} {$ n $}经理</a></div>
+    <div class="bizpreview__rt">
+        <div class="bizpreview__rt__hd">{$ biz['boards'][0].get('v6').get('title') $}</div>
+        <div class="bizpreview__rt__bd">{$ biz['boards'][0].get('v6').get('value') $}</div>
+    </div>
+</div>
+{% if biz['boards'][1]['display'] %}
+<div class="bizpreview weui-flex">
+    <div class="weui-flex__item">
+        <div class="weui-flex__item weui-flex">
+            <div class="bizpreview__cell">{$ biz['boards'][1].get('v1') $}</div>
+            <div class="bizpreview__cell">{$ biz['boards'][1].get('v2') $}</div>
+        </div>
+        <div class="weui-flex__item weui-flex">
+            <div class="bizpreview__cell">{$ biz['boards'][1].get('v3') $}</div>
+            <div class="bizpreview__cell">{$ biz['boards'][1].get('v4') $}</div>
+            <div class="bizpreview__cell">{$ biz['boards'][1].get('v5') $}</div>
+        </div>
+    </div>
+    <div class="bizpreview__rt">
+        <div class="bizpreview__rt__hd">{$ biz['boards'][1].get('v6').get('title') $}</div>
+        <div class="bizpreview__rt__bd">{$ biz['boards'][1].get('v6').get('value') $}</div>
+    </div>
+</div>
+{% endif %}
+<div class="bizpreview__desc">详情拨打电话: <a href="tel:{$ m $}">{$ m $} {$ n $}经理</a></div>
+<div class="bizpreview__desc">客服联系电话: <a href="tel:{$ t $}">{$ t $}</a></div>
 {% endblock %}

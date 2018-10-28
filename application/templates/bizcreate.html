@@ -1,0 +1,65 @@
+{% extends "_master_.html" %}
+{% set title = '新增套餐' %}
+{% block body %}
+<div id="app" class="bizpage" style="display:none;" v-show="launched">
+    <div class="bizpreview__title weui-flex">
+        <div class="bizpreview__title__bd weui-flex weui-flex__item">
+            <div>{{ operatorname }}:&nbsp;</div>
+            <div class="weui-flex__item">
+                <input type="text" v-model="name" placeholder="输入套餐名称">
+            </div>
+        </div>
+        <div class="bizpreview__title__ft" style="position: relative;">
+            <input type="text" v-model="remark" placeholder="输入备注">
+        </div>
+    </div>
+    <div class="bizpreview weui-flex" v-for="b in boards">
+        <div class="weui-flex__item">
+            <div class="weui-flex__item weui-flex">
+                <div class="bizpreview__cell">
+                    <textarea class="weui-textarea" v-model="b.v1" placeholder="输入属性1"></textarea>
+                </div>
+                <div class="bizpreview__cell">
+                    <textarea class="weui-textarea" v-model="b.v2" placeholder="输入属性2"></textarea>
+                </div>
+            </div>
+            <div class="weui-flex__item weui-flex">
+                <div class="bizpreview__cell">
+                    <textarea class="weui-textarea" v-model="b.v3" placeholder="输入属性3"></textarea>
+                </div>
+                <div class="bizpreview__cell">
+                    <textarea class="weui-textarea" v-model="b.v4" placeholder="输入属性4"></textarea>
+                </div>
+                <div class="bizpreview__cell">
+                    <textarea class="weui-textarea" v-model="b.v5" placeholder="输入属性5"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="bizpreview__rt">
+            <div class="bizpreview__rt__hd">
+                <input v-model="b.v6.title" placeholder="标题">
+            </div>
+            <div class="bizpreview__rt__bd">
+                <textarea class="weui-textarea" v-model="b.v6.value" placeholder="属性6"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="weui-cells__title">显示设置</div>
+    <div class="weui-cells">
+        <div class="weui-cell weui-cell_switch" v-for="(b, i) in boards">
+            <div class="weui-cell__bd">显示面板{{ i + 1 }}</div>
+            <div class="weui-cell__ft">
+                <input type="checkbox" class="weui-switch" v-model="b.display">
+            </div>
+        </div>
+    </div>
+    <div class="weui-msg__opr-area">
+        <div class="weui-btn-area">
+            <a class="weui-btn bg-info" v-on:click="createbiz">新增</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/scripts/pages/bizcreate.js?v={$ version $}"></script>
+{% endblock %}

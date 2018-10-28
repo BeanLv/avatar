@@ -2,8 +2,10 @@
 
 import logging
 
+import ujson
 import flask
 
+from config import config
 from dao.biz import BizDAO
 from dao.operator import OperatorDAO
 from models.model_binder import QrCodeSourceBinder
@@ -29,11 +31,13 @@ def biz_preview(bizid, sourcename=None, sourcemobile=None):
             return flask.render_template('404.html', message='套餐不存在'), 404
 
         biz['operatorname'] = operator['name']
+        biz['boards'] = ujson.loads(biz['boards'])
 
         return flask.render_template('bizpreview.html',
                                      biz=biz,
                                      n=sourcename[0],
-                                     m=sourcemobile)
+                                     m=sourcemobile,
+                                     t=config['corp']['customerserver']['tel'])
 
     except:
         logger.exception('套餐预览页面异常 %d', bizid)

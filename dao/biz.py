@@ -7,7 +7,7 @@ from dao.base_dao import BaseDAO
 
 
 class BizDAO(BaseDAO):
-    columns = ['id', 'name', 'operator', 'cost', 'i1', 'i2', 'i3', 'i4', 'i5', 'remark', 'disabled']
+    columns = ['id', 'name', 'operator', 'boards', 'remark', 'disabled']
     table = 'biz'
 
     @classmethod

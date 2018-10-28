@@ -23,6 +23,8 @@ corp:
   manager:
     name: 张斌财
     mobile: 18977241191
+  customerserver:
+    tel: 0772-2108889
 
 
 wechat:

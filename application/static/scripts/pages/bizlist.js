@@ -74,6 +74,9 @@ new Vue({
         bizdetailurl: function (biz) {
             return `/public/pages/bizs/${biz['id']}`;
         },
+        editbizurl: function(biz) {
+            return `/pages/bizupdate?bizid=${biz['id']}`;
+        },
         costcss: function (cost) {
             return (cost && cost > 0) ? '' : 'weui-icon-warn';
         },
