@@ -32,14 +32,14 @@ class SetupJob:
             try:
                 if self.mark and redis.client().sismember(CacheKey.setupjobs, self.name):
                     logger.info('SetupJob %s: 已经被标记在缓存中，跳过', self.name)
-                    return
-                func(*args, **kwargs)
+                else:
+                    func(*args, **kwargs)
+                    if self.mark:
+                        redis.client().sadd(CacheKey.setupjobs, self.name)
+                    logger.info('SetupJob %s: 执行完毕', self.name)
             except:
                 logger.exception('SetupJob %s: 异常', self.name)
-            else:
-                if self.mark:
-                    redis.client().sadd(CacheKey.setupjobs, self.name)
-                logger.info('SetupJob %s: 执行完毕', self.name)
+                raise
 
         return wrapper
 

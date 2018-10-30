@@ -6,7 +6,7 @@ from logging import config as loggingconfig
 
 from utils.yaml_utils import load
 from utils.dict_utils import deep_update_dict
-from gunicorn.glogging import Logger
+
 
 def _load_config_from_files(*files):
     config = dict()

@@ -23,4 +23,4 @@ class RedisClient(Redis):
 
 
 def client() -> Redis:
-    return Redis()
+    return RedisClient()
