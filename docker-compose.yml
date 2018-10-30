@@ -6,6 +6,8 @@ services:
     image: 5824600/avatar
     networks:
       - avatar.network
+    ports:
+      - "443:5000"
     volumes:
       - .:/root/avatar/src
       - ${HOME}/avatar/static:/root/avatar/static
