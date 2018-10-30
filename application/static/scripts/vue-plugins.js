@@ -649,8 +649,8 @@ const mixins = {
     order: (function () {
         const statusnames = ['所有', '待处理', '处理中', '已完成', '已取消', '已关闭'];
         const statuscsses = ['', 'fc-warn_primary', 'fc-info', 'fc-primary', 'fc-warn', 'fc-warn'];
-        const operationnames = ['', '创建', '受理', '完成', '取消', '关闭'];
-        const operationcsses = ['', 'fc-warn_primary', 'fc-info', 'fc-primary', 'fc-warn', 'fc-warn'];
+        const operationnames = ['', '创建', '指派', '受理', '完成', '取消', '关闭'];
+        const operationcsses = ['', 'fc-warn_primary', 'fc-info', 'fc-info', 'fc-primary', 'fc-warn', 'fc-warn'];
 
         return {
             filters: {

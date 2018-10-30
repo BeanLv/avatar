@@ -10,7 +10,7 @@ requires = [
     'redis',
     'requests',
     'pypinyin',
-    'pillow'
+    'gunicorn[gevent]'
 ]
 
 dev_requires = [

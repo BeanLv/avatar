@@ -120,6 +120,9 @@ new Vue({
             } else {
                 return false;
             }
+        },
+        orderrecordsurl: function () {
+            return `/pages/orderrecords?orderid=${this.id}`;
         }
     },
     created: function () {

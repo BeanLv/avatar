@@ -1,0 +1,22 @@
+{% extends "_master_.html" %}
+{% set title = '订单记录' %}
+{% block body %}
+    <div id="app" style="display: none;" v-show="launched">
+        <div class="weui-cells__title">订单记录</div>
+        <div class="weui-cells">
+            <div class="weui-cell" v-for="record in records" v-bind:key="record['id']">
+                <div class="weui-cell__bd" v-if="record['operation'] === 2">
+                    {{ record['opname'] | opnamesource }}把订单<span
+                        class="fc-info">&nbsp;派发&nbsp;</span>给了{{ record['opname'] | opnametarget }}
+                </div>
+                <div class="weui-cell__bd" v-else>
+                    {{ record['opname'] }}<span v-bind:class="record['operation'] | operationcss">&nbsp;{{ record['operation'] | operationname }}&nbsp;</span>了订单
+                </div>
+                <div class="weui-cell__ft">{{ record['time'] }}</div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block scripts %}
+    <script src="/static/scripts/pages/orderrecords.js?v={$ version $}"></script>
+{% endblock %}

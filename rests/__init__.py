@@ -7,3 +7,4 @@ from . import bizs
 from . import users
 from . import qrcodes
 from . import operations
+from . import orderrecords

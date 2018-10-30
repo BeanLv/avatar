@@ -9,3 +9,11 @@ def utc8now():
     localnow 返回北京时区当前时间。
     """
     return datetime.datetime.utcnow() + datetime.timedelta(hours=8)
+
+
+def localtime(utctime: datetime.datetime) -> datetime.datetime:
+    return utctime + datetime.timedelta(hours=8)
+
+
+def strftime(time: datetime.datetime) -> str:
+    return time.strftime('%Y-%m-%d %H:%M:%S')

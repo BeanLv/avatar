@@ -41,10 +41,10 @@
                 <div class="weui-cell__bd">安装时间</div>
                 <div class="weui-cell__ft">{{ installtime }}</div>
             </div>
-            <div class="weui-cell weui-cell_access">
+            <a class="weui-cell weui-cell_access" v-bind:href="orderrecordsurl">
                 <div class="weui-cell__bd">订单状态</div>
                 <div class="weui-cell__ft" v-bind:class="status | statuscss">{{ status | statusname }}</div>
-            </div>
+            </a>
         </div>
         <div class="weui-cells">
             <div class="weui-cell">

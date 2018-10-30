@@ -14,4 +14,4 @@ integration:
 	APPCONFIG="tests/resources/config.app.yml" pytest tests/integration -svv
 
 run:
-	python run.py
+	gunicorn --config application/gunicorn.py application:app 
