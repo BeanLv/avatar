@@ -8,7 +8,7 @@ requires = [
     'ujson',
     'pymysql',
     'redis',
-    'requests',
+    'requests>=2.20.0',
     'pypinyin',
     'gunicorn[gevent]'
 ]
