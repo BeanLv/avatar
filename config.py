@@ -2,10 +2,10 @@
 
 import os
 import logging
-from logging import config as loggingconfig
 
 from utils.yaml_utils import load
 from utils.dict_utils import deep_update_dict
+from config_logging import setup_logging_config
 
 
 def _load_config_from_files(*files):
@@ -14,20 +14,6 @@ def _load_config_from_files(*files):
         with open(file, encoding='UTF-8') as f:
             deep_update_dict(config, load(f))
     return config
-
-
-def _setup_logging_config():
-    files = ['resources/config.log.yml']
-    if 'LOGCONFIG' in os.environ:
-        files.append(os.environ.get('LOGCONFIG'))
-
-    config = _load_config_from_files(*files)
-
-    loggingconfig.dictConfig(config)
-
-    logger = logging.getLogger(__name__)
-    for f in files:
-        logger.info('Load log config from "%s"', f)
 
 
 def _load_config():
@@ -44,6 +30,6 @@ def _load_config():
     return config
 
 
-_setup_logging_config()
+setup_logging_config()
 
 config = _load_config()

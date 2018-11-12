@@ -1,11 +1,5 @@
 version: 1
 handlers:
-  werkzeug:
-    level: INFO
-    class: logging.handlers.TimedRotatingFileHandler
-    filename: !!os/expandvars ${HOME}/avatar/logs/werkzeug
-    formatter: simple
-    when: D
   public:
     level: INFO
     class: logging.handlers.TimedRotatingFileHandler
@@ -18,14 +12,30 @@ handlers:
     filename: !!os/expandvars ${HOME}/avatar/logs/root
     formatter: simple
     when: D
-loggers:
-  werkzeug:
+  gunicorn:
     level: INFO
-    handlers: [werkzeug]
-    propagate: False
+    class: logging.handlers.TimedRotatingFileHandler
+    filename: !!os/expandvars ${HOME}/avatar/logs/gunicorn
+    formatter: simple
+    when: D
+  gunicorn.access:
+    level: INFO
+    class: logging.handlers.TimedRotatingFileHandler
+    filename: !!os/expandvars ${HOME}/avatar/logs/access
+    formatter: simple
+    when: D
+loggers:
   public:
     level: INFO
     handlers: [public]
+    propagate: False
+  gunicorn.error:
+    level: INFO
+    handlers: [gunicorn]
+    propagate: False
+  gunicorn.access:
+    level: INFO
+    handlers: [gunicorn.access]
     propagate: False
 root:
   handlers: [root]
