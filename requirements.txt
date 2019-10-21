@@ -27,4 +27,4 @@ requests==2.20.0
 six==1.11.0               # via cryptography
 ujson==1.35
 urllib3==1.23             # via requests
-werkzeug==0.14.1          # via flask
+werkzeug==0.15.3          # via flask
